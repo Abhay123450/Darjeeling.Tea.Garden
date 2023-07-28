@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipeRefreshOrdersForMeDetails"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.OrdersForMeDetailsFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            app:contentPadding="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtOrderIdText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="16sp"
+                    android:text="Order Id : "/>
+
+                <TextView
+                    android:id="@+id/txtOrderId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/txtOrderIdText"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:text="6sgd4g84d4d2b19b9r4"/>
+
+                <TextView
+                    android:id="@+id/txtOrderStatusText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtOrderIdText"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="16sp"
+                    android:text="Status : "/>
+
+                <TextView
+                    android:id="@+id/txtOrderStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtOrderIdText"
+                    android:layout_toEndOf="@id/txtOrderStatusText"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:text="Active"/>
+
+                <TextView
+                    android:id="@+id/txtOrderedOnText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtOrderStatusText"
+                    android:textSize="16sp"
+                    android:text="Order Date : "/>
+
+                <TextView
+                    android:id="@+id/txtOrderedOn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtOrderStatusText"
+                    android:layout_toEndOf="@id/txtOrderedOnText"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:text="2 October, 2022"/>
+
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/card1"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="5dp"
+            app:contentPadding="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="16sp"
+                    android:text="From"/>
+
+                <TextView
+                    android:id="@+id/txtFromName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:text="Abhay Anand"/>
+
+                <TextView
+                    android:id="@+id/txtFromRole"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:text="Distributor"/>
+
+                <TextView
+                    android:id="@+id/txtFromAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:text="H. No. 665 P, Gangatola Basharatpur Gorakhpur"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/txtItemDetailsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card2"
+            android:layout_marginVertical="5dp"
+            android:layout_marginHorizontal="20dp"
+            android:textSize="16sp"
+            android:text="Item Details"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewItemList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtItemDetailsText"
+            android:layout_marginVertical="5dp"/>
+
+    </RelativeLayout>
+
+
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

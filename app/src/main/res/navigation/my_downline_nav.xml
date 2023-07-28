@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_downline_nav"
+    app:startDestination="@id/myDownlineListFragment">
+
+    <fragment
+        android:id="@+id/myDownlineListFragment"
+        android:name="com.darjeelingteagarden.fragment.MyDownlineListFragment"
+        android:label="fragment_my_downline_list"
+        tools:layout="@layout/fragment_my_downline_list" >
+        <action
+            android:id="@+id/action_myDownlineListFragment_to_myDownlineUserDetailsFragment"
+            app:destination="@id/myDownlineUserDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myDownlineUserDetailsFragment"
+        android:name="com.darjeelingteagarden.fragment.MyDownlineUserDetailsFragment"
+        android:label="fragment_my_downline_user_details"
+        tools:layout="@layout/fragment_my_downline_user_details" />
+</navigation>

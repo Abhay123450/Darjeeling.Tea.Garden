@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshHome"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.HomeFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardMyOrders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="5dp"
+            app:contentPadding="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtMyOrders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/my_orders"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+
+                <ProgressBar
+                    android:id="@+id/progressMyOrders"
+                    android:layout_width="36dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:indeterminateTint="@color/colorPrimary"
+                    android:visibility="visible"/>
+
+                <TextView
+                    android:id="@+id/txtMyOrdersText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtMyOrders"
+                    android:layout_marginTop="5dp"
+                    android:text="You have 0 active order(s)"
+                    android:textColor="@color/light_gray_a9a9a9"
+                    android:textSize="16sp"
+                    android:visibility="invisible"/>
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:id="@+id/btnViewMyOrders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@id/txtMyOrdersText"
+                    app:strokeColor="@color/colorPrimary"
+                    app:strokeWidth="1dp"
+                    android:text="@string/view"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardOrdersForMe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="5dp"
+            android:layout_below="@id/cardMyOrders"
+            app:contentPadding="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtOrdersForMe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/orders_for_me"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+
+                <ProgressBar
+                    android:id="@+id/progressOrdersForMe"
+                    android:layout_width="36dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:indeterminateTint="@color/colorPrimary"
+                    android:visibility="visible"/>
+
+                <TextView
+                    android:id="@+id/txtOrdersForMeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtOrdersForMe"
+                    android:layout_marginTop="5dp"
+                    android:text="There 0 active order(s)"
+                    android:textColor="@color/light_gray_a9a9a9"
+                    android:textSize="16sp"
+                    android:visibility="invisible"/>
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:id="@+id/btnViewOrdersForMe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@id/txtOrdersForMeText"
+                    app:strokeColor="@color/colorPrimary"
+                    app:strokeWidth="1dp"
+                    android:text="@string/view"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardSampleOrdersForMe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="5dp"
+        android:layout_below="@id/cardOrdersForMe"
+        app:contentPadding="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txtSampleOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sample_orders"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+
+            <ProgressBar
+                android:id="@+id/progressSampleOrders"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:indeterminateTint="@color/colorPrimary"
+                android:visibility="visible"/>
+
+            <TextView
+                android:id="@+id/txtSampleOrderText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtSampleOrder"
+                android:layout_marginTop="5dp"
+                android:text="There 0 active sample order(s)"
+                android:textSize="16sp"
+                android:textColor="@color/light_gray_a9a9a9"
+                android:visibility="visible"/>
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:id="@+id/btnViewMySampleOrders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/txtSampleOrderText"
+                app:strokeColor="@color/colorPrimary"
+                app:strokeWidth="1dp"
+                android:text="@string/view"
+                android:visibility="visible"/>
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cardSampleOrdersForMe"
+            android:layout_marginVertical="5dp"
+            android:src="@drawable/darjeelingteagardenlogo_low"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"/>
+
+    </RelativeLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

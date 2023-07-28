@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sample_orders_for_me_nav"
+    app:startDestination="@id/sampleOrdersForMeFragment">
+
+    <fragment
+        android:id="@+id/sampleOrdersForMeFragment"
+        android:name="com.darjeelingteagarden.fragment.SampleOrdersForMeFragment"
+        android:label="fragment_sample_orders_for_me"
+        tools:layout="@layout/fragment_sample_orders_for_me" >
+        <action
+            android:id="@+id/action_sampleOrdersForMeFragment_to_sampleOrdersForMeDetailsFragment"
+            app:destination="@id/sampleOrdersForMeDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sampleOrdersForMeDetailsFragment"
+        android:name="com.darjeelingteagarden.fragment.SampleOrdersForMeDetailsFragment"
+        android:label="fragment_sample_orders_for_me_details"
+        tools:layout="@layout/fragment_sample_orders_for_me_details" />
+</navigation>

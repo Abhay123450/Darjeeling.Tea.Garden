@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardParentUserList"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginVertical="5dp"
+    app:contentPadding="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/txtUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="2dp"
+            android:text="@string/user_name"
+            android:textSize="18sp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/txtUserRole"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtUserName"
+            android:layout_marginVertical="2dp"
+            android:text="@string/user_role"
+            android:textSize="16sp"
+            android:textColor="@color/gray_686868"/>
+
+        <TextView
+            android:id="@+id/txtUserIdText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtUserRole"
+            android:layout_marginVertical="2dp"
+            android:text="@string/user_id_"
+            android:textSize="16sp"
+            android:textColor="@color/gray_686868"/>
+
+        <TextView
+            android:id="@+id/txtUserId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtUserRole"
+            android:layout_marginVertical="2dp"
+            android:layout_marginHorizontal="5dp"
+            android:layout_toEndOf="@id/txtUserIdText"
+            android:text="@string/user_id"
+            android:textSize="16sp"
+            android:textColor="@color/black"/>
+
+        <RelativeLayout
+            android:id="@+id/rlDueBalance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtUserIdText">
+
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="2dp"
+                android:background="@color/white_eceff1"/>
+
+            <TextView
+                android:id="@+id/txtUserDueBalanceText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divider1"
+                android:layout_marginVertical="2dp"
+                android:text="@string/due_balance"
+                android:textSize="16sp"
+                android:textColor="@color/gray_686868"/>
+
+            <TextView
+                android:id="@+id/txtUserDueBalanceRupeeSymbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtUserDueBalanceText"
+                android:layout_marginVertical="2dp"
+                android:layout_marginHorizontal="5dp"
+                android:text="@string/rupee_symbol"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/txtUserDueBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtUserDueBalanceText"
+                android:layout_toEndOf="@id/txtUserDueBalanceRupeeSymbol"
+                android:layout_marginVertical="2dp"
+                android:layout_marginHorizontal="5dp"
+                android:text="@string/_0_00"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDueRelease"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/divider1"
+                android:layout_alignParentEnd="true"
+                android:text="@string/release"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sample_order_bottom_nav"
+    app:startDestination="@id/sampleStoreFragment">
+
+    <fragment
+        android:id="@+id/sampleStoreFragment"
+        android:name="com.darjeelingteagarden.fragment.SampleStoreFragment"
+        android:label="fragment_sample_store"
+        tools:layout="@layout/fragment_sample_store" />
+    <fragment
+        android:id="@+id/sampleCartFragment"
+        android:name="com.darjeelingteagarden.fragment.SampleCartFragment"
+        android:label="fragment_sample_cart"
+        tools:layout="@layout/fragment_sample_cart" />
+    <fragment
+        android:id="@+id/sampleHistoryFragment"
+        android:name="com.darjeelingteagarden.fragment.SampleHistoryFragment"
+        android:label="fragment_sample_history"
+        tools:layout="@layout/fragment_sample_history" />
+</navigation>

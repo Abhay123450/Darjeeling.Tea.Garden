@@ -1,0 +1,253 @@
+package com.darjeelingteagarden.fragment
+
+import android.content.Context
+import android.os.Bundle
+import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import com.darjeelingteagarden.R
+import com.darjeelingteagarden.adapter.OrderDetailsItemListAdapter
+import com.darjeelingteagarden.adapter.OrdersForMeDetailsRecyclerAdapter
+import com.darjeelingteagarden.databinding.FragmentOrderDetailsBinding
+import com.darjeelingteagarden.databinding.FragmentOrdersForMeDetailsBinding
+import com.darjeelingteagarden.model.ItemDetails
+import com.darjeelingteagarden.repository.AppDataSingleton
+import com.darjeelingteagarden.util.formatTo
+import com.darjeelingteagarden.util.toDate
+import org.json.JSONObject
+
+class OrdersForMeDetailsFragment : Fragment() {
+
+    private lateinit var binding: FragmentOrdersForMeDetailsBinding
+
+    private lateinit var mContext: Context
+    private lateinit var orderId: String
+
+    private lateinit var recyclerViewItemList: RecyclerView
+    private lateinit var layoutManager: RecyclerView.LayoutManager
+    private lateinit var itemListRecyclerAdapter: OrdersForMeDetailsRecyclerAdapter
+
+    private var itemList: MutableList<ItemDetails> = mutableListOf()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        binding =  FragmentOrdersForMeDetailsBinding.inflate(inflater, container, false)
+
+        binding.swipeRefreshOrdersForMeDetails.isRefreshing = true
+
+        recyclerViewItemList = binding.recyclerViewItemList
+        layoutManager = LinearLayoutManager(mContext)
+
+        orderId = AppDataSingleton.getOrderForMeId
+        Log.i("order for me id", orderId)
+        getOrderDetails(orderId)
+
+        return binding.root
+    }
+
+    private fun populateRecyclerView(itemList: MutableList<ItemDetails>){
+
+        itemListRecyclerAdapter = OrdersForMeDetailsRecyclerAdapter(mContext, itemList){productId, quantity ->
+            deliverItem(AppDataSingleton.getOrderForMeId, productId, quantity)
+        }
+        recyclerViewItemList.adapter = itemListRecyclerAdapter
+        recyclerViewItemList.layoutManager = layoutManager
+
+    }
+
+    private fun deliverItem(orderId: String, productId: String, quantity: Int){
+
+        val queue = Volley.newRequestQueue(mContext)
+
+        val url = getString(R.string.homeUrl) + "api/v1/orders/deliver"
+
+        val jsonParams = JSONObject()
+        jsonParams.put("orderId", orderId)
+        jsonParams.put("productId", productId)
+        jsonParams.put("quantity", quantity)
+
+        val jsonObjectRequest = object: JsonObjectRequest(
+            Method.POST,
+            url,
+            jsonParams,
+            Response.Listener {
+                try {
+
+                    if (it.getBoolean("success")){
+
+                        val orderDetails = it.getJSONObject("data")
+
+                        val items = orderDetails.getJSONArray("items")
+
+                        itemList = mutableListOf()
+
+                        for (i in 0 until items.length()){
+
+                            val item = items.getJSONObject(i)
+
+                            var receiveQuantity = 0
+                            var receiveTime = ""
+
+                            if (item.getString("status") == "Waiting"){
+                                receiveQuantity = item.getJSONObject("sellerAcknowledgment").getInt("quantityDelivered")
+                            } else if (item.getString("status") == "Delivered"){
+                                receiveTime = item.getJSONObject("buyerAcknowledgment").getString("acknowledgedAt")
+                                receiveTime = receiveTime.toDate()!!.formatTo("dd MMM yyy HH:mm")
+                            }
+
+                            itemList.add(
+                                ItemDetails(
+                                    item.getString("productId"),
+                                    AppDataSingleton.getProductNameById(item.getString("productId")),
+                                    item.getInt("price"),
+                                    item.getInt("orderQuantity"),
+                                    item.getString("status"),
+                                    receiveQuantity,
+                                    receiveTime
+                                )
+                            )
+                        }
+
+                        populateRecyclerView(itemList)
+
+                    }
+
+                }catch (e: Exception){
+                    Toast.makeText(mContext, "An error occurred; $e", Toast.LENGTH_LONG ).show()
+                }
+            },
+            Response.ErrorListener {
+                Toast.makeText(mContext, "An error occurred", Toast.LENGTH_LONG).show()
+            }
+        ){
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Content-Type"] = "application/json"
+                headers["auth-token"] = AppDataSingleton.getAuthToken
+                return headers
+            }
+        }
+
+        queue.add(jsonObjectRequest)
+
+    }
+
+    private fun getOrderDetails(orderId: String){
+
+        val queue = Volley.newRequestQueue(mContext)
+
+        val url = getString(R.string.homeUrl) + "api/v1/orders/" + orderId
+
+        val jsonObjectRequest = object : JsonObjectRequest(
+            Method.GET,
+            url,
+            null,
+            Response.Listener {
+                try {
+
+                    val success = it.getBoolean("success")
+
+                    if(success){
+
+                        val orderDetails = it.getJSONObject("data")
+
+                        Log.i("Order details :: ", orderDetails.toString())
+
+                        binding.txtOrderId.text = orderDetails.getString("_id")
+                        binding.txtOrderStatus.text = orderDetails.getString("currentStatus")
+
+                        binding.txtOrderedOn.text = orderDetails.getString("orderDate").toDate()!!.formatTo("dd MMM yyy HH:mm")
+
+
+                        val items = orderDetails.getJSONArray("items")
+
+                        var activeOrders = false
+                        var deliveredOrders = false
+
+                        for (i in 0 until items.length()){
+
+                            val item = items.getJSONObject(i)
+
+                            var receiveQuantity = 0
+                            var receiveTime = ""
+
+                            if (item.getString("status") == "Active"){
+                                activeOrders = true
+                            }else if (item.getString("status") == "Delivered"){
+                                deliveredOrders = true
+                            }
+
+                            if (item.getString("status") == "Waiting"){
+                                receiveQuantity = item.getJSONObject("sellerAcknowledgment").getInt("quantityDelivered")
+                            } else if (item.getString("status") == "Delivered"){
+                                receiveTime = item.getJSONObject("buyerAcknowledgment")
+                                    .getString("acknowledgedAt").toDate()!!.formatTo("dd MMM yyy HH:mm")
+//                                receiveTime.toDate()!!.formatTo("dd MMM yyy HH:mm")
+                            }
+
+                            itemList.add(
+                                ItemDetails(
+                                    item.getString("productId"),
+                                    AppDataSingleton.getProductNameById(item.getString("productId")),
+                                    item.getInt("price"),
+                                    item.getInt("orderQuantity"),
+                                    item.getString("status"),
+                                    receiveQuantity,
+                                    receiveTime
+                                )
+                            )
+                        }
+
+                        if (activeOrders && !deliveredOrders){
+                            binding.txtOrderStatus.text = "ACTIVE"
+                        }else if (!activeOrders && deliveredOrders){
+                            binding.txtOrderStatus.text = "DELIVERED"
+                        }else if (activeOrders && deliveredOrders){
+                            binding.txtOrderStatus.text = "PARTIALLY DELIVERED"
+                        }
+
+                        populateRecyclerView(itemList)
+
+                        binding.swipeRefreshOrdersForMeDetails.isRefreshing = false
+
+                    }
+
+                }catch (e: Exception){
+                    Toast.makeText(mContext, "An error occurred; $e", Toast.LENGTH_LONG ).show()
+                }
+            },
+            Response.ErrorListener {
+
+                Log.i("ErrorListener", JSONObject(String(it.networkResponse.data)).toString())
+
+            }
+        ){
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Content-Type"] = "application/json"
+                headers["auth-token"] = AppDataSingleton.getAuthToken
+                return headers
+            }
+        }
+
+        queue.add(jsonObjectRequest)
+
+    }
+
+}

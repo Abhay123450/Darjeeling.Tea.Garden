@@ -1,0 +1,156 @@
+<resources>
+    <string name="app_name">Darjeeling Tea Garden</string>
+    <string name="enter_your_phone_number">Enter your Phone number</string>
+    <string name="login">Login</string>
+    <string name="enter_your_password">Enter your Password</string>
+    <string name="dont_have_an_account">Don\'t have an account?</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="forgot_password">Forgot Password ?</string>
+    <string name="register_as_a_business_partner">Register as a business partner</string>
+
+    <string name="homeUrl">https://rapti-tea.el.r.appspot.com/</string>
+    <string name="loginUrl">https://rapti-tea.el.r.appspot.com/api/v1/user/login</string>
+    <string name="registerUrl">https://rapti-tea.el.r.appspot.com/api/v1/user/register</string>
+    <string name="verifyPhoneUrl">https://rapti-tea.el.r.appspot.com/api/v1/user/verifyPhoneNumber</string>
+
+    <!--    <string name="homeUrl">https://salty-escarpment-72370.herokuapp.com/</string>-->
+    <!--    <string name="loginUrl">https://salty-escarpment-72370.herokuapp.com/api/v1/user/login</string>-->
+    <!--    <string name="registerUrl">https://salty-escarpment-72370.herokuapp.com/api/v1/user/register</string>-->
+    <!--    <string name="verifyPhoneUrl">https://salty-escarpment-72370.herokuapp.com/api/v1/user/verifyPhoneNumber</string>-->
+
+    <string name="shared_preference_name">DarjeelingTeaGarden</string>
+    <string name="already_have_an_account">Already have an account ?</string>
+    <string name="name">Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="firm_name">Firm Name</string>
+    <string name="gstin_number_optional">GSTIN Number (optional)</string>
+    <string name="address_line_1">Address Line 1</string>
+    <string name="address_line_2">Address Line 2</string>
+    <string name="state">State</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="enter_the_6_digit_otp">Enter the 6 digit OTP</string>
+    <string name="new_password">New Password</string>
+    <string name="retype_new_password">Retype New Password</string>
+    <string name="help_text_send_otp">Enter your Phone Number and click on SEND OTP to get OTP on your Phone Number</string>
+    <string name="pincode">Pincode</string>
+    <string name="dropdown_item">Dropdown Item</string>
+    <string name="city">City</string>
+    <string name="enter_your_phone_number_and_click_on_send_otp">Enter your Phone number and click on SEND OTP</string>
+    <string name="send_otp">Send OTP</string>
+    <string name="select_your_role">Select your Role</string>
+    <string name="email">Email</string>
+    <string name="submit">Submit</string>
+    <string name="enter_otp_sent_to_your_phone_number">Enter OTP sent to your phone Number</string>
+    <string name="resend_otp">Resend OTP</string>
+    <string name="verifying_otp">Verifying OTP…</string>
+    <string name="verify_otp">Verify OTP</string>
+    <string name="enter_your_user_id_and_password_to_login">Enter your User Id and Password to login</string>
+    <string name="user_id">User Id</string>
+    <string name="password">Password</string>
+    <string name="registering">Registering…</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="store">Store</string>
+    <string name="cart">Cart</string>
+    <string name="item_name">Item Name</string>
+    <string name="rupee_symbol">₹</string>
+    <string name="add">Add</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="user_name">User Name</string>
+    <string name="role">Distributor</string>
+    <string name="an_error_occurred">An error occurred</string>
+    <string name="invite_code">Invite Code</string>
+    <string name="please_enter_valid_phone_number">Please enter a valid phone number</string>
+    <string name="please_enter_valid_otp">Please enter valid OTP</string>
+    <string name="please_enter_valid_password">Please enter valid password</string>
+    <string name="grade">Grade :</string>
+    <string name="product_image">Product Image</string>
+    <string name="total">Total</string>
+    <string name="continue_to_payment">Continue to Payment</string>
+    <string name="loading">Loading</string>
+    <string name="pay_now">Pay Now</string>
+    <string name="payment_summary">Payment Summary</string>
+    <string name="coupon_code">Coupon Code</string>
+    <string name="coupon_applied_successfully">Coupon Applied Successfully</string>
+    <string name="discount">Discount</string>
+    <string name="apply">Apply</string>
+    <string name="item_total">Item Total</string>
+    <string name="_0_00">0.00</string>
+    <string name="cgst">CGST</string>
+    <string name="sgst">SGST</string>
+    <string name="igst">IGST</string>
+    <string name="your_cart_is_empty">Your cart is empty</string>
+    <string name="type_to_search">Type to search…</string>
+    <string name="empty_cart">Empty Cart</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+
+Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet.
+
+Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante. Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla. Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien.
+
+Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit. Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet.
+
+Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincidunt malesuada tellus. Ut ultrices ultrices enim. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. Nulla facilisi. Integer lacinia sollicitudin massa. Cras metus. Sed aliquet risus a tortor. Integer id quam. Morbi mi. Quisque nisl felis, venenatis tristique, dignissim in, ultrices sit amet, augue.
+
+</string>
+    <string name="end">End</string>
+    <string name="gst">G.S.T.</string>
+    <string name="order_placed_successfully">Order Placed Successfully</string>
+    <string name="ok">OK</string>
+    <string name="payment_failed">Payment Failed</string>
+    <string name="retry">Retry</string>
+    <string name="please_try_again">Please try again</string>
+    <string name="taxes">Taxes</string>
+    <string name="filter">Filter</string>
+    <string name="sort">Sort</string>
+    <string name="orders_for_me">Orders For Me</string>
+    <string name="my_orders">My Orders</string>
+    <string name="my_downline">My Downline</string>
+    <string name="offers_and_coupons">Offers and Coupons</string>
+    <string name="sample_order">Sample Order</string>
+    <string name="logout">Logout</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="quantity">Quantity :</string>
+    <string name="load_more">Load More</string>
+    <string name="news">News</string>
+    <string name="sample">Sample</string>
+    <string name="history">History</string>
+    <string name="sample_name">Sample Name</string>
+    <string name="grade1">Grade</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="cash_on_delivery">Cash On Delivery</string>
+    <string name="lot_number">Lot No. : </string>
+    <string name="bag_size">Bag Size : </string>
+    <string name="order_id">Order Id:</string>
+    <string name="view">View</string>
+    <string name="your_active_sample_orders">Your active sample orders</string>
+    <string name="sample_orders">Sample Orders</string>
+    <string name="close">Close</string>
+    <string name="product_name">Product Name</string>
+    <string name="user_id_">User Id :</string>
+    <string name="user_role">User Role</string>
+    <string name="due_balance">Due Balance :</string>
+    <string name="release">Release</string>
+    <string name="all">All</string>
+    <string name="category">Category</string>
+    <string name="price_range">Price Range</string>
+    <string name="title">title</string>
+    <string name="date">date</string>
+    <string name="sample_image">Sample Image</string>
+    <string name="news_title">News Title</string>
+    <string name="news_date">News Date</string>
+    <string name="news_image">News Image</string>
+    <string name="order_date">Order Date</string>
+    <string name="sample_order_for_me">Sample Orders For Me</string>
+    <string name="update_status">Update Status</string>
+    <string name="mark_as_delivered">Mark as Delivered</string>
+    <string name="enter_status_update">Enter status update</string>
+    <array name="rangeSliderCost">
+        <item>0</item>
+        <item>3000</item>
+    </array>
+</resources>
+

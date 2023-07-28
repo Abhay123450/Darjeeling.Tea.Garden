@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.CartFragment">
+
+    <LinearLayout
+        android:id="@+id/llEmptyCart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:elevation="7dp"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/ic_baseline_production_quantity_limits_24"
+            app:tint="@color/light_gray_a9a9a9"
+            android:contentDescription="@string/empty_cart" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="26sp"
+            android:textColor="@color/light_gray_a9a9a9"
+            android:text="@string/your_cart_is_empty"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/llRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewCart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:visibility="visible"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="10dp"
+            android:weightSum="10"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:text="Total"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:gravity="end"
+                android:text="@string/rupee_symbol"/>
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:paddingHorizontal="5dp"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:gravity="start"
+                android:text="7895"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/txtTotalText"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_below="@+id/llRecyclerView"
+        android:layout_margin="10dp"
+        app:backgroundTint="@color/white"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/colorPrimary"
+        android:text="@string/total"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:textAlignment="textStart"
+        android:clickable="false"
+        android:focusable="false"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/txtTotalAmount"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_below="@+id/llRecyclerView"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:text="@string/rupee_symbol"
+        android:textColor="@color/black"
+        android:textAlignment="textEnd"
+        android:textSize="18sp"
+        app:backgroundTint="@android:color/transparent"
+        app:strokeColor="@color/colorPrimary"
+        app:strokeWidth="1dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnContinueToPayment"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_below="@id/txtTotalAmount"
+        android:layout_margin="10dp"
+        android:textSize="18sp"
+        android:text="@string/continue_to_payment"/>
+
+
+
+</RelativeLayout>
