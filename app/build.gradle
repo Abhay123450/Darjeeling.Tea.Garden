@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -95,4 +97,10 @@ dependencies {
     implementation 'com.github.vipulasri:timelineview:1.1.5'
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:32.2.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+
 }

@@ -43,6 +43,8 @@ class SampleOrdersForMeFragment : Fragment() {
     private lateinit var layoutManager: RecyclerView.LayoutManager
     private lateinit var sampleOrdersForMeRecyclerAdapter: SampleOrdersForMeRecyclerAdapter
 
+    private var sampleOrdersForMeList = mutableListOf<OrderForMe>()
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
@@ -57,6 +59,8 @@ class SampleOrdersForMeFragment : Fragment() {
 
         recyclerViewSampleOrderForMe = binding.recyclerViewSampleOrdersForMe
         layoutManager = LinearLayoutManager(mContext)
+
+
 
         binding.autoCompleteTextViewSampleOrderStatus.setOnItemClickListener { adapterView, view, i, l ->
             status = adapterView.getItemAtPosition(i).toString()
@@ -81,7 +85,6 @@ class SampleOrdersForMeFragment : Fragment() {
         }
 
         binding.swipeRefreshSampleOrdersForMe.setOnRefreshListener {
-            binding.swipeRefreshSampleOrdersForMe.isRefreshing = true
             getSampleOrdersForMe(currentPage)
         }
 
@@ -93,11 +96,12 @@ class SampleOrdersForMeFragment : Fragment() {
         initializeFilterDropdown()
         initializeSortDropdown()
 
-        if (SampleDataSingleton.getSampleOrdersForMeList.size == 0){
+
+        if (sampleOrdersForMeList.size == 0){
             getSampleOrdersForMe(currentPage)
         }
         else{
-            populateRecyclerView(SampleDataSingleton.getSampleOrdersForMeList)
+            populateRecyclerView(sampleOrdersForMeList)
         }
     }
 
@@ -235,12 +239,12 @@ class SampleOrdersForMeFragment : Fragment() {
                                     orderForMe.getString("currentStatus")
                                 )
 
-                                SampleDataSingleton.addToSampleOrdersForMeList(dataObject)
+                                sampleOrdersForMeList.add(dataObject)
 
                             }
 
                             if (currentPage == 1){
-                                populateRecyclerView(SampleDataSingleton.getSampleOrdersForMeList)
+                                populateRecyclerView(sampleOrdersForMeList)
                             }
                             else{
                                 populateAdditionalData()

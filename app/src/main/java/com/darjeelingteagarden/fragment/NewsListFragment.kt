@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,7 @@ import com.darjeelingteagarden.databinding.FragmentNewsListBinding
 import com.darjeelingteagarden.databinding.FragmentSampleHistoryBinding
 import com.darjeelingteagarden.model.News
 import com.darjeelingteagarden.repository.AppDataSingleton
+import com.darjeelingteagarden.repository.NotificationDataSingleton
 import com.darjeelingteagarden.repository.SampleDataSingleton
 import com.darjeelingteagarden.util.formatTo
 import com.darjeelingteagarden.util.toDate
@@ -51,6 +53,10 @@ class NewsListFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentNewsListBinding.inflate(inflater, container, false)
+
+        if (NotificationDataSingleton.notificationToOpen){
+            findNavController().navigate(R.id.action_newsListFragment_to_newsDetailsFragment)
+        }
 
         recyclerViewNews = binding.recyclerViewNewsList
         layoutManager = LinearLayoutManager(mContext)

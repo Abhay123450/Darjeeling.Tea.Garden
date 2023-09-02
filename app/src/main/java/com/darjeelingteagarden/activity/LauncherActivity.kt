@@ -21,6 +21,7 @@ import com.darjeelingteagarden.model.Cart
 import com.darjeelingteagarden.model.Product
 import com.darjeelingteagarden.model.User
 import com.darjeelingteagarden.repository.AppDataSingleton
+import com.darjeelingteagarden.repository.NotificationDataSingleton
 import com.darjeelingteagarden.util.ConnectionManager
 import com.darjeelingteagarden.viewModel.AppDataViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -49,10 +50,34 @@ class LauncherActivity : AppCompatActivity() {
     var openedActivity = false
     var cartListLoaded = false
 
+    //open notification
+    private var isNotificationOpened = false
+    private var activityToOpen: String? = ""
+    private var resourceId: String? = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         mAppDataViewModel = ViewModelProvider(this)[AppDataViewModel::class.java]
+
+        if (intent != null){
+            activityToOpen = intent.getStringExtra("activityToOpen")
+            resourceId = intent.getStringExtra("resourceId")
+            isNotificationOpened = true
+
+            if (activityToOpen != null){
+                NotificationDataSingleton.notificationToOpen = true
+                NotificationDataSingleton.activityToOpen = activityToOpen
+            }
+
+            if (resourceId != null){
+                NotificationDataSingleton.resourceId = resourceId
+            }
+
+            Log.d("datapayload activity", activityToOpen.toString())
+            Log.d("resource id activity", resourceId.toString())
+
+        }
 
         startup()
 

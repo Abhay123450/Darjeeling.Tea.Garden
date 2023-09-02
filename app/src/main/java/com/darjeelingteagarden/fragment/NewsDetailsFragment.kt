@@ -21,6 +21,7 @@ import com.darjeelingteagarden.databinding.FragmentNewsDetailsBinding
 import com.darjeelingteagarden.databinding.FragmentNewsListBinding
 import com.darjeelingteagarden.model.NewsDetails
 import com.darjeelingteagarden.repository.AppDataSingleton
+import com.darjeelingteagarden.repository.NotificationDataSingleton
 import com.darjeelingteagarden.util.ConnectionManager
 import com.darjeelingteagarden.util.formatTo
 import com.darjeelingteagarden.util.toDate
@@ -45,7 +46,16 @@ class NewsDetailsFragment : Fragment() {
         binding = FragmentNewsDetailsBinding.inflate(inflater, container, false)
 
         if (ConnectionManager().isOnline(mContext)){
-            loadNews(AppDataSingleton.getCurrentNewsId)
+
+            if (NotificationDataSingleton.notificationToOpen){
+                loadNews(NotificationDataSingleton.resourceId.toString())
+                NotificationDataSingleton.notificationToOpen = false
+            }
+            else{
+                loadNews(AppDataSingleton.getCurrentNewsId)
+            }
+
+
         }
 
         return binding.root

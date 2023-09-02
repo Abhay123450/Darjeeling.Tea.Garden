@@ -40,6 +40,7 @@ class SampleOrderDetailsActivity : AppCompatActivity() {
     private lateinit var recyclerAdapterSampleOrderStatusHistory: SampleOrderStatusHistoryRecyclerAdapter
     private var sampleStatusHistory = mutableListOf<StatusHistory>()
 
+    private var orderType: String? = null // (order/sampleOrder)
     private var sampleOrderId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,6 +63,8 @@ class SampleOrderDetailsActivity : AppCompatActivity() {
         if (sampleOrderId != null) {
             getSampleOrderDetails(sampleOrderId.toString())
         }
+
+        Log.i("sampleorderid", sampleOrderId.toString())
 
         if (AppDataSingleton.getUserInfo.role.equals("Admin", ignoreCase = true)){
             binding.llAdminSampleStatus.visibility = View.VISIBLE
@@ -135,6 +138,7 @@ class SampleOrderDetailsActivity : AppCompatActivity() {
                     if (success) {
 
                         sampleDetailsItemList = mutableListOf()
+                        sampleStatusHistory = mutableListOf()
 
                         val data = it.getJSONObject("data")
 
@@ -146,25 +150,13 @@ class SampleOrderDetailsActivity : AppCompatActivity() {
 
                         val statusHistory = data.getJSONArray("statusHistory")
 
-                        sampleStatusHistory = mutableListOf()
-
-//                        sampleStatusHistory = mutableListOf(
-//                            StatusHistory("Order Created", "1690206243935"),
-//                            StatusHistory("Order reached your city. Will be delivered soon", "1690206256879"),
-//                            StatusHistory("Order dispatched", "1690206248900")
-//                        )
-
-//                        sampleStatusHistory.sortBy { history ->
-//                            history.date
-//                        }
-//                        val statusHistory = data.getJSONArray("statusHistory")
-
                         for (i in 0 until statusHistory.length()){
 
                             sampleStatusHistory.add(
                                 StatusHistory(
                                     statusHistory.getJSONObject(i).getString("status"),
                                     statusHistory.getJSONObject(i).getString("updatedOn")
+                                        .toDate()!!.formatTo("dd MMM yyy HH:mm")
                                 )
                             )
 

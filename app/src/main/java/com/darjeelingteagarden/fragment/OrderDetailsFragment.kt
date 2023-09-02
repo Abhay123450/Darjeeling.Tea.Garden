@@ -15,8 +15,12 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.adapter.OrderDetailsItemListAdapter
+import com.darjeelingteagarden.adapter.OrderStatusHistoryRecyclerAdapter
+import com.darjeelingteagarden.adapter.SampleOrderStatusHistoryRecyclerAdapter
 import com.darjeelingteagarden.databinding.FragmentOrderDetailsBinding
 import com.darjeelingteagarden.model.ItemDetails
+import com.darjeelingteagarden.model.OrderStatusHistory
+import com.darjeelingteagarden.model.StatusHistory
 import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.util.formatTo
 import com.darjeelingteagarden.util.toDate
@@ -31,6 +35,12 @@ class OrderDetailsFragment : Fragment() {
     private lateinit var recyclerViewItemList: RecyclerView
     private lateinit var layoutManager: RecyclerView.LayoutManager
     private lateinit var itemListRecyclerAdapter: OrderDetailsItemListAdapter
+
+    //Sample Order Status History
+    private lateinit var recyclerViewOrderTimeline: RecyclerView
+    private lateinit var layoutManagerOrderTimeline: RecyclerView.LayoutManager
+    private lateinit var recyclerAdapterOrderStatusHistory: OrderStatusHistoryRecyclerAdapter
+    private var orderStatusHistory = mutableListOf<OrderStatusHistory>()
 
     private var itemList: MutableList<ItemDetails> = mutableListOf()
 
@@ -50,6 +60,9 @@ class OrderDetailsFragment : Fragment() {
         recyclerViewItemList = binding.recyclerViewItemList
         layoutManager = LinearLayoutManager(mContext)
 
+        recyclerViewOrderTimeline = binding.recyclerViewOrdersStatusTimeline
+        layoutManagerOrderTimeline = LinearLayoutManager(mContext)
+
         binding.rlProgressBarOrderDetails.visibility = View.VISIBLE
 
         orderId = AppDataSingleton.getOrderId
@@ -68,6 +81,13 @@ class OrderDetailsFragment : Fragment() {
         recyclerViewItemList.adapter = itemListRecyclerAdapter
         recyclerViewItemList.layoutManager = layoutManager
 
+    }
+
+    private fun populateRecyclerViewOrderTimeline(statusList: MutableList<OrderStatusHistory>){
+        recyclerAdapterOrderStatusHistory =
+            OrderStatusHistoryRecyclerAdapter(mContext, statusList)
+        recyclerViewOrderTimeline.adapter = recyclerAdapterOrderStatusHistory
+        recyclerViewOrderTimeline.layoutManager = layoutManagerOrderTimeline
     }
 
     private fun receiveItem(orderId: String, productId: String, quantity: Int){
@@ -196,18 +216,19 @@ class OrderDetailsFragment : Fragment() {
                                 deliveredOrders = true
                             }
 
-                            if (item.getString("status") == "Waiting"){
-                                receiveQuantity = item.getJSONObject("sellerAcknowledgment").getInt("quantityDelivered")
-                            } else if (item.getString("status") == "Delivered"){
-                                receiveTime = item.getJSONObject("buyerAcknowledgment")
-                                    .getString("acknowledgedAt").toDate()!!.formatTo("dd MMM yyy HH:mm")
-//                                receiveTime.toDate()!!.formatTo("dd MMM yyy HH:mm")
-                            }
+//                            if (item.getString("status") == "Waiting"){
+//                                receiveQuantity = item.getJSONObject("sellerAcknowledgment").getInt("quantityDelivered")
+//                            } else if (item.getString("status") == "Delivered"){
+//                                receiveTime = item.getJSONObject("buyerAcknowledgment")
+//                                    .getString("acknowledgedAt").toDate()!!.formatTo("dd MMM yyy HH:mm")
+////                                receiveTime.toDate()!!.formatTo("dd MMM yyy HH:mm")
+//                            }
 
                             itemList.add(
                                 ItemDetails(
                                     item.getString("productId"),
-                                    AppDataSingleton.getProductNameById(item.getString("productId")),
+                                    item.getString("productName"),
+//                                    AppDataSingleton.getProductNameById(item.getString("productId")),
                                     item.getInt("price"),
                                     item.getInt("orderQuantity"),
                                     item.getString("status"),
@@ -229,6 +250,23 @@ class OrderDetailsFragment : Fragment() {
                         }
 
                         populateRecyclerView(itemList)
+
+                        val statusHistory = orderDetails.getJSONArray("statusHistory")
+                        orderStatusHistory = mutableListOf()
+
+                        for (i in 0 until statusHistory.length()){
+
+                            orderStatusHistory.add(
+                                OrderStatusHistory(
+                                    statusHistory.getJSONObject(i).getString("status"),
+                                    statusHistory.getJSONObject(i).getString("updatedOn"),
+                                    ""
+                                )
+                            )
+
+                        }
+
+                        populateRecyclerViewOrderTimeline(orderStatusHistory)
 
                         binding.rlProgressBarOrderDetails.visibility = View.GONE
 
