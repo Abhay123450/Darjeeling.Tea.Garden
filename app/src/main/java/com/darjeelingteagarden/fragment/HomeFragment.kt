@@ -2,23 +2,22 @@ package com.darjeelingteagarden.fragment
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.activity.MyOrdersActivity
-import com.darjeelingteagarden.activity.NewsActivity
 import com.darjeelingteagarden.activity.OrdersForMeActivity
 import com.darjeelingteagarden.activity.SampleOrderActivity
 import com.darjeelingteagarden.databinding.FragmentHomeBinding
 import com.darjeelingteagarden.repository.AppDataSingleton
-import com.darjeelingteagarden.repository.NotificationDataSingleton
 
 class HomeFragment : Fragment(){
 
@@ -52,7 +51,6 @@ class HomeFragment : Fragment(){
 
             getActiveMyOrdersCount()
             getActiveOrdersForMeCount()
-            getActiveSampleOrdersCount()
 
         }
 
@@ -72,7 +70,27 @@ class HomeFragment : Fragment(){
             startActivity(intent)
         }
 
+        binding.btnCallNow.setOnClickListener {
+            openDialPad(mContext, "7007789842")
+        }
+
+        binding.btnWhatsappNow.setOnClickListener {
+            openWhatsapp(mContext, "7007789842")
+        }
+
         return binding.root
+    }
+
+    private fun openDialPad(context: Context, phoneNum: String) {
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse("tel:+91$phoneNum")
+        context.startActivity(intent)
+    }
+
+    private fun openWhatsapp(context: Context, phoneNum: String){
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse("http://api.whatsapp.com/send?phone=+91$phoneNum")
+        context.startActivity(intent)
     }
 
     private fun getActiveMyOrdersCount(){

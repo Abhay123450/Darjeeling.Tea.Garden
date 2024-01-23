@@ -16,12 +16,17 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
+import com.darjeelingteagarden.activity.LoginActivity
+import com.darjeelingteagarden.activity.MyOrdersActivity
 import com.darjeelingteagarden.activity.PaymentActivity
+import com.darjeelingteagarden.activity.RazorpayPaymentActivity
 import com.darjeelingteagarden.adapter.CartRecyclerAdapter
 import com.darjeelingteagarden.databinding.FragmentCartBinding
 import com.darjeelingteagarden.model.Cart
 import com.darjeelingteagarden.model.CartItem
 import com.darjeelingteagarden.repository.AppDataSingleton
+import com.darjeelingteagarden.repository.CartDataSingleton
+import com.darjeelingteagarden.repository.SampleDataSingleton
 import com.darjeelingteagarden.util.ConnectionManager
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -34,6 +39,7 @@ class CartFragment : Fragment() {
     private lateinit var binding: FragmentCartBinding
 
     private var cartItemList = mutableListOf<Cart>()
+//    private var sampleCartItemList = mutableListOf<Cart>()
 
     private lateinit var recyclerViewCart: RecyclerView
     lateinit var layoutManager: RecyclerView.LayoutManager
@@ -53,13 +59,17 @@ class CartFragment : Fragment() {
 
         authToken = AppDataSingleton.getAuthToken
 
+        binding.progressCart.visibility = View.GONE
+
 
         recyclerViewCart = binding.recyclerViewCart
         layoutManager = LinearLayoutManager(activity)
 
 //        cartItemList = mAppDataViewModel.cartItemList
 
-        cartItemList = AppDataSingleton.getCartItemList
+        cartItemList = CartDataSingleton.cartList
+//        sampleCartItemList = SampleDataSingleton.getCartItemList
+//        cartItemList.addAll(sampleCartItemList)
         Log.i("cart item list ::", cartItemList.toString())
 
         populateRecyclerView()
@@ -88,7 +98,7 @@ class CartFragment : Fragment() {
 //            }
 //
 //        })
-        if (AppDataSingleton.getCartItemList.size != 0){
+        if (CartDataSingleton.cartList.size != 0){
             binding.llEmptyCart.visibility = View.GONE
         }
         else{
@@ -100,25 +110,55 @@ class CartFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (AppDataSingleton.getCartItemList.size != 0){
+        if (CartDataSingleton.cartList.size != 0){
             binding.llEmptyCart.visibility = View.GONE
         }
         else{
             binding.llEmptyCart.visibility = View.VISIBLE
+        }
+        if (AppDataSingleton.orderPlaced){
+            AppDataSingleton.orderPlaced = false
+            val intent = Intent(activity as Context, MyOrdersActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        AppDataSingleton.saveCart(activity as Context)
+        if (CartDataSingleton.cartList.size == 0){
+            CartDataSingleton.clearCart(activity as Context)
         }
     }
 
     private fun calculateTotalAmount(){
         totalAmount = 0
         cartItemList.forEach {
-            totalAmount += it.discountedPrice * it.quantity
+//            totalAmount += if (it.isSample){
+//                it.samplePrice * it.sampleQuantity
+//            } else{
+//                it.discountedPrice * it.quantity
+//            }
+            if (it.isProduct){
+                totalAmount += it.discountedPrice * it.quantity
+            }
+            if (it.isSample){
+                totalAmount += it.samplePrice * it.sampleQuantity
+            }
         }
         (getString(R.string.rupee_symbol) + " " + totalAmount.toString()).also { binding.txtTotalAmount.text = it }
     }
 
     private fun populateRecyclerView(){
 
-        recyclerAdapter = CartRecyclerAdapter(activity as Context, AppDataSingleton.getCartItemList){
+        recyclerAdapter = CartRecyclerAdapter(activity as Context, CartDataSingleton.cartList){
+            if (CartDataSingleton.cartList.size != 0){
+                binding.llEmptyCart.visibility = View.GONE
+            }
+            else{
+                binding.llEmptyCart.visibility = View.VISIBLE
+            }
+//            cartItemList.addAll(SampleDataSingleton.getCartItemList)
             calculateTotalAmount()
         }
         recyclerViewCart.adapter = recyclerAdapter
@@ -145,17 +185,20 @@ class CartFragment : Fragment() {
 
     private fun createOrder(){
 
-        Log.i("auth-token", AppDataSingleton.getAuthToken)
+        binding.progressCart.visibility = View.VISIBLE
 
         val cartItems = JSONArray()
 
-        val cartItemList = AppDataSingleton.getCartItemList as ArrayList<Cart> /* = java.util.ArrayList<com.darjeelingteagarden.model.Cart> */
+        val cartItemList = CartDataSingleton.cartList as ArrayList<Cart> /* = java.util.ArrayList<com.darjeelingteagarden.model.Cart> */
 
         cartItemList.forEach {
 
             val jsonObject = JSONObject()
             jsonObject.put("productId", it.productId)
+            jsonObject.put("isProduct", it.isProduct)
             jsonObject.put("quantity", it.quantity)
+            jsonObject.put("isSample", it.isSample)
+            jsonObject.put("sampleQuantity", it.sampleQuantity)
 
             cartItems.put(jsonObject)
         }
@@ -190,29 +233,42 @@ class CartFragment : Fragment() {
 //                        val igst = orderDetails.getDouble("igst")
                         val totalAmount = orderDetails.getDouble("totalPrice")
 
+                        val apiKeyId = it.getString("apiKeyId")
 
-                        val intent = Intent(activity as Context, PaymentActivity::class.java)
+
+                        val intent = Intent(activity as Context, RazorpayPaymentActivity::class.java)
                         intent.putExtra("orderId", orderId)
                         intent.putExtra("itemTotal", itemTotal)
                         intent.putExtra("totalTax", totalTax)
                         intent.putExtra("totalAmount", totalAmount)
+                        intent.putExtra("apiKeyId", apiKeyId)
                         startActivity(intent)
+
+                        binding.progressCart.visibility = View.GONE
 
                     }
                     else{
                         Toast.makeText(
                             activity as Context, "An Error Occurred", Toast.LENGTH_LONG
                         ).show()
+                        binding.progressCart.visibility = View.GONE
                     }
                 }
                 catch (e: Exception){
                     Toast.makeText(
                         activity as Context, "Exception: $e", Toast.LENGTH_LONG
                     ).show()
+                    binding.progressCart.visibility = View.GONE
                 }
             },
             Response.ErrorListener {
 
+                if (it.networkResponse.statusCode == 401 || it.networkResponse.statusCode == 403){
+                    val intent = Intent(activity as Context, LoginActivity::class.java)
+                    intent.putExtra("resume", true)
+                    startActivity(intent)
+                    return@ErrorListener
+                }
 
                 val response = JSONObject(String(it.networkResponse.data))
                 Log.i("Create order error :: ", response.toString())
@@ -220,13 +276,14 @@ class CartFragment : Fragment() {
                 Toast.makeText(
                     activity as Context, response.getString("message"), Toast.LENGTH_LONG
                 ).show()
+                binding.progressCart.visibility = View.GONE
 
             }
         ){
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String, String>()
                 headers["Content-Type"] = "application/json"
-                headers["auth-token"] = authToken
+                headers["auth-token"] = AppDataSingleton.getAuthToken
                 return headers
             }
         }

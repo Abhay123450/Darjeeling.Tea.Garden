@@ -5,5 +5,5 @@ data class MyDownline(
     val userId: String,
     val userName: String,
     val userRole: String,
-    val balanceDue: Float
+    val balanceDue: Double
 )

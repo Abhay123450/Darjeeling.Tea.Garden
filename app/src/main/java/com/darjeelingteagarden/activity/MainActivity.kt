@@ -1,5 +1,7 @@
 package com.darjeelingteagarden.activity
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -24,6 +26,7 @@ import com.darjeelingteagarden.fragment.HomeFragment
 import com.darjeelingteagarden.fragment.StoreFragment
 import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.repository.NotificationDataSingleton
+import com.darjeelingteagarden.repository.StoreDataSingleton
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.ktx.Firebase
@@ -63,6 +66,8 @@ class MainActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences(getString(R.string.shared_preference_name), MODE_PRIVATE)
 
+        StoreDataSingleton.getStoreItems(this)
+
 //        openHome()
 
         //Set up bottom navigation
@@ -95,7 +100,11 @@ class MainActivity : AppCompatActivity() {
                     Intent(this, NewsActivity::class.java)
                 }
 
-                "order" -> {
+                "orderDetails" -> {
+                    Intent(this, MyOrdersActivity::class.java)
+                }
+
+                "sampleOrderDetails" -> {
                     Intent(this, SampleOrderDetailsActivity::class.java)
                 }
 
@@ -105,6 +114,14 @@ class MainActivity : AppCompatActivity() {
 
                 "sampleOrdersForMe" -> {
                     Intent(this, SampleOrdersForMeActivity::class.java)
+                }
+
+                "videos" -> {
+                    Intent(this, VideosActivity::class.java)
+                }
+
+                "users" -> {
+                    Intent(this, MyDownlineActivity::class.java)
                 }
 
                 else -> {
@@ -132,6 +149,8 @@ class MainActivity : AppCompatActivity() {
                 updateFcmToken()
 
                 subscribeToTopic("news")
+
+                createNotificationChannel()
             } else if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
                 // TODO: display an educational UI explaining to the user the features that will be enabled
                 //       by them granting the POST_NOTIFICATION permission. This UI should provide the user
@@ -146,6 +165,22 @@ class MainActivity : AppCompatActivity() {
             updateFcmToken()
 
             subscribeToTopic("news")
+
+            createNotificationChannel()
+        }
+    }
+
+    private fun createNotificationChannel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val channelName = "darjeeling_tea_garden"
+            val importance = NotificationManager.IMPORTANCE_HIGH;
+            val notificationChannel = NotificationChannel(
+                getString(R.string.notification_channel_id),
+                channelName,
+                importance
+            )
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(notificationChannel)
         }
     }
 
@@ -157,7 +192,7 @@ class MainActivity : AppCompatActivity() {
                     msg = "Subscribe Failed"
                 }
                 Log.d("subscribe to topic", msg)
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -188,7 +223,7 @@ class MainActivity : AppCompatActivity() {
             }
 
 
-            Toast.makeText(this, newToken, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, newToken, Toast.LENGTH_SHORT).show()
         })
 
     }
@@ -288,11 +323,11 @@ class MainActivity : AppCompatActivity() {
 
                     }
                     catch (e: Exception){
-                        Toast.makeText(this, "exception ${ e.toString() }", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(this, "exception ${ e.toString() }", Toast.LENGTH_SHORT).show()
                     }
                 },
                 Response.ErrorListener {
-                    Toast.makeText(this, "exception response error", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this, "exception response error", Toast.LENGTH_SHORT).show()
                 }
             ){
                 override fun getHeaders(): MutableMap<String, String> {

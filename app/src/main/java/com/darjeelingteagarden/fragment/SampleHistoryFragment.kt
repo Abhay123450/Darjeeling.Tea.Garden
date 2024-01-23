@@ -17,6 +17,7 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
+import com.darjeelingteagarden.activity.LoginActivity
 import com.darjeelingteagarden.activity.SampleOrderDetailsActivity
 import com.darjeelingteagarden.adapter.MyOrdersRecyclerAdapter
 import com.darjeelingteagarden.adapter.SampleHistoryRecyclerAdapter
@@ -190,7 +191,7 @@ class SampleHistoryFragment : Fragment() {
                                     order.getString("_id"),
                                     order.getString("orderDate").toDate()!!.formatTo("dd MMM yyyy HH:mm"),
                                     order.getInt("itemCount"),
-                                    order.getInt("totalPrice"),
+                                    order.getDouble("totalPrice"),
                                     order.getString("currentStatus")
                                 )
 
@@ -218,6 +219,12 @@ class SampleHistoryFragment : Fragment() {
                 }
             },
             Response.ErrorListener {
+                if (it.networkResponse.statusCode == 401 || it.networkResponse.statusCode == 403){
+                    val intent = Intent(mContext, LoginActivity::class.java)
+                    intent.putExtra("resume", true)
+                    startActivity(intent)
+                    return@ErrorListener
+                }
                 Toast.makeText(mContext, "An Error Occurred", Toast.LENGTH_LONG).show()
 //                val response = JSONObject(String(it.networkResponse.data))
 //                Log.i("error listener", response.toString())
@@ -281,14 +288,16 @@ class SampleHistoryFragment : Fragment() {
 
                             val item = itemList.getJSONObject(i)
 
-                            sampleDetailsItemList.add(
-                                SampleOrderItemDetails(
-                                    item.getString("sampleId"),
-                                    "Sample name !!",
-                                    item.getDouble("price"),
-                                    item.getInt("orderQuantity")
-                                )
-                            )
+//                            sampleDetailsItemList.add(
+//                                SampleOrderItemDetails(
+//                                    item.getString("sampleId"),
+//                                    "Sample name !!",
+//                                    "",
+//                                    "",
+//                                    item.getDouble("price"),
+//                                    item.getInt("orderQuantity")
+//                                )
+//                            )
 
                         }
 

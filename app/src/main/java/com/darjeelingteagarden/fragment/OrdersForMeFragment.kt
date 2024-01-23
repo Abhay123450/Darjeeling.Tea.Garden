@@ -1,6 +1,7 @@
 package com.darjeelingteagarden.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,12 +13,14 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
+import com.darjeelingteagarden.activity.LoginActivity
 import com.darjeelingteagarden.adapter.OrdersForMeRecyclerAdapter
 import com.darjeelingteagarden.databinding.FragmentOrdersForMeBinding
 import com.darjeelingteagarden.model.MyOrder
@@ -84,12 +87,30 @@ class OrdersForMeFragment : Fragment() {
             binding.progressBarLoadMore.visibility = View.VISIBLE
         }
 
-        binding.swipeRefreshOrdersForMe.setOnRefreshListener {
-            binding.swipeRefreshOrdersForMe.isRefreshing = true
-//            AppDataSingleton.clearOrderForMeList()
-            ordersForMeList.clear()
-            getOrdersForMe(currentPage)
-        }
+//        binding.swipeRefreshOrdersForMe.setOnRefreshListener {
+//
+//            if ((layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() == 0){
+//
+//                binding.swipeRefreshOrdersForMe.isRefreshing = true
+//                currentPage = 1
+////            AppDataSingleton.clearOrderForMeList()
+//                ordersForMeList.clear()
+//                getOrdersForMe(currentPage)
+//
+//            }
+//            else{
+//                binding.swipeRefreshOrdersForMe.isRefreshing = false
+//            }
+//
+////            binding.swipeRefreshOrdersForMe.setOnChildScrollUpCallback(object: SwipeRefreshLayout.OnChildScrollUpCallback{
+////                override fun canChildScrollUp(parent: SwipeRefreshLayout, child: View?): Boolean {
+////                    TODO("Not yet implemented")
+////                }
+////
+////            })
+//
+//
+//        }
 
         return binding.root
     }
@@ -105,7 +126,7 @@ class OrdersForMeFragment : Fragment() {
         }
         else{
             populateRecyclerView(ordersForMeList)
-            binding.swipeRefreshOrdersForMe.isRefreshing = false
+//            binding.swipeRefreshOrdersForMe.isRefreshing = false
         }
 
     }
@@ -136,7 +157,9 @@ class OrdersForMeFragment : Fragment() {
         recyclerViewOrderForMe.layoutManager = layoutManager
         binding.rlProgressBar.visibility = View.GONE
         binding.progressBarLoadMore.visibility = View.GONE
-        binding.swipeRefreshOrdersForMe.isRefreshing = true
+//        binding.swipeRefreshOrdersForMe.isRefreshing = true
+
+        binding.txtInfo.text = "${list.size} Orders"
 
     }
 
@@ -162,7 +185,7 @@ class OrdersForMeFragment : Fragment() {
 
     private fun getOrdersForMe(page: Int){
 
-        binding.swipeRefreshOrdersForMe.isRefreshing = true
+//        binding.swipeRefreshOrdersForMe.isRefreshing = true
 
         val query = if (status == "Active"){
             "?status=Active&sort=$sort"
@@ -198,7 +221,11 @@ class OrdersForMeFragment : Fragment() {
 
                             var text = ""
 
-                            if (totalOrders > currentPage * limit){
+                            if (totalOrders == 0){
+                                text = "No orders"
+                                binding.btnLoadMore.visibility = View.GONE
+                            }
+                            else if (totalOrders > currentPage * limit){
                                 text = "Showing 1 - ${currentPage * limit} of $totalOrders orders"
                                 binding.btnLoadMore.visibility = View.VISIBLE
                             } else {
@@ -207,18 +234,20 @@ class OrdersForMeFragment : Fragment() {
                             }
 
                             binding.txtInfo.text = text
+                            binding.txtInfo.visibility = View.GONE
                         }
                         else{
                             binding.btnLoadMore.visibility = View.GONE
                             binding.txtInfo.text = "$totalOrdersForMe Active Order(s)"
+                            binding.txtInfo.visibility = View.VISIBLE
                         }
 
                         Log.i("data string is ::", data.toString())
 
                         if (totalOrdersForMe == 0){
                             binding.rlProgressBar.visibility = View.GONE
-                            binding.swipeRefreshOrdersForMe.isRefreshing = false
-                            Toast.makeText(mContext, "No Active Orders !", Toast.LENGTH_LONG).show()
+//                            binding.swipeRefreshOrdersForMe.isRefreshing = false
+                            Toast.makeText(mContext, "No Orders !", Toast.LENGTH_LONG).show()
                         }
                         else{
 
@@ -235,7 +264,7 @@ class OrdersForMeFragment : Fragment() {
                                     from.getString("addressLineOne"),
                                     orderForMe.getString("orderDate").toDate()!!.formatTo("dd MMM yyyy HH:mm"),
                                     orderForMe.getInt("itemCount"),
-                                    orderForMe.getInt("amountPayable"),
+                                    orderForMe.getDouble("amountPayable"),
                                     orderForMe.getString("currentStatus")
                                 )
 
@@ -249,23 +278,29 @@ class OrdersForMeFragment : Fragment() {
                             else{
                                 populateAdditionalData()
                             }
-                            binding.swipeRefreshOrdersForMe.isRefreshing = false
+//                            binding.swipeRefreshOrdersForMe.isRefreshing = false
                         }
 
                     }
                     else {
                         Toast.makeText(mContext, "An error occurred", Toast.LENGTH_LONG).show()
-                        binding.swipeRefreshOrdersForMe.isRefreshing = false
+//                        binding.swipeRefreshOrdersForMe.isRefreshing = false
                     }
 
                 }catch (e: Exception){
                     Log.i("exception is ", e.toString())
                     Toast.makeText(mContext, "An error occurred: $e", Toast.LENGTH_LONG).show()
-                    binding.swipeRefreshOrdersForMe.isRefreshing = false
+//                    binding.swipeRefreshOrdersForMe.isRefreshing = false
                 }
             },
             Response.ErrorListener {
-                binding.swipeRefreshOrdersForMe.isRefreshing = false
+//                binding.swipeRefreshOrdersForMe.isRefreshing = false
+                if (it.networkResponse.statusCode == 401 || it.networkResponse.statusCode == 403){
+                    val intent = Intent(mContext, LoginActivity::class.java)
+                    intent.putExtra("resume", true)
+                    startActivity(intent)
+                    return@ErrorListener
+                }
 //                val response = JSONObject(String(it.networkResponse.data))
 //                Log.i("error listener", response.toString())
 //                Toast.makeText(mContext, "An error occurred: $response", Toast.LENGTH_LONG).show()
@@ -278,7 +313,6 @@ class OrdersForMeFragment : Fragment() {
                 headers["auth-token"] = AppDataSingleton.getAuthToken
                 return headers
             }
-
         }
 
         queue.add(jsonObjectRequest)

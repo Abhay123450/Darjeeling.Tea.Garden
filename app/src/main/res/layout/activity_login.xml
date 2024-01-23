@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             app:errorEnabled="true"
-            android:hint="@string/user_id"
+            android:hint="Phone number or User Id"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -104,6 +104,15 @@
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/rememberMe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:text="Save login id and password"
+            android:checked="true"
+            android:buttonTint="@color/colorPrimary"/>
 
         <Button
             android:id="@+id/btnForgotPassword"

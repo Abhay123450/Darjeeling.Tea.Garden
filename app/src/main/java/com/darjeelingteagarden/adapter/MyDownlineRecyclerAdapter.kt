@@ -10,8 +10,10 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.model.MyDownline
+import com.darjeelingteagarden.repository.AppDataSingleton
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class MyDownlineRecyclerAdapter(
     val context: Context,
@@ -46,6 +48,7 @@ class MyDownlineRecyclerAdapter(
         holder.txtDueBalance.text = userInfo.balanceDue.toString()
 
         holder.cardParent.setOnClickListener {
+            AppDataSingleton.myDownlineUserId = userInfo.userId
             navController.navigate(R.id.action_myDownlineListFragment_to_myDownlineUserDetailsFragment)
         }
 
@@ -61,7 +64,17 @@ class MyDownlineRecyclerAdapter(
             }
 
             holder.btnDueRelease.setOnClickListener {
-                releaseDue(userInfo)
+                MaterialAlertDialogBuilder(context)
+                    .setTitle("Confirm Release")
+                    .setMessage("Are you sure ?")
+                    .setPositiveButton("Yes"){dialog, int ->
+                        releaseDue(userInfo)
+                    }
+                    .setNegativeButton("Cancel"){dialog, int ->
+                        dialog.dismiss()
+                    }
+                    .show()
+
             }
 
         }

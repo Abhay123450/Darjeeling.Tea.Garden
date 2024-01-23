@@ -69,8 +69,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/txtOrderIdText"
+                        android:layout_marginBottom="10dp"
                         android:textSize="16sp"
-                        android:text="Status : "/>
+                        android:text="Order Status : "/>
 
                     <TextView
                         android:id="@+id/txtOrderStatus"
@@ -81,6 +82,24 @@
                         android:textSize="16sp"
                         android:textColor="@color/black"
                         android:text="Active"/>
+
+                    <TextView
+                        android:id="@+id/txtPaymentStatusText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txtOrderStatusText"
+                        android:textSize="16sp"
+                        android:text="Payment Status : "/>
+
+                    <TextView
+                        android:id="@+id/txtPaymentStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txtOrderStatusText"
+                        android:layout_toEndOf="@id/txtPaymentStatusText"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:text="Pending"/>
 
                 </RelativeLayout>
 
@@ -152,7 +171,8 @@
                 android:id="@+id/recyclerViewOrdersStatusTimeline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"/>
+                android:layout_marginVertical="10dp"
+                android:layout_marginEnd="10dp"/>
 
             <TextView
                 android:id="@+id/txtItemName"
@@ -371,6 +391,17 @@
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancelOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                app:backgroundTint="@color/red"
+                android:text="Cancel Order"/>
+
+
 
 <!--            <com.google.android.material.card.MaterialCardView-->
 <!--                android:layout_width="match_parent"-->

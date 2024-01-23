@@ -56,12 +56,12 @@ object SampleDataSingleton {
     }
 
     fun increaseQuantity(index: Int){
-        cartItemList[index].quantity++
+        cartItemList[index].sampleQuantity++
         Log.i("index increase quantity", index.toString())
 //        cartItemList.find { it.productId == productId }?.quantity = (cartItemList.find { it.productId == productId }?.quantity!!) + 1
     }
     fun decreaseQuantity(index: Int){
-        if (cartItemList[index].quantity > 1) cartItemList[index].quantity-- else cartItemList.removeAt(index)
+        if (cartItemList[index].sampleQuantity > 1) cartItemList[index].sampleQuantity-- else cartItemList.removeAt(index)
     }
 
     fun getQuantityByProductId(productId: String): Int{

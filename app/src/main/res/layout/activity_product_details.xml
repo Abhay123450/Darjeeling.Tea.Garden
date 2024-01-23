@@ -60,17 +60,358 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="@string/product_name"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
+
+                <RelativeLayout
+                    android:id="@+id/rlAddToCart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtDetailsProductName"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp">
+
+                    <!--        this button only for decoration purpose-->
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        app:backgroundTint="@color/white"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@color/colorPrimary"
+                        android:text="@string/add"
+                        android:clickable="false"
+                        android:focusable="false"
+                        />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAddToCart"
+                        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@color/colorPrimary"
+                        android:text="@string/add"
+                        />
+
+                    <ProgressBar
+                        android:layout_width="116dp"
+                        android:layout_height="30dp"
+                        android:layout_centerInParent="true"
+                        android:background="@color/white"
+                        android:indeterminateTint="@color/colorPrimary"
+                        android:visibility="gone"
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/llChangeQuantity"
+                        android:layout_width="116dp"
+                        android:layout_height="32dp"
+                        android:layout_centerInParent="true"
+                        android:background="@color/white"
+                        android:weightSum="12"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/txtDecreaseQuantity"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3"
+                            app:drawableEndCompat="@drawable/ic_baseline_remove_24"
+                            app:drawableTint="@color/colorPrimary" />
+
+                        <TextView
+                            android:id="@+id/txtQuantity"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="6"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:text="1"/>
+
+                        <TextView
+                            android:id="@+id/txtIncreaseQuantity"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3"
+                            app:drawableStartCompat="@drawable/ic_baseline_add_24"
+                            app:drawableTint="@color/colorPrimary" />
+
+
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rlAddToSampleCart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rlAddToCart"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp">
+
+                    <!--        this button only for decoration purpose-->
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:backgroundTint="@color/white"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@color/colorPrimary"
+                        android:text="@string/ask_for_sample"
+                        android:clickable="false"
+                        android:focusable="false"
+                        />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAddToSampleCart"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:backgroundTint="@color/white"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@color/colorPrimary"
+                        android:text="@string/ask_for_sample"
+                        android:visibility="visible"/>
+
+                    <ProgressBar
+                        android:layout_width="116dp"
+                        android:layout_height="30dp"
+                        android:layout_centerInParent="true"
+                        android:background="@color/white"
+                        android:indeterminateTint="@color/colorPrimary"
+                        android:visibility="gone"
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/llChangeSampleQuantity"
+                        android:layout_width="156dp"
+                        android:layout_height="32dp"
+                        android:layout_centerInParent="true"
+                        android:background="@color/white"
+                        android:weightSum="14"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/txtDecreaseSampleQuantity"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3"
+                            app:drawableEndCompat="@drawable/ic_baseline_remove_24"
+                            app:drawableTint="@color/colorPrimary" />
+
+                        <TextView
+                            android:id="@+id/txtSampleQuantity"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="8"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:text=""/>
+
+                        <TextView
+                            android:id="@+id/txtIncreaseSampleQuantity"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3"
+                            app:drawableStartCompat="@drawable/ic_baseline_add_24"
+                            app:drawableTint="@color/colorPrimary" />
+
+
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rlOriginalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtDetailsProductName"
+                    android:padding="10dp"
+                    android:paddingEnd="0dp">
+
+                    <TextView
+                        android:id="@+id/txtItemOriginalPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:layout_alignStart="@+id/txtItemOriginalPrice"
+                        android:layout_alignEnd="@+id/txtItemOriginalPrice"
+                        android:layout_centerVertical="true"
+                        android:background="@android:color/darker_gray" />
+
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/txtRupeeSymbol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtDetailsProductName"
+                    android:layout_toEndOf="@+id/rlOriginalPrice"
+                    android:layout_marginStart="10dp"
+                    android:paddingVertical="10dp"
+                    android:paddingEnd="5dp"
+                    android:text="@string/rupee_symbol"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtDiscountPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtDetailsProductName"
+                    android:layout_toEndOf="@+id/txtRupeeSymbol"
+                    android:paddingVertical="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtGradeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtDiscountPrice"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:paddingVertical="5dp"
+                    android:textSize="16sp"
+                    android:text="Grade : " />
+
+                <TextView
+                    android:id="@+id/txtGrade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtDiscountPrice"
+                    android:layout_toEndOf="@id/txtGradeText"
+                    android:paddingVertical="5dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/txtLotNumberText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtGradeText"
+                    android:layout_marginHorizontal="10dp"
+                    android:paddingVertical="5dp"
+                    android:textSize="16sp"
+                    android:text="Lot No. : " />
+
+                <TextView
+                    android:id="@+id/txtLotNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtGradeText"
+                    android:layout_toEndOf="@id/txtLotNumberText"
+                    android:paddingVertical="5dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/txtBagSizeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtLotNumberText"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:paddingVertical="5dp"
+                    android:textSize="16sp"
+                    android:text="Bag Size : " />
+
+                <TextView
+                    android:id="@+id/txtBagSize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtLotNumberText"
+                    android:layout_toEndOf="@id/txtBagSizeText"
+                    android:paddingVertical="5dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:text=""/>
+
+                <TextView
+                    android:id="@+id/txtBagSizeUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtLotNumberText"
+                    android:layout_toEndOf="@id/txtBagSize"
+                    android:layout_marginHorizontal="5dp"
+                    android:paddingVertical="5dp"
+                    android:textSize="16sp"
+                    android:text="Kg" />
+
+                <TextView
+                    android:id="@+id/txtSamplePriceText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtBagSizeText"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:paddingVertical="5dp"
+                    android:textSize="16sp"
+                    android:text="Sample Price : " />
+
+                <TextView
+                    android:id="@+id/txtSamplePriceRupeeSymbol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtBagSizeText"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toEndOf="@id/txtSamplePriceText"
+                    android:paddingVertical="5dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:text="@string/rupee_symbol"/>
+
+                <TextView
+                    android:id="@+id/txtSamplePrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtBagSizeText"
+                    android:layout_toEndOf="@id/txtSamplePriceRupeeSymbol"
+                    android:paddingVertical="5dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:text="100"/>
+
+                <TextView
+                    android:id="@+id/txtSamplePriceUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtBagSizeText"
+                    android:layout_toEndOf="@id/txtSamplePrice"
+                    android:layout_marginHorizontal="5dp"
+                    android:paddingVertical="5dp"
+                    android:textSize="16sp"
+                    android:text="/ 10 gram" />
+
+                <TextView
+                    android:id="@+id/txtSamplePriceDummy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtBagSizeText"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginHorizontal="5dp"
+                    android:paddingVertical="5dp"
+                    android:textSize="16sp"
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/txtDetailsProductDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/txtDetailsProductName"
+                    android:layout_below="@id/txtSamplePriceDummy"
                     android:padding="10dp"
-                    android:text="@string/product_name"
                     android:textColor="@color/gray_666666"
                     android:textSize="16sp" />
 
@@ -80,6 +421,8 @@
         </RelativeLayout>
 
     </ScrollView>
+
+
 
     <RelativeLayout
         android:id="@+id/rlProgressProductDetails"

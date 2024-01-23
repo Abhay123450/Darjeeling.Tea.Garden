@@ -55,7 +55,12 @@ class SampleOrdersForMeRecyclerAdapter(
         holder.txtFromRole.text = orderForMe.fromRole
         holder.txtFromAddress.text = orderForMe.fromAddress
         holder.txtTotalItems.text = orderForMe.totalItems.toString()
-        holder.txtTotalAmount.text = orderForMe.totalPrice.toString()
+        holder.txtTotalAmount.text = String.format("%.2f", orderForMe.totalPrice)
+
+        holder.txtOrderStatusActive.visibility = View.GONE
+        holder.txtOrderStatusCancelled.visibility = View.GONE
+        holder.txtOrderStatusPartiallyDelivered.visibility = View.GONE
+        holder.txtOrderStatusDelivered.visibility = View.GONE
 
         when(orderForMe.orderStatus){
             "Active" -> {

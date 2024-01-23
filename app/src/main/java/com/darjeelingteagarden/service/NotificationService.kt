@@ -2,14 +2,18 @@ package com.darjeelingteagarden.service
 
 import android.Manifest
 import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -18,11 +22,13 @@ import com.android.volley.toolbox.ImageRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
+import com.darjeelingteagarden.activity.MyOrdersActivity
 import com.darjeelingteagarden.activity.NewsActivity
 import com.darjeelingteagarden.activity.OrdersForMeActivity
 import com.darjeelingteagarden.activity.ProfileActivity
 import com.darjeelingteagarden.activity.SampleOrderDetailsActivity
 import com.darjeelingteagarden.activity.SampleOrdersForMeActivity
+import com.darjeelingteagarden.activity.VideosActivity
 import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.repository.NotificationDataSingleton
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -83,6 +89,11 @@ class NotificationService : FirebaseMessagingService() {
                 intent.putExtra("orderId", resourceId)
                 intent.putExtra("orderType", "order")
             }
+            else if (activity == "myOrder"){
+                intent = Intent(this, MyOrdersActivity::class.java)
+                NotificationDataSingleton.notificationToOpen = true
+                NotificationDataSingleton.resourceId = resourceId
+            }
             else if (activity == "sampleOrder"){
                 intent = Intent(this, SampleOrderDetailsActivity::class.java)
                 intent.putExtra("orderId", resourceId)
@@ -99,13 +110,16 @@ class NotificationService : FirebaseMessagingService() {
                 NotificationDataSingleton.notificationToOpen = true
                 NotificationDataSingleton.resourceId = resourceId
             }
+            else if (activity == "videos"){
+                intent = Intent(this, VideosActivity::class.java)
+            }
             else{
                 intent = Intent(this, ProfileActivity::class.java)
             }
 
             val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
-            val builder = NotificationCompat.Builder(applicationContext, channelId)
+            val builder = NotificationCompat.Builder(applicationContext, getString(R.string.notification_channel_id))
                 .setSmallIcon(R.drawable.darjeelingteagardenlogo_low)
                 .setContentTitle(title)
                 .setContentText(message)
@@ -142,7 +156,7 @@ class NotificationService : FirebaseMessagingService() {
                     // for ActivityCompat#requestPermissions for more details.
                     return
                 }
-                notify(69, builder.build())
+                notify(0, builder.build())
             }
 
         }

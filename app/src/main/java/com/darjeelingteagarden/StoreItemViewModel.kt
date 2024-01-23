@@ -44,18 +44,18 @@ class StoreItemViewModel: ViewModel() {
                             ).show()
                         }
 
-                        for (i in 0 until data.length()){
-                            val cartInfo = data.getJSONObject(i)
-                            val cartObject = Cart(
-                                cartInfo.getJSONObject("productId").getString("_id"),
-                                cartInfo.getString("name"),
-                                cartInfo.getJSONObject("productId").getInt("discountedPrice"),
-                                cartInfo.getInt("quantity")
-                            )
-
-                            cartList.add(cartObject)
-
-                        }
+//                        for (i in 0 until data.length()){
+//                            val cartInfo = data.getJSONObject(i)
+//                            val cartObject = Cart(
+//                                cartInfo.getJSONObject("productId").getString("_id"),
+//                                cartInfo.getString("name"),
+//                                cartInfo.getJSONObject("productId").getInt("discountedPrice"),
+//                                cartInfo.getInt("quantity")
+//                            )
+//
+//                            cartList.add(cartObject)
+//
+//                        }
 
 
                     }

@@ -1,6 +1,7 @@
 package com.darjeelingteagarden.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -25,12 +26,14 @@ import com.android.volley.toolbox.HttpHeaderParser
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
+import com.darjeelingteagarden.activity.LoginActivity
 import com.darjeelingteagarden.adapter.MyOrdersRecyclerAdapter
 import com.darjeelingteagarden.adapter.StoreRecyclerAdapter
 import com.darjeelingteagarden.databinding.ActivityMyOrdersBinding
 import com.darjeelingteagarden.databinding.FragmentMyOrdersBinding
 import com.darjeelingteagarden.model.MyOrder
 import com.darjeelingteagarden.repository.AppDataSingleton
+import com.darjeelingteagarden.repository.NotificationDataSingleton
 import com.darjeelingteagarden.util.formatTo
 import com.darjeelingteagarden.util.toDate
 import org.json.JSONObject
@@ -73,6 +76,12 @@ class MyOrdersFragment : Fragment() {
 
         recyclerViewMyOrders = binding.recyclerViewMyOrders
         layoutManager = LinearLayoutManager(mContext)
+
+        if (NotificationDataSingleton.notificationToOpen){
+            if (NotificationDataSingleton.activityToOpen == "orderDetails"){
+                findNavController().navigate(R.id.action_myOrdersFragment_to_orderDetailsFragment)
+            }
+        }
 
         binding.autoCompleteTextViewOrderStatus.setOnItemClickListener { adapterView, view, i, l ->
             status = adapterView.getItemAtPosition(i).toString()
@@ -202,10 +211,7 @@ class MyOrdersFragment : Fragment() {
             Response.Listener {
                 try {
 
-                    Log.i("my Orders :::: ", it.toString())
-
                     val success = it.getBoolean("success")
-                    Log.i("success is ::", success.toString())
 
                     if (success){
 
@@ -219,6 +225,9 @@ class MyOrdersFragment : Fragment() {
                         if (totalOrders == 0){
                             Toast.makeText(mContext, "No Orders !", Toast.LENGTH_LONG).show()
                             binding.progressBarMyOrders.visibility = View.GONE
+                            if (::myOrdersRecyclerAdapter.isInitialized){
+                                myOrdersRecyclerAdapter.notifyDataSetChanged()
+                            }
                         }
                         else{
 
@@ -238,7 +247,7 @@ class MyOrdersFragment : Fragment() {
                                     order.getString("_id"),
                                     order.getString("orderDate").toDate()!!.formatTo("dd MMM yyyy HH:mm"),
                                     order.getInt("itemCount"),
-                                    order.getInt("amountPayable"),
+                                    order.getDouble("amountPayable"),
                                     order.getString("currentStatus")
                                 )
 
@@ -261,12 +270,22 @@ class MyOrdersFragment : Fragment() {
                         Toast.makeText(mContext, "No Orders found", Toast.LENGTH_LONG).show()
                     }
 
+                    binding.progressBarMyOrders.visibility = View.GONE
+
                 }catch (e: Exception){
                     Log.i("exception is ", e.toString())
                     Toast.makeText(mContext, "An error occurred: $e", Toast.LENGTH_LONG).show()
+                    binding.progressBarMyOrders.visibility = View.GONE
                 }
             },
             Response.ErrorListener {
+                binding.progressBarMyOrders.visibility = View.GONE
+                if (it.networkResponse.statusCode == 401 || it.networkResponse.statusCode == 403){
+                    val intent = Intent(mContext, LoginActivity::class.java)
+                    intent.putExtra("resume", true)
+                    startActivity(intent)
+                    return@ErrorListener
+                }
                 Toast.makeText(mContext, "No Orders found!", Toast.LENGTH_LONG).show()
 
 //                val response = JSONObject(String(it.networkResponse.data))

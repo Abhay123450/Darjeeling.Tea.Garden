@@ -12,7 +12,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             >
 
@@ -23,7 +23,8 @@
                 android:layout_marginBottom="10dp"
                 android:text="@string/title"
                 android:textColor="@color/black"
-                android:textSize="18sp"/>
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/txtNewsDate"
@@ -32,6 +33,11 @@
                 android:layout_marginBottom="10dp"
                 android:text="@string/date"
                 android:textSize="16sp"/>
+
+            <WebView
+                android:id="@+id/webViewNewsDetails"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"/>
 
             <ImageView
                 android:id="@+id/imgNewsImage"
@@ -45,8 +51,12 @@
                 android:id="@+id/txtNewsContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"/>
-
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:textColor="@color/darkGray"
+                android:justificationMode="inter_word"
+                android:text="text"
+                android:lineSpacingMultiplier="1.2"/>
 
         </LinearLayout>
 

@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 app:errorEnabled="true"
-                android:hint="@string/invite_code"
+                android:hint="@string/invite_code_optional"
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -349,6 +349,13 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:id="@+id/txtPrivacyPolicyInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:text="@string/by_registering_you_agree_to_our_privacy_policy"/>
+
             <Button
                 android:id="@+id/btnSubmit"
                 android:layout_width="match_parent"
@@ -378,22 +385,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="@string/enter_otp_sent_to_your_phone_number"
+            android:text="@string/enter_otp_to_verify_your_account"
             android:layout_margin="10dp"
             />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutOTP"
+            android:id="@+id/textInputLayoutSmsOTP"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             app:errorEnabled="true"
-            android:hint="@string/enter_the_6_digit_otp"
+            android:hint="@string/enter_otp_sent_to_your_phone_number"
             >
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textInputEditTextOTP"
+                android:id="@+id/textInputEditTextSmsOTP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
@@ -404,7 +411,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/txtResendOtpTimer"
+            android:id="@+id/txtResendSmsOtpTimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -413,7 +420,7 @@
             android:visibility="gone"/>
 
         <Button
-            android:id="@+id/btnResendOTP"
+            android:id="@+id/btnResendSmsOTP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minHeight="0dp"
@@ -423,7 +430,51 @@
             android:textColor="@color/colorPrimary"
             android:textAllCaps="false"
             android:textSize="16sp"
-            android:text="@string/resend_otp"
+            android:text="@string/resend_otp_to_phone_number"
+            style="@style/Widget.AppCompat.Button.Borderless" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutEmailOTP"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:errorEnabled="true"
+            android:hint="@string/enter_otp_sent_to_your_email"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditTextEmailOTP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:inputType="number"
+                android:maxLength="6"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/txtResendEmailOtpTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:textSize="14sp"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btnResendEmailOTP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:backgroundTint="@color/white"
+            android:layout_marginHorizontal="10dp"
+            android:textColor="@color/colorPrimary"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:text="@string/resend_otp_to_email"
             style="@style/Widget.AppCompat.Button.Borderless" />
 
         <Button

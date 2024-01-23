@@ -1,6 +1,7 @@
 package com.darjeelingteagarden.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,6 +16,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
+import com.darjeelingteagarden.activity.LoginActivity
 import com.darjeelingteagarden.adapter.NewsRecyclerAdapter
 import com.darjeelingteagarden.databinding.FragmentNewsListBinding
 import com.darjeelingteagarden.databinding.FragmentSampleHistoryBinding
@@ -197,6 +199,12 @@ class NewsListFragment : Fragment() {
             Response.ErrorListener {
                 binding.swipeRefreshNews.isRefreshing = false
                 binding.progressBarNews.visibility = View.GONE
+                if (it.networkResponse.statusCode == 401 || it.networkResponse.statusCode == 403){
+                    val intent = Intent(mContext, LoginActivity::class.java)
+                    intent.putExtra("resume", true)
+                    startActivity(intent)
+                    return@ErrorListener
+                }
             }
         ){
             override fun getHeaders(): MutableMap<String, String> {

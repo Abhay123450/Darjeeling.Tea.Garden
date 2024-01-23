@@ -65,7 +65,9 @@ class SampleOrderStatusHistoryRecyclerAdapter(
         holder.txtStatus.text = status.status
         holder.txtStatusDate.text = status.date
 
-        if (status.status == "Delivered"){
+        val statusList = arrayListOf("Order delivered", "Order Delivered", "Delivered", "Cancelled", "Order Cancelled", "Order cancelled")
+
+        if (statusList.contains(status.status)){
             holder.imgOngoing.visibility = View.INVISIBLE
             holder.imgCompleted.visibility = View.VISIBLE
         }

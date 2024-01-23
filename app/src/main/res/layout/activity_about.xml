@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.AboutActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/AboutAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/AboutToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?actionBarSize"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+            app:navigationContentDescription="Back"
+            app:titleTextColor="@color/white"
+            app:title="About"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+<!--    Main -->
+    <ScrollView
+        android:id="@+id/scrollMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/AboutAppBar"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/llMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAbout"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:paddingVertical="12dp"
+                app:rippleColor="@color/colorPrimary"
+                android:backgroundTint="@color/white"
+                app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"
+                app:drawableTint="@color/colorPrimary"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/white_eceff1"
+                android:textColor="@color/black"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:text="About"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDisclaimer"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:paddingVertical="12dp"
+                app:rippleColor="@color/colorPrimary"
+                android:backgroundTint="@color/white"
+                app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"
+                app:drawableTint="@color/colorPrimary"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/white_eceff1"
+                android:textColor="@color/black"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:text="@string/disclaimer"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPrivacyPolicy"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:paddingVertical="12dp"
+                app:rippleColor="@color/colorPrimary"
+                android:backgroundTint="@color/white"
+                app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"
+                app:drawableTint="@color/colorPrimary"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/white_eceff1"
+                android:textColor="@color/black"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:text="@string/privacy_policy"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnTermsAndCondition"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:paddingVertical="12dp"
+                app:rippleColor="@color/colorPrimary"
+                android:backgroundTint="@color/white"
+                app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"
+                app:drawableTint="@color/colorPrimary"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/white_eceff1"
+                android:textColor="@color/black"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:text="@string/terms_and_condition"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnIntellectualProperty"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:paddingVertical="12dp"
+                app:rippleColor="@color/colorPrimary"
+                android:backgroundTint="@color/white"
+                app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"
+                app:drawableTint="@color/colorPrimary"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/white_eceff1"
+                android:textColor="@color/black"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:text="@string/intellectual_property"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnReturnPolicy"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:paddingVertical="12dp"
+                app:rippleColor="@color/colorPrimary"
+                android:backgroundTint="@color/white"
+                app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"
+                app:drawableTint="@color/colorPrimary"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/white_eceff1"
+                android:textColor="@color/black"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:text="@string/return_refund_and_cancellation_policy"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnShippingPolicy"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:paddingVertical="12dp"
+                app:rippleColor="@color/colorPrimary"
+                android:backgroundTint="@color/white"
+                app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"
+                app:drawableTint="@color/colorPrimary"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/white_eceff1"
+                android:textColor="@color/black"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:text="@string/shipping_policy"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPaymentInfo"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:paddingVertical="12dp"
+                app:rippleColor="@color/colorPrimary"
+                android:backgroundTint="@color/white"
+                app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"
+                app:drawableTint="@color/colorPrimary"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/white_eceff1"
+                android:textColor="@color/black"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:text="@string/payment_and_logistics_partner_information"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnProcessFlow"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:paddingVertical="12dp"
+                app:rippleColor="@color/colorPrimary"
+                android:backgroundTint="@color/white"
+                app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"
+                app:drawableTint="@color/colorPrimary"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/white_eceff1"
+                android:textColor="@color/black"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:text="@string/process_flow"/>
+
+            <TextView
+                android:id="@+id/appVersion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textSize="14sp"
+                android:text=""/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/rlWebView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/AboutAppBar"
+        android:visibility="gone">
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+<!--About-->
+    <ScrollView
+        android:id="@+id/scrollAbout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/AboutAppBar"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/about"
+                android:textSize="20sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/txtAbout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:justificationMode="inter_word"
+                android:lineSpacingMultiplier="1.4"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+<!--Disclaimer-->
+    <ScrollView
+        android:id="@+id/scrollDisclaimer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/AboutAppBar"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/disclaimer"
+                android:textSize="20sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/txtDisclaimer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:justificationMode="inter_word"
+                android:lineSpacingMultiplier="1.4"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+<!--Privacy Policy-->
+    <ScrollView
+        android:id="@+id/scrollPrivacyPolicy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/AboutAppBar"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/privacy_policy"
+                android:textSize="20sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/txtPrivacyPolicy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:justificationMode="inter_word"
+                android:lineSpacingMultiplier="1.4"
+                android:text="@string/privacy_policy_content"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+<!--    Terms and condition-->
+    <ScrollView
+        android:id="@+id/scrollTermsAndCondition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/AboutAppBar"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/terms_and_condition"
+                android:textSize="20sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/txtTermsAndCondition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:justificationMode="inter_word"
+                android:lineSpacingMultiplier="1.4"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+<!--    Return, Refund and Cancellation Policy-->
+    <ScrollView
+        android:id="@+id/scrollReturnPolicy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/AboutAppBar"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/return_refund_and_cancellation_policy"
+                android:textSize="20sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/txtReturnPolicy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:justificationMode="inter_word"
+                android:lineSpacingMultiplier="1.4"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+<!--Shipping Policy-->
+    <ScrollView
+        android:id="@+id/scrollShippingPolicy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/AboutAppBar"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/shipping_policy"
+                android:textSize="20sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/txtShippingPolicy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:justificationMode="inter_word"
+                android:lineSpacingMultiplier="1.4"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+<!--    Payments and Logistics Partner Information-->
+    <ScrollView
+        android:id="@+id/scrollPaymentInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/AboutAppBar"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/payment_and_logistics_partner_information"
+                android:textSize="20sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/txtPaymentInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:justificationMode="inter_word"
+                android:lineSpacingMultiplier="1.4"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+<!--    Process FLow-->
+    <ScrollView
+        android:id="@+id/scrollProcessFlow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/AboutAppBar"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/process_flow"
+                android:textSize="20sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/txtProcessFlow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:justificationMode="inter_word"
+                android:lineSpacingMultiplier="1.4"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/rlProgress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/AboutAppBar"
+        android:background="@color/white"
+        android:elevation="10dp"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/colorPrimary"
+            android:elevation="11dp"/>
+    </RelativeLayout>
+
+</RelativeLayout>

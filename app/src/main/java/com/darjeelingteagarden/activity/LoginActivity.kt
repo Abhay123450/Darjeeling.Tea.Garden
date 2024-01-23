@@ -1,6 +1,7 @@
 package com.darjeelingteagarden.activity
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,6 +15,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.databinding.ActivityLoginBinding
+import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.util.ConnectionManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.json.JSONObject
@@ -28,6 +30,8 @@ class LoginActivity : AppCompatActivity() {
     var registered = false
     lateinit var userId: String
     lateinit var password: String
+
+    private var rememberMe = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +56,19 @@ class LoginActivity : AppCompatActivity() {
                 binding.textInputEditTextUserId.setText(userId)
             }
 
+        }
+        else{
+            val sharedPreferences = getSharedPreferences(getString(R.string.shared_preference_name), MODE_PRIVATE)
+            val userId: String? = sharedPreferences.getString("userId", null)
+            val password: String? = sharedPreferences.getString("password", null)
+            if (userId != null && password != null){
+                binding.textInputEditTextUserId.setText(userId)
+                binding.textInputEditTextPassword.setText(password)
+            }
+        }
 
+        binding.rememberMe.setOnCheckedChangeListener { buttonView, isChecked ->
+            rememberMe = isChecked
         }
 
         binding.textInputEditTextUserId.doOnTextChanged { text, start, before, count ->
@@ -123,11 +139,33 @@ class LoginActivity : AppCompatActivity() {
                                 val success = it.getBoolean("success")
                                 if (success){
 
+                                    val user = it.getJSONObject("user")
+
+                                    val accountVerified =
+                                        user.getBoolean("phoneNumberVerified") &&
+                                                user.getBoolean("emailVerified")
+
+                                    if(!accountVerified){
+
+//                                        val user = it.getJSONObject("user")
+
+                                        val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+                                        intent.putExtra("registered", true)
+                                        intent.putExtra("phoneNumber", user.getLong("phoneNumber"))
+                                        intent.putExtra("email", user.getString("email"))
+                                        intent.putExtra("userId", user.getString("userId"))
+                                        startActivity(intent)
+
+                                        return@Listener
+                                    }
+
+
+
                                     binding.txtMessage.text = it.getString("message")
                                     Log.i("response", it.getJSONObject("user").toString())
 
                                     val token = it.getString("token")
-                                    val user = it.getJSONObject("user")
+//                                    val user = it.getJSONObject("user")
                                     val userRole = user.getString("role")
 
                                     val sharedPreferences = getSharedPreferences(getString(R.string.shared_preference_name), MODE_PRIVATE)
@@ -136,13 +174,23 @@ class LoginActivity : AppCompatActivity() {
                                     editor.putString("token", token)
                                     editor.putString("role", userRole)
                                     editor.putLong("date", Date().time)
+                                    if (rememberMe){
+                                        editor.putString("userId", userId)
+                                        editor.putString("password", password)
+                                    }
                                     editor.apply()
 
                                     Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
 
+                                    if (intent.getBooleanExtra("resume", false)){
+                                        AppDataSingleton.setAuthToken(token)
+                                        finish()
+                                        return@Listener
+                                    }
+
                                     val intent = Intent(this@LoginActivity, LauncherActivity::class.java)
                                     startActivity(intent)
-                                    finish()
+                                    finishAffinity()
 
                                 } else {
 

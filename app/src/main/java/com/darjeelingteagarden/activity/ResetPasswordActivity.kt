@@ -194,7 +194,7 @@ class ResetPasswordActivity : AppCompatActivity() {
 
         progressBarVisible()
 
-        val url = getString(R.string.homeUrl) + "api/v1/user/verifyOTP"
+        val url = getString(R.string.homeUrl) + "api/v1/user/verifyPhoneNumber"
         val queue = Volley.newRequestQueue(this@ResetPasswordActivity)
 
         val jsonParams = JSONObject()

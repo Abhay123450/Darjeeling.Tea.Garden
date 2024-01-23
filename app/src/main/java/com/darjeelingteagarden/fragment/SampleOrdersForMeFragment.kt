@@ -17,6 +17,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
+import com.darjeelingteagarden.activity.LoginActivity
 import com.darjeelingteagarden.activity.SampleOrderDetailsActivity
 import com.darjeelingteagarden.adapter.OrdersForMeRecyclerAdapter
 import com.darjeelingteagarden.adapter.SampleOrdersForMeRecyclerAdapter
@@ -130,7 +131,7 @@ class SampleOrdersForMeFragment : Fragment() {
         recyclerViewSampleOrderForMe.layoutManager = layoutManager
         binding.rlProgressBar.visibility = View.GONE
         binding.progressBarLoadMore.visibility = View.GONE
-        binding.swipeRefreshSampleOrdersForMe.isRefreshing = true
+        binding.swipeRefreshSampleOrdersForMe.isRefreshing = false
 
     }
 
@@ -220,6 +221,8 @@ class SampleOrdersForMeFragment : Fragment() {
                         }
                         else{
 
+                            sampleOrdersForMeList = mutableListOf()
+
                             for (i in 0 until totalOrdersForMe){
 
                                 val orderForMe = data.getJSONObject(i)
@@ -235,7 +238,7 @@ class SampleOrdersForMeFragment : Fragment() {
                                     fromAddress,
                                     orderForMe.getString("orderDate").toDate()!!.formatTo("dd MMM yyyy HH:mm"),
                                     orderForMe.getInt("itemCount"),
-                                    orderForMe.getInt("totalPrice"),
+                                    orderForMe.getDouble("totalPrice"),
                                     orderForMe.getString("currentStatus")
                                 )
 
@@ -266,6 +269,12 @@ class SampleOrdersForMeFragment : Fragment() {
             },
             Response.ErrorListener {
                 binding.swipeRefreshSampleOrdersForMe.isRefreshing = false
+                if (it.networkResponse.statusCode == 401 || it.networkResponse.statusCode == 403){
+                    val intent = Intent(mContext, LoginActivity::class.java)
+                    intent.putExtra("resume", true)
+                    startActivity(intent)
+                    return@ErrorListener
+                }
                 Toast.makeText(mContext, "Response error", Toast.LENGTH_LONG).show()
 //                val response = JSONObject(String(it.networkResponse.data))
 //                Log.i("error listener", response.toString())

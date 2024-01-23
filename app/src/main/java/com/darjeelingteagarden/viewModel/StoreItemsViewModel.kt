@@ -19,7 +19,7 @@ import org.json.JSONObject
 
 class StoreItemsViewModel(application: Application) : AndroidViewModel(application) {
 
-    val dummyData: MutableList<Product> = mutableListOf( Product("abcd", "name", 499, 449, "grade", 2, 1,"image"))
+    val dummyData: MutableList<Product> = mutableListOf( Product("abcd", "name", 499, 449, 49, 10, "grade", "2", 1,"image", true))
 
     var itemList: MutableList<Product> = mutableListOf()
     val storeItemList: MutableLiveData<MutableList<Product>> by lazy {
@@ -63,11 +63,14 @@ class StoreItemsViewModel(application: Application) : AndroidViewModel(applicati
                                 productInfo.getString("name"),
                                 productInfo.getInt("originalPrice"),
                                 5678,
+                                productInfo.optInt("samplePrice"),
+                                10,
 //                                productInfo.getInt("discountedPrice"),
                                 productInfo.getString("grade"),
-                                productInfo.getLong("lotNumber"),
+                                productInfo.getString("lotNumber"),
                                 productInfo.getInt("bagSize"),
-                                productInfo.getJSONArray("images").getString(0)
+                                productInfo.getJSONArray("images").getString(0),
+                                productInfo.getBoolean("discount")
                             )
                             itemList.add(productObject)
                         }

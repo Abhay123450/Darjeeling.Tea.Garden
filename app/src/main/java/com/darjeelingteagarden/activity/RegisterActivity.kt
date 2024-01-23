@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.provider.Settings
+import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -28,6 +29,7 @@ import com.darjeelingteagarden.R
 import com.darjeelingteagarden.databinding.ActivityRegisterBinding
 import com.darjeelingteagarden.util.ConnectionManager
 import com.darjeelingteagarden.util.InputValidator
+import com.darjeelingteagarden.util.LocationPermission
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -59,10 +61,12 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
 
-    private var errorList = arrayListOf("name", "role", "phoneNumber", "email", "firmName", "address", "pincode", "inviteCode")
+    private var errorList = arrayListOf("name", "role", "phoneNumber", "email", "firmName", "address", "pincode")
 
     var phoneNumber: Long = 0
-    private lateinit var otp: Number
+    var email = ""
+    private lateinit var smsOtp: Number
+    private lateinit var emailOtp: Number
     lateinit var userId: String
     var registered = false
     private var latitude: Double = 0.0
@@ -74,20 +78,31 @@ class RegisterActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        if (intent != null){
+            registered = intent.getBooleanExtra("registered", false)
+            if (registered){
+                phoneNumber = intent.getLongExtra("phoneNumber", 0)
+                email = intent.getStringExtra("email").toString()
+                userId = intent.getStringExtra("userId").toString()
+            }
+        }
+
+        if(registered){
+            sendOTP(phoneNumber.toString(), email, null)
+            binding.svForm.visibility = View.GONE
+            binding.llStep2.visibility = View.VISIBLE
+            binding.llLoading.visibility = View.GONE
+        }
+        else{
+            binding.svForm.visibility = View.VISIBLE
+            binding.llStep2.visibility = View.GONE
+            binding.llLoading.visibility = View.GONE
+        }
+
         //fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this@RegisterActivity)
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         locationByGps = Location(LocationManager.GPS_PROVIDER)
         locationByNetwork = Location(LocationManager.NETWORK_PROVIDER)
-
-
-        //txtCreateAnAccount = findViewById(R.id.txtCreateAnAccount)
-        //textInputLayoutRole = findViewById(R.id.textInputLayoutRole)
-        //autoCompleteTextViewRole = findViewById(R.id.autoCompleteTextViewRole)
-        //autoCompleteTextViewStates = findViewById(R.id.autoCompleteTextViewStates)
-        //textInputEditTextPincode = findViewById(R.id.textInputEditTextPincode)
-        //textInputLayoutPincode = findViewById(R.id.textInputLayoutPincode)
-        //progressBarPincode = findViewById(R.id.progressBarPincode)
-        //autoCompleteTextViewCity = findViewById(R.id.autoCompleteTextViewCity)
 
         binding.autoCompleteTextViewRole.doOnTextChanged { text, start, before, count ->
             if (text.isNullOrEmpty()){
@@ -102,7 +117,7 @@ class RegisterActivity : AppCompatActivity() {
 
         binding.textInputEditTextPhoneNumber.doOnTextChanged { text, start, before, count ->
 
-            if (count > 0 && InputValidator().validatePhoneNumber(text!!.trim().toString().toLong())){
+            if (text!!.isNotEmpty() && InputValidator().validatePhoneNumber(text!!.trim().toString().toLong())){
                 binding.textInputLayoutPhoneNumber.error = null
                 errorList.remove("phoneNumber")
                 phoneNumber = text.trim().toString().toLong()
@@ -119,6 +134,7 @@ class RegisterActivity : AppCompatActivity() {
             if (InputValidator().validateEmailAddress((text!!.toString()))){
                 errorList.remove("email")
                 binding.textInputLayoutEmail.error = null
+                email = text.trim().toString()
             }
             else{
                 if (!errorList.contains("email")){
@@ -142,7 +158,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         binding.textInputEditTextName.doOnTextChanged { text, start, before, count ->
-            if (text.isNullOrEmpty() || count < 3){
+            if (text.isNullOrBlank() || text.length < 3){
                 binding.textInputLayoutName.error = "Enter your name"
                 if (!errorList.contains("name")){
                     errorList.add("name")
@@ -154,21 +170,21 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
 
-        binding.textInputEditTextInviteCode.doOnTextChanged { text, start, before, count ->
-            if (text.isNullOrEmpty() || text.length < 6){
-                binding.textInputLayoutInviteCode.error = "Enter invite code"
-                if (!errorList.contains("inviteCode")){
-                    errorList.add("inviteCode")
-                }
-            }
-            else {
-                errorList.remove("inviteCode")
-                binding.textInputLayoutInviteCode.error =  null
-            }
-        }
+//        binding.textInputEditTextInviteCode.doOnTextChanged { text, start, before, count ->
+//            if (text.isNullOrEmpty() || text.length < 6){
+//                binding.textInputLayoutInviteCode.error = "Enter invite code"
+//                if (!errorList.contains("inviteCode")){
+//                    errorList.add("inviteCode")
+//                }
+//            }
+//            else {
+//                errorList.remove("inviteCode")
+//                binding.textInputLayoutInviteCode.error =  null
+//            }
+//        }
 
         binding.textInputEditTextFirmName.doOnTextChanged { text, start, before, count ->
-            if (text.isNullOrEmpty() || count < 3){
+            if (text.isNullOrBlank() || text.length < 3){
                 binding.textInputLayoutFirmName.error = "Enter firm name"
                 if (!errorList.contains("firmName")){
                     errorList.add("firmName")
@@ -181,7 +197,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         binding.textInputEditTextAddressLine1.doOnTextChanged { text, start, before, count ->
-            if (text.isNullOrEmpty() || text.length < 10){
+            if (text.isNullOrBlank() || text.length < 4){
                 if (!errorList.contains("address")){
                     errorList.add("address")
                 }
@@ -253,28 +269,50 @@ class RegisterActivity : AppCompatActivity() {
 
         }
 
-        binding.textInputEditTextOTP.doOnTextChanged { text, start, before, count ->
+        binding.textInputEditTextSmsOTP.doOnTextChanged { text, start, before, count ->
             if (InputValidator().validateOTP(text.toString().toInt())){
-                otp = text.toString().toInt()
-                binding.textInputLayoutOTP.error = null
+                smsOtp = text.toString().toInt()
+                binding.textInputLayoutSmsOTP.error = null
             }
             else{
-                binding.textInputLayoutOTP.error = "OTP must be of 6 digits only"
+                binding.textInputLayoutSmsOTP.error = "OTP must be of 6 digits only"
             }
         }
 
-        binding.btnResendOTP.setOnClickListener {
-            sendOTP(phoneNumber.toString())
+        binding.textInputEditTextEmailOTP.doOnTextChanged { text, start, before, count ->
+            if (InputValidator().validateOTP(text.toString().toInt())){
+                emailOtp = text.toString().toInt()
+                binding.textInputLayoutEmailOTP.error = null
+            }
+            else{
+                binding.textInputLayoutEmailOTP.error = "OTP must be of 6 digits only"
+            }
+        }
 
+        binding.txtPrivacyPolicyInfo.setOnClickListener {
+            val intent = Intent(this, AboutActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnResendSmsOTP.setOnClickListener {
+            sendOTP(phoneNumber.toString(), null, it)
+        }
+
+        binding.btnResendEmailOTP.setOnClickListener {
+            sendOTP(null, email, it)
         }
 
         binding.btnSubmitOTP.setOnClickListener {
+
+            if (binding.textInputLayoutEmailOTP.error != null || binding.textInputLayoutSmsOTP.error != null){
+                return@setOnClickListener
+            }
 
             if (ConnectionManager().isOnline(this@RegisterActivity)){
 
                 binding.txtLoading.text = getString(R.string.verifying_otp)
                 binding.llLoading.visibility = View.VISIBLE
-                verifyPhoneNumberWithOTP()
+                verifyOTP()
 
             }
             else{
@@ -292,18 +330,21 @@ class RegisterActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         initializeRoleDropdown()
-        if (!permissionDenied){
+        if (!permissionDenied && !registered){
             getCurrentLocation()
+//            LocationPermission().getCurrentLocation(this)
         }
     }
 
-    private fun verifyPhoneNumberWithOTP(){
+    private fun verifyOTP(){
 
         val jsonParams = JSONObject()
         jsonParams.put("phoneNumber", phoneNumber)
-        jsonParams.put("otp", otp)
+        jsonParams.put("smsOtp", smsOtp)
+        jsonParams.put("email", email)
+        jsonParams.put("emailOtp", emailOtp)
 
-        val verifyPhoneWithOtpUrl = getString(R.string.verifyPhoneUrl)
+        val verifyPhoneWithOtpUrl = "${getString(R.string.homeUrl)}api/v1/user/verifyOTP"
 
         val queue = Volley.newRequestQueue(this@RegisterActivity)
 
@@ -379,6 +420,31 @@ class RegisterActivity : AppCompatActivity() {
                         registered = true
                         userId = it.getJSONObject("data").getString("userId")
 
+                        binding.btnResendSmsOTP.visibility = View.GONE
+                        binding.txtResendSmsOtpTimer.visibility = View.VISIBLE
+                        binding.btnResendEmailOTP.visibility = View.GONE
+                        binding.txtResendEmailOtpTimer.visibility = View.VISIBLE
+
+                        val timer = object: CountDownTimer(60000, 1000){
+                            override fun onTick(p0: Long) {
+                                binding.txtResendSmsOtpTimer.text =
+                                    "Resend OTP in ${p0/1000} second"
+                                binding.txtResendEmailOtpTimer.text =
+                                    "Resend OTP in ${p0/1000} second"
+                            }
+
+                            override fun onFinish() {
+                                binding.btnResendSmsOTP.visibility = View.VISIBLE
+                                binding.txtResendSmsOtpTimer.visibility = View.GONE
+                                binding.txtResendSmsOtpTimer.text = ""
+                                binding.btnResendEmailOTP.visibility = View.VISIBLE
+                                binding.txtResendEmailOtpTimer.visibility = View.GONE
+                                binding.txtResendEmailOtpTimer.text = ""
+                            }
+
+                        }
+                        timer.start()
+
                         binding.svForm.visibility = View.GONE
                         binding.llStep2.visibility = View.VISIBLE
                         binding.llLoading.visibility = View.GONE
@@ -422,13 +488,23 @@ class RegisterActivity : AppCompatActivity() {
 
     }
 
-    private fun sendOTP(phoneNumber: String){
+    private fun sendOTP(phoneNumber: String?, email: String?, btn: View?){
+
+        if(btn != null){
+            btn.visibility = View.GONE
+        }
+
 
         val url = getString(R.string.homeUrl) + "api/v1/user/forgotPassword"
         val queue = Volley.newRequestQueue(this@RegisterActivity)
 
         val jsonParams = JSONObject()
-        jsonParams.put("phoneNumber", phoneNumber)
+        if (phoneNumber != null){
+            jsonParams.put("phoneNumber", phoneNumber)
+        }
+        if (email != null){
+            jsonParams.put("email", email)
+        }
 
         val jsonObjectRequest = object: JsonObjectRequest(
             Method.POST,
@@ -441,23 +517,51 @@ class RegisterActivity : AppCompatActivity() {
                     val success = it.getBoolean("success")
                     if (success){
 
-                        binding.btnResendOTP.visibility = View.GONE
-                        binding.txtResendOtpTimer.visibility = View.VISIBLE
+                        val otpSentToPhone = it.getBoolean("otpSentToPhone")
+                        val otpSentToEmail = it.getBoolean("otpSentToEmail")
 
-                        val timer = object: CountDownTimer(60000, 1000){
-                            override fun onTick(p0: Long) {
-                                binding.txtResendOtpTimer.text =
-                                    "Resend OTP in ${p0/1000} seconds"
-                            }
+                        if (otpSentToPhone){
 
-                            override fun onFinish() {
-                                binding.btnResendOTP.visibility = View.VISIBLE
-                                binding.txtResendOtpTimer.visibility = View.GONE
-                                binding.txtResendOtpTimer.text = ""
+                            binding.btnResendSmsOTP.visibility = View.GONE
+                            binding.txtResendSmsOtpTimer.visibility = View.VISIBLE
+
+                            val timer = object: CountDownTimer(60000, 1000){
+                                override fun onTick(p0: Long) {
+                                    binding.txtResendSmsOtpTimer.text =
+                                        "Resend OTP in ${p0/1000} seconds"
+                                }
+
+                                override fun onFinish() {
+                                    binding.btnResendSmsOTP.visibility = View.VISIBLE
+                                    binding.txtResendSmsOtpTimer.text = ""
+                                }
+
                             }
+                            timer.start()
 
                         }
-                        timer.start()
+
+                        if (otpSentToEmail){
+
+                            binding.btnResendEmailOTP.visibility = View.GONE
+                            binding.txtResendEmailOtpTimer.visibility = View.VISIBLE
+
+                            val timer = object: CountDownTimer(60000, 1000){
+                                override fun onTick(p0: Long) {
+                                    binding.txtResendEmailOtpTimer.text =
+                                        "Resend OTP in ${p0/1000} seconds"
+                                }
+
+                                override fun onFinish() {
+                                    binding.btnResendEmailOTP.visibility = View.VISIBLE
+                                    binding.txtResendEmailOtpTimer.text = ""
+                                }
+
+                            }
+                            timer.start()
+                        }
+
+
 
                     }
                     else{
@@ -571,6 +675,8 @@ class RegisterActivity : AppCompatActivity() {
                     binding.progressBarPincode.visibility = ProgressBar.INVISIBLE
                     binding.autoCompleteTextViewStates.setText("")
                     binding.autoCompleteTextViewCity.setText("")
+                    binding.autoCompleteTextViewStates.inputType = InputType.TYPE_CLASS_TEXT
+                    binding.autoCompleteTextViewCity.inputType = InputType.TYPE_CLASS_TEXT
                 }
 
             } catch (e: Exception){
@@ -578,6 +684,8 @@ class RegisterActivity : AppCompatActivity() {
                 binding.progressBarPincode.visibility = ProgressBar.INVISIBLE
                 binding.autoCompleteTextViewStates.setText("")
                 binding.autoCompleteTextViewCity.setText("")
+                binding.autoCompleteTextViewStates.inputType = InputType.TYPE_CLASS_TEXT
+                binding.autoCompleteTextViewCity.inputType = InputType.TYPE_CLASS_TEXT
             }
 
         }, Response.ErrorListener {
@@ -586,6 +694,8 @@ class RegisterActivity : AppCompatActivity() {
             binding.progressBarPincode.visibility = ProgressBar.INVISIBLE
             binding.autoCompleteTextViewStates.setText("")
             binding.autoCompleteTextViewCity.setText("")
+            binding.autoCompleteTextViewStates.inputType = InputType.TYPE_CLASS_TEXT
+            binding.autoCompleteTextViewCity.inputType = InputType.TYPE_CLASS_TEXT
 
         }){
             override fun getHeaders(): MutableMap<String, String> {
@@ -723,6 +833,7 @@ class RegisterActivity : AppCompatActivity() {
                 MaterialAlertDialogBuilder(this@RegisterActivity)
                     .setTitle("Enable Location")
                     .setMessage("Please enable location access. Click OK to open settings and enable location.")
+                    .setCancelable(false)
                     .setPositiveButton("OK"){dialogue, which ->
                         val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                         startActivity(intent)
@@ -806,6 +917,7 @@ class RegisterActivity : AppCompatActivity() {
                     .setNegativeButton("Exit"){dialogue, which ->
                         finish()
                     }
+                    .setCancelable(false)
                     .show()
             }
         }
