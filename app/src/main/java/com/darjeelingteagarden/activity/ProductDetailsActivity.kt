@@ -60,6 +60,10 @@ class ProductDetailsActivity : AppCompatActivity() {
             getProductDetails(productId.toString())
         }
 
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(this)
+        }
+
         binding.btnAddToCart.setOnClickListener {
 //            binding.txtQuantity.text = "1"
 //            binding.llChangeQuantity.visibility = View.VISIBLE

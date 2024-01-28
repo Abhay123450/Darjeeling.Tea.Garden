@@ -57,6 +57,10 @@ class ProfileActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(this)
+        }
+
         binding.cardPersonalInfo.setOnClickListener {
 
             val intent = Intent(this@ProfileActivity, UserDetailsActivity::class.java)
@@ -116,6 +120,13 @@ class ProfileActivity : AppCompatActivity() {
 
             val intent = Intent(this, AboutActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.btnFAQ.setOnClickListener {
+
+            val intent = Intent(this, FaqActivity::class.java)
+            startActivity(intent)
+
         }
 
         binding.btnLogout.setOnClickListener {

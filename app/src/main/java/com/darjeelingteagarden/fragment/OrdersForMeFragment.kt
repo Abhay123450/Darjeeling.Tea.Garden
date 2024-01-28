@@ -87,6 +87,10 @@ class OrdersForMeFragment : Fragment() {
             binding.progressBarLoadMore.visibility = View.VISIBLE
         }
 
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(mContext)
+        }
+
 //        binding.swipeRefreshOrdersForMe.setOnRefreshListener {
 //
 //            if ((layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() == 0){

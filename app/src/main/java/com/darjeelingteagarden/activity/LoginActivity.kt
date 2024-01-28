@@ -39,6 +39,9 @@ class LoginActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(this)
+        }
 
         val loginUrl = getString(R.string.loginUrl)
 

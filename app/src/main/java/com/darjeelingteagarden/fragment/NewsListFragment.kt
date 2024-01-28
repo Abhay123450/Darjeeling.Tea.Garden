@@ -70,6 +70,10 @@ class NewsListFragment : Fragment() {
             populateRecyclerView(newsList)
         }
 
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(mContext)
+        }
+
         binding.btnLoadMoreNews.setOnClickListener {
             it.visibility = View.GONE
             binding.progressBarNews.visibility = View.VISIBLE

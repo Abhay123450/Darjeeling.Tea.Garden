@@ -78,6 +78,10 @@ class HomeFragment : Fragment(){
             openWhatsapp(mContext, "7007789842")
         }
 
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(mContext)
+        }
+
         return binding.root
     }
 

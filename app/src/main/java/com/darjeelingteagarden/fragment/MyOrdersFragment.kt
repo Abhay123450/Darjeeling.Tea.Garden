@@ -83,6 +83,10 @@ class MyOrdersFragment : Fragment() {
             }
         }
 
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(mContext)
+        }
+
         binding.autoCompleteTextViewOrderStatus.setOnItemClickListener { adapterView, view, i, l ->
             status = adapterView.getItemAtPosition(i).toString()
             AppDataSingleton.clearMyOrdersList()

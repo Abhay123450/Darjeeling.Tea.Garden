@@ -59,6 +59,10 @@ class NewsDetailsFragment : Fragment() {
 
             binding.txtNewsContent.movementMethod = LinkMovementMethod.getInstance()
 
+            binding.fabCallNow.setOnClickListener {
+                AppDataSingleton.callNow(mContext)
+            }
+
 
         }
 

@@ -105,6 +105,10 @@ class CartFragment : Fragment() {
             binding.llEmptyCart.visibility = View.VISIBLE
         }
 
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(activity as Context)
+        }
+
         return binding.root
     }
 
@@ -145,6 +149,15 @@ class CartFragment : Fragment() {
             if (it.isSample){
                 totalAmount += it.samplePrice * it.sampleQuantity
             }
+        }
+        if (totalAmount < 200){
+            binding.btnContinueToPayment.isEnabled = false
+            binding.cardInfoMinimumOrderValue.visibility = View.VISIBLE
+        }
+        else{
+            binding.btnContinueToPayment.isEnabled = true
+            binding.cardInfoMinimumOrderValue.visibility = View.GONE
+
         }
         (getString(R.string.rupee_symbol) + " " + totalAmount.toString()).also { binding.txtTotalAmount.text = it }
     }

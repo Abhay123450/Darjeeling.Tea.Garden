@@ -13,6 +13,7 @@ import com.darjeelingteagarden.BuildConfig
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.databinding.ActivityAboutBinding
 import com.darjeelingteagarden.databinding.ActivitySampleOrderDetailsBinding
+import com.darjeelingteagarden.repository.AppDataSingleton
 
 class AboutActivity : AppCompatActivity() {
 
@@ -34,6 +35,10 @@ class AboutActivity : AppCompatActivity() {
         showView(binding.scrollMain)
 
         binding.appVersion.text = "version ${BuildConfig.VERSION_NAME}"
+
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(this)
+        }
 
         webView.webViewClient = object: WebViewClient(){
 

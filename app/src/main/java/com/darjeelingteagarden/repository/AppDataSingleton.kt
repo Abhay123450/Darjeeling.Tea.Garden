@@ -1,7 +1,9 @@
 package com.darjeelingteagarden.repository
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.provider.Settings.Global.getString
 import android.util.Log
 import android.widget.Toast
@@ -272,6 +274,12 @@ object AppDataSingleton {
 
     fun noInternet(context: Context){
         Toast.makeText(context, "No Internet", Toast.LENGTH_LONG).show()
+    }
+
+    fun callNow(context: Context) {
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse("tel:+917007789842")
+        context.startActivity(intent)
     }
 
     var orderPlaced = false

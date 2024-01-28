@@ -79,6 +79,10 @@ class RazorpayPaymentActivity : AppCompatActivity(), PaymentResultWithDataListen
             onBackPressedDispatcher.onBackPressed()
         }
 
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(this)
+        }
+
         binding.btnPayNow.setOnClickListener {
             if (ConnectionManager().isOnline(this)) {
                 createOrder(orderId)

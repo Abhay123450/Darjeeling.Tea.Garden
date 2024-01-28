@@ -99,6 +99,10 @@ class MyDownlineListFragment : Fragment() {
             it.visibility = View.GONE
         }
 
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(mContext)
+        }
+
         return binding.root
     }
 

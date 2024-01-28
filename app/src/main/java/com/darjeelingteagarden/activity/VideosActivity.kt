@@ -27,7 +27,6 @@ import com.darjeelingteagarden.model.Video
 import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.util.formatTo
 import com.darjeelingteagarden.util.toDate
-import java.lang.Exception
 
 class VideosActivity : AppCompatActivity() {
 
@@ -35,6 +34,7 @@ class VideosActivity : AppCompatActivity() {
 
     private lateinit var queue: RequestQueue
 
+    private var languageList = mutableListOf("All")
     private var videosList = mutableListOf<Video>()
     private var language = "All"
     private var page = 1
@@ -61,6 +61,10 @@ class VideosActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(this)
+        }
+
         binding.autoCompleteTextViewVideoLanguage.setOnItemClickListener { parent, view, position, id ->
             language = parent.getItemAtPosition(position).toString()
             page = 1
@@ -72,6 +76,7 @@ class VideosActivity : AppCompatActivity() {
         }
 
         getVideosList(page, limit, language, null)
+        getLanguageList()
 
 //        binding.videosWebView.settings.javaScriptEnabled = true
 //
@@ -112,8 +117,6 @@ class VideosActivity : AppCompatActivity() {
     }
 
     private fun initializeLanguageDropdown(){
-
-        val languageList = arrayListOf("All", "English", "Hindi")
 
         val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, languageList)
         binding.autoCompleteTextViewVideoLanguage.setAdapter(arrayAdapter)
@@ -220,6 +223,50 @@ class VideosActivity : AppCompatActivity() {
 
         queue.add(jsonObjectRequest)
 
+    }
+
+    private fun getLanguageList(){
+
+        val url = getString(R.string.homeUrl) + "api/v1/languages"
+
+        val jsonObjectRequest = object: JsonObjectRequest(
+            Method.GET,
+            url,
+            null,
+            Response.Listener {
+                try {
+
+                    val success = it.getBoolean("success")
+
+                    if (success){
+
+                        val languageListObject = it.getJSONArray("data")
+
+                        for (i in 0 until languageListObject.length()){
+                            languageList.add(languageListObject.getJSONObject(i).getString("language"))
+                        }
+
+                        initializeLanguageDropdown()
+
+                    }
+
+                } catch (e: Exception) {
+
+                }
+            },
+            Response.ErrorListener {
+
+            }
+        ){
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Content-Type"] = "application/json"
+                headers["auth-token"] = AppDataSingleton.getAuthToken
+                return headers
+            }
+        }
+
+        queue.add(jsonObjectRequest)
     }
 
 }

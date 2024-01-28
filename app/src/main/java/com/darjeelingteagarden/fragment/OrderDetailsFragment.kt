@@ -1,6 +1,8 @@
 package com.darjeelingteagarden.fragment
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -46,6 +48,8 @@ class OrderDetailsFragment : Fragment() {
 
     private var itemList: MutableList<ItemDetails> = mutableListOf()
 
+    private var invoiceLink = ""
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
@@ -78,6 +82,10 @@ class OrderDetailsFragment : Fragment() {
             getOrderDetails(orderId)
         }
 
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(mContext)
+        }
+
         binding.btnCancelOrder.setOnClickListener {
 
             MaterialAlertDialogBuilder(mContext)
@@ -91,6 +99,17 @@ class OrderDetailsFragment : Fragment() {
                     dialog.dismiss()
                 }.show()
 
+        }
+
+        binding.btnInvoice.setOnClickListener {
+            if (invoiceLink.isNotBlank()){
+                if (!invoiceLink.startsWith("https://") && !invoiceLink.startsWith("http://")){
+                    invoiceLink = "https://$invoiceLink"
+                }
+                val uri = Uri.parse(invoiceLink)
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                startActivity(intent)
+            }
         }
 
         return binding.root
@@ -234,6 +253,15 @@ class OrderDetailsFragment : Fragment() {
                         }
                         else{
                             binding.txtPaymentStatus.text = "PENDING"
+                        }
+
+//                        invoiceLink = orderDetails.optString("invoiceLink")
+                        invoiceLink = "darjeelingteagarden.com"
+                        if (invoiceLink.isNotBlank()){
+                            binding.btnInvoice.visibility = View.VISIBLE
+                        }
+                        else{
+                            binding.btnInvoice.visibility = View.GONE
                         }
 
                         val items = orderDetails.getJSONArray("items")

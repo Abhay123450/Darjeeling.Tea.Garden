@@ -133,6 +133,10 @@ class OrdersForMeDetailsFragment : Fragment() {
                 }.show()
         }
 
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(mContext)
+        }
+
         return binding.root
     }
 

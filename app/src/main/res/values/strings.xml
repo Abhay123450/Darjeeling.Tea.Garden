@@ -360,5 +360,7 @@ Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincid
     <string name="update">Update</string>
     <string name="language">Language</string>
     <string name="ask_for_sample">Ask For Sample</string>
+    <string name="minimum_order_value_is_rs_200">Minimum order value is ₹ 200</string>
+    <string name="call_now">Call Now</string>
 </resources>
 

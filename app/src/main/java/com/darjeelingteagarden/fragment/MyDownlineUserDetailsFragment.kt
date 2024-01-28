@@ -108,6 +108,10 @@ class MyDownlineUserDetailsFragment : Fragment() {
 
         })
 
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(mContext)
+        }
+
         return binding.root
     }
 

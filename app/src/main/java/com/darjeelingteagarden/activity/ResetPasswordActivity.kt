@@ -12,6 +12,7 @@ import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.databinding.ActivityRegisterBinding
 import com.darjeelingteagarden.databinding.ActivityResetPasswordBinding
+import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.util.ConnectionManager
 import com.darjeelingteagarden.util.InputValidator
 import org.json.JSONObject
@@ -29,6 +30,10 @@ class ResetPasswordActivity : AppCompatActivity() {
         binding = ActivityResetPasswordBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(this)
+        }
 
         binding.textInputEditTextPhoneNumber.doOnTextChanged { text, start, before, count ->
             if (text.isNullOrEmpty() || !InputValidator().validatePhoneNumber(text.toString().toLong())){

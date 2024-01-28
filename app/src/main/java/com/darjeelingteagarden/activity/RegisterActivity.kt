@@ -27,6 +27,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.databinding.ActivityRegisterBinding
+import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.util.ConnectionManager
 import com.darjeelingteagarden.util.InputValidator
 import com.darjeelingteagarden.util.LocationPermission
@@ -103,6 +104,10 @@ class RegisterActivity : AppCompatActivity() {
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         locationByGps = Location(LocationManager.GPS_PROVIDER)
         locationByNetwork = Location(LocationManager.NETWORK_PROVIDER)
+
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(this)
+        }
 
         binding.autoCompleteTextViewRole.doOnTextChanged { text, start, before, count ->
             if (text.isNullOrEmpty()){

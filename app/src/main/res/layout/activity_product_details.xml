@@ -422,8 +422,6 @@
 
     </ScrollView>
 
-
-
     <RelativeLayout
         android:id="@+id/rlProgressProductDetails"
         android:layout_width="match_parent"
@@ -439,5 +437,17 @@
             android:indeterminateTint="@color/colorPrimary" />
 
     </RelativeLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCallNow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:contentDescription="@string/call_now"
+        android:src="@drawable/ic_baseline_call_24"
+        android:elevation="2dp" />
 
 </RelativeLayout>

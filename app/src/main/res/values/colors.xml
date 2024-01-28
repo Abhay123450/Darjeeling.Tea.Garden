@@ -17,5 +17,6 @@
     <color name="colorPrimary">#FF00CCAA</color>
     <color name="colorSecondary">#FF34EB4C</color>
     <color name="progressTransparentBackground">#22000000</color>
+    <color name="warningColor">#FFFFC185</color>
 
 </resources>

@@ -298,6 +298,23 @@
                     android:text="@string/about_and_privacy_policy"/>
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnFAQ"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:paddingVertical="12dp"
+                    app:rippleColor="@color/colorPrimary"
+                    android:backgroundTint="@color/white"
+                    app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"
+                    app:drawableTint="@color/colorPrimary"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/white_eceff1"
+                    android:textColor="@color/black"
+                    android:textAlignment="textStart"
+                    android:text="FAQ (Frequently Asked Questions)"/>
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnLogout"
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                     android:layout_width="match_parent"
@@ -313,6 +330,10 @@
                     android:textColor="@color/black"
                     android:textAlignment="textStart"
                     android:text="@string/logout"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"/>
 
             </LinearLayout>
 
@@ -335,5 +356,17 @@
             android:indeterminateTint="@color/colorPrimary"/>
 
     </RelativeLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCallNow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:contentDescription="@string/call_now"
+        android:src="@drawable/ic_baseline_call_24"
+        android:elevation="2dp" />
 
 </RelativeLayout>

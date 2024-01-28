@@ -6,163 +6,187 @@
     android:layout_height="match_parent"
     tools:context=".activity.LoginActivity">
 
-    <LinearLayout
-        android:id="@+id/llForm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/txtLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="@string/login"
-            android:textStyle="bold"
-            android:textSize="24sp"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:background="@color/colorPrimary"
-            android:padding="18dp"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/txtMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:textSize="16sp"
-            android:text="@string/enter_your_user_id_and_password_to_login"/>
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:layout_marginBottom="10dp"-->
-<!--            android:gravity="center">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/txtDontHaveAnAccount"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:textSize="16sp"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:text="@string/dont_have_an_account"/>-->
-
-<!--            <Button-->
-<!--                android:id="@+id/btnCreateAccount"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:textColor="@color/tea"-->
-<!--                android:text="@string/create_an_account"-->
-<!--                android:textSize="16sp"-->
-<!--                android:textAllCaps="false"-->
-<!--                style="@style/Widget.AppCompat.Button.Borderless"/>-->
-
-<!--        </LinearLayout>-->
-
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutUserId"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            app:errorEnabled="true"
-            android:hint="Phone number or User Id"
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textInputEditTextUserId"
+            <LinearLayout
+                android:id="@+id/llForm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:inputType="text"
-                android:minLines="1"
-                />
+                android:orientation="vertical">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:id="@+id/txtLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/login"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:background="@color/colorPrimary"
+                    android:padding="18dp"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutPassword"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            app:errorEnabled="true"
-            app:passwordToggleEnabled="true"
-            android:hint="@string/password">
+                <TextView
+                    android:id="@+id/txtMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textSize="16sp"
+                    android:text="@string/enter_your_user_id_and_password_to_login"/>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textInputEditTextPassword"
+                <!--        <LinearLayout-->
+                <!--            android:layout_width="match_parent"-->
+                <!--            android:layout_height="wrap_content"-->
+                <!--            android:orientation="horizontal"-->
+                <!--            android:layout_marginTop="20dp"-->
+                <!--            android:layout_marginBottom="10dp"-->
+                <!--            android:gravity="center">-->
+
+                <!--            <TextView-->
+                <!--                android:id="@+id/txtDontHaveAnAccount"-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_gravity="center"-->
+                <!--                android:textSize="16sp"-->
+                <!--                android:textColor="@color/black"-->
+                <!--                android:text="@string/dont_have_an_account"/>-->
+
+                <!--            <Button-->
+                <!--                android:id="@+id/btnCreateAccount"-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:textColor="@color/tea"-->
+                <!--                android:text="@string/create_an_account"-->
+                <!--                android:textSize="16sp"-->
+                <!--                android:textAllCaps="false"-->
+                <!--                style="@style/Widget.AppCompat.Button.Borderless"/>-->
+
+                <!--        </LinearLayout>-->
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutUserId"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:errorEnabled="true"
+                    android:hint="Phone number or User Id"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textInputEditTextUserId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:inputType="text"
+                        android:minLines="1"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutPassword"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:errorEnabled="true"
+                    app:passwordToggleEnabled="true"
+                    android:hint="@string/password">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textInputEditTextPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:inputType="textPassword"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <CheckBox
+                    android:id="@+id/rememberMe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:text="Save login id and password"
+                    android:checked="true"
+                    android:buttonTint="@color/colorPrimary"/>
+
+                <Button
+                    android:id="@+id/btnForgotPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:backgroundTint="@color/white"
+                    android:layout_marginHorizontal="10dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"
+                    android:text="@string/forgot_password"
+                    style="@style/Widget.AppCompat.Button.Borderless" />
+
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_below="@+id/llForm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:inputType="textPassword"
-                />
+                android:paddingVertical="12dp"
+                android:layout_margin="10dp"
+                android:textSize="20sp"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/white"
+                android:text="@string/login"/>
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <ProgressBar
+                android:id="@+id/progressBarLogin"
+                android:layout_below="@+id/llForm"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/white"
+                android:indeterminateTint="@color/colorPrimary"
+                android:visibility="invisible"/>
 
-        <CheckBox
-            android:id="@+id/rememberMe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:text="Save login id and password"
-            android:checked="true"
-            android:buttonTint="@color/colorPrimary"/>
+            <Button
+                android:id="@+id/btnRegisterAsBusinessPartner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="10dp"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/register_as_a_business_partner"
+                style="@style/Widget.AppCompat.Button.Borderless"/>
 
-        <Button
-            android:id="@+id/btnForgotPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="0dp"
-            android:minWidth="0dp"
-            android:backgroundTint="@color/white"
-            android:layout_marginHorizontal="10dp"
-            android:textColor="@color/colorPrimary"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            android:text="@string/forgot_password"
-            style="@style/Widget.AppCompat.Button.Borderless" />
+        </RelativeLayout>
 
+    </ScrollView>
 
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_below="@+id/llForm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="12dp"
-        android:layout_margin="10dp"
-        android:textSize="20sp"
-        android:backgroundTint="@color/colorPrimary"
-        android:textColor="@color/white"
-        android:text="@string/login"/>
-
-    <ProgressBar
-        android:id="@+id/progressBarLogin"
-        android:layout_below="@+id/llForm"
-        android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:layout_marginTop="12dp"
-        android:background="@color/white"
-        android:indeterminateTint="@color/colorPrimary"
-        android:visibility="invisible"/>
-
-    <Button
-        android:id="@+id/btnRegisterAsBusinessPartner"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCallNow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
-        android:textColor="@color/colorPrimary"
-        android:text="@string/register_as_a_business_partner"
-        style="@style/Widget.AppCompat.Button.Borderless"/>
+        android:backgroundTint="@color/colorPrimary"
+        android:contentDescription="@string/call_now"
+        android:src="@drawable/ic_baseline_call_24"
+        android:elevation="2dp" />
 
 </RelativeLayout>

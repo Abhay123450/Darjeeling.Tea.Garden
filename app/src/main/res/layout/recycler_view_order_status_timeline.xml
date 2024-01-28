@@ -85,8 +85,8 @@
                 android:paddingEnd="10dp"
                 android:paddingBottom="10dp"
                 android:text="The item has reached a hub at Gorakhpur The item has reached a hub at Gorakhpur"
-                android:textColor="@color/black" />
-
+                android:textColor="@color/black"
+                android:autoLink="all"/>
 
         </RelativeLayout>
 
