@@ -124,6 +124,10 @@ class MainActivity : AppCompatActivity() {
                     Intent(this, MyDownlineActivity::class.java)
                 }
 
+                "productDetails" -> {
+                    Intent(this, ProductDetailsActivity:: class.java)
+                }
+
                 else -> {
                     null
                 }
@@ -208,19 +212,21 @@ class MainActivity : AppCompatActivity() {
             val newToken = task.result
             Log.i("fcm token MainAct", newToken)
 
-            val token = sharedPreferences.getString("fcm-token", null)
+            sendTokenToServer(newToken)
 
-            if (token == null || token != newToken){
-                sendTokenToServer(newToken)
-            }
-            else {
-                val tokenUpdated = sharedPreferences.getBoolean("fcm-token-updated", false)
-
-                if (!tokenUpdated){
-                    sendTokenToServer(token)
-                }
-
-            }
+//            val token = sharedPreferences.getString("fcm-token", null)
+//
+//            if (token == null || token != newToken){
+//                sendTokenToServer(newToken)
+//            }
+//            else {
+//                val tokenUpdated = sharedPreferences.getBoolean("fcm-token-updated", false)
+//
+//                if (!tokenUpdated){
+//                    sendTokenToServer(token)
+//                }
+//
+//            }
 
 
 //            Toast.makeText(this, newToken, Toast.LENGTH_SHORT).show()
@@ -324,9 +330,11 @@ class MainActivity : AppCompatActivity() {
                     }
                     catch (e: Exception){
 //                        Toast.makeText(this, "exception ${ e.toString() }", Toast.LENGTH_SHORT).show()
+                        Log.d("fcmUpdateExc", e.toString())
                     }
                 },
                 Response.ErrorListener {
+                    Log.d("fcmUpdateErr", JSONObject(String(it.networkResponse.data)).getString("message"))
 //                    Toast.makeText(this, "exception response error", Toast.LENGTH_SHORT).show()
                 }
             ){

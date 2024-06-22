@@ -100,6 +100,10 @@
                 android:text="@string/load_more"
                 android:layout_marginHorizontal="10dp"/>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="80dp"/>
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

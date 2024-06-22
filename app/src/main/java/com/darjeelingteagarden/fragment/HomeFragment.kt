@@ -43,9 +43,11 @@ class HomeFragment : Fragment(){
 
         queue = Volley.newRequestQueue(mContext)
 
-        getActiveMyOrdersCount()
-        getActiveOrdersForMeCount()
-        getActiveSampleOrdersCount()
+        if (!AppDataSingleton.homePageRefreshed || AppDataSingleton.shouldRefreshHomePage()){
+            getActiveMyOrdersCount()
+            getActiveOrdersForMeCount()
+//            getActiveSampleOrdersCount()
+        }
 
         binding.swipeRefreshHome.setOnRefreshListener {
 

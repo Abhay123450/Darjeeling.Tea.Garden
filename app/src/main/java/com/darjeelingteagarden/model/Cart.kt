@@ -10,6 +10,6 @@ data class Cart(
     var isProduct: Boolean,
     var quantity: Int,
     var isSample: Boolean,
-    val samplePrice: Int,
+    val samplePrice: Double,
     var sampleQuantity: Int
 )

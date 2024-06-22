@@ -64,7 +64,7 @@ class FaqActivity : AppCompatActivity() {
             }
         }
 
-        binding.webViewFaq.loadUrl("https://faq.darjeelingteagarden.com/faq")
+        binding.webViewFaq.loadUrl("https://faq.darjeelingteagarden.com/")
         binding.webViewFaq.settings.javaScriptEnabled = true
 
     }

@@ -36,7 +36,7 @@ class ResetPasswordActivity : AppCompatActivity() {
         }
 
         binding.textInputEditTextPhoneNumber.doOnTextChanged { text, start, before, count ->
-            if (text.isNullOrEmpty() || !InputValidator().validatePhoneNumber(text.toString().toLong())){
+            if (text.isNullOrEmpty() || !InputValidator().validatePhoneNumber(text.toString().trim())){
                 binding.textInputLayoutPhoneNumber.error = "Please enter valid phone number"
             }
             else {

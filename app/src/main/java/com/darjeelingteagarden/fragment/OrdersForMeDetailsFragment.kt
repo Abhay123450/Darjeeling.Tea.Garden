@@ -170,6 +170,8 @@ class OrdersForMeDetailsFragment : Fragment() {
         jsonParams.put("productName", productName)
         jsonParams.put("isSample", isSample)
 
+        Log.d("deliverJsonParams", jsonParams.toString())
+
         val jsonObjectRequest = object: JsonObjectRequest(
             Method.POST,
             url,
@@ -251,10 +253,14 @@ class OrdersForMeDetailsFragment : Fragment() {
 
                 }catch (e: Exception){
                     Toast.makeText(mContext, "An error occurred; $e", Toast.LENGTH_LONG ).show()
+                    populateRecyclerView(itemList)
                 }
             },
             Response.ErrorListener {
-                Toast.makeText(mContext, "An error occurred", Toast.LENGTH_LONG).show()
+                populateRecyclerView(itemList)
+                val response = JSONObject(String(it.networkResponse.data))
+                Log.d("err res deliver", response.getString("message"))
+                Toast.makeText(mContext, response.getString("message"), Toast.LENGTH_LONG).show()
             }
         ){
             override fun getHeaders(): MutableMap<String, String> {

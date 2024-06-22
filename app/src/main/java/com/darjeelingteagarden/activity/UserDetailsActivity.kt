@@ -57,7 +57,7 @@ class UserDetailsActivity : AppCompatActivity() {
 
         binding.textInputEditTextPhoneNumber.doOnTextChanged { text, start, before, count ->
 
-            if (text!!.isNotEmpty() && InputValidator().validatePhoneNumber(text!!.trim().toString().toLong())){
+            if (text!!.isNotEmpty() && InputValidator().validatePhoneNumber(text.trim().toString())){
                 binding.textInputLayoutPhoneNumber.error = null
                 errorList.remove("phoneNumber")
             }
@@ -161,8 +161,8 @@ class UserDetailsActivity : AppCompatActivity() {
             var phoneNumber: Long? = 0
 
             if (
-                InputValidator().validatePhoneNumber(userDetails.phoneNumber) &&
-                InputValidator().validatePhoneNumber(updatedUserDetails.phoneNumber) &&
+                InputValidator().validatePhoneNumber(userDetails.phoneNumber.toString()) &&
+                InputValidator().validatePhoneNumber(updatedUserDetails.phoneNumber.toString()) &&
                 userDetails.phoneNumber != updatedUserDetails.phoneNumber
             ){
                 phoneNumber = updatedUserDetails.phoneNumber
@@ -223,8 +223,8 @@ class UserDetailsActivity : AppCompatActivity() {
 
         binding.btnResendSmsOTP.setOnClickListener {
             val phoneNumber = if (
-                InputValidator().validatePhoneNumber(userDetails.phoneNumber) &&
-                InputValidator().validatePhoneNumber(updatedUserDetails.phoneNumber) &&
+                InputValidator().validatePhoneNumber(userDetails.phoneNumber.toString()) &&
+                InputValidator().validatePhoneNumber(updatedUserDetails.phoneNumber.toString()) &&
                 userDetails.phoneNumber != updatedUserDetails.phoneNumber
             ){
                 updatedUserDetails.phoneNumber
@@ -317,7 +317,7 @@ class UserDetailsActivity : AppCompatActivity() {
 
         var allGood = true
 
-        if (InputValidator().validatePhoneNumber(updatedUserDetails.phoneNumber)){
+        if (InputValidator().validatePhoneNumber(updatedUserDetails.phoneNumber.toString())){
             binding.textInputLayoutPhoneNumber.error = null
         }
         else{

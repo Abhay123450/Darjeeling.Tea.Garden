@@ -4,13 +4,13 @@ import android.util.Patterns
 
 class InputValidator {
 
-    fun validatePhoneNumber(phoneNumber: Long): Boolean{
+    fun validatePhoneNumber(phoneNumber: String): Boolean{
 
-        if(phoneNumber < 1000000000 || phoneNumber > 9999999999){
-            return false
+        if(phoneNumber.matches(Regex("\\d{10}"))){
+            return true
         }
+        return false
 
-        return true
     }
 
     fun validateEmailAddress(email: String): Boolean{

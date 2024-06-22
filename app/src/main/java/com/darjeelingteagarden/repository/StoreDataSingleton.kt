@@ -61,7 +61,7 @@ object StoreDataSingleton {
                                 productInfo.getString("name"),
                                 productInfo.getInt("originalPrice"),
                                 discountedPrice,
-                                productInfo.optInt("samplePrice"),
+                                productInfo.optDouble("samplePrice"),
                                 productInfo.optInt("sampleQuantity"),
                                 productInfo.getString("grade"),
                                 productInfo.getString("lotNumber"),

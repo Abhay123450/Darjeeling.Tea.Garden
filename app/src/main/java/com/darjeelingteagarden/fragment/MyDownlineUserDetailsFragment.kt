@@ -161,7 +161,7 @@ class MyDownlineUserDetailsFragment : Fragment() {
                         val dueBalance = user.getDouble("credit")
                         binding.txtUserDueBalance.text = dueBalance.toString()
                         if (dueBalance > 0){
-                            binding.btnReleaseDue.visibility = View.GONE
+                            binding.btnReleaseDue.visibility = View.VISIBLE
                         }
 
                         binding.cardBalanceDue.visibility = View.VISIBLE

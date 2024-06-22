@@ -609,7 +609,7 @@ class StoreFragment : Fragment() {
                                 productInfo.getString("name"),
                                 productInfo.getInt("originalPrice"),
                                 discountedPrice,
-                                productInfo.optInt("samplePrice"),
+                                productInfo.optDouble("samplePrice"),
                                 10,
                                 productInfo.getString("grade"),
                                 productInfo.getString("lotNumber"),

@@ -376,6 +376,9 @@ class LauncherActivity : AppCompatActivity() {
             else{
                 login()
             }
+        }.addOnFailureListener {
+            Log.d("check Update Failed", it.message.toString())
+            login()
         }
 
     }
@@ -549,7 +552,7 @@ class LauncherActivity : AppCompatActivity() {
                                     productInfo.getString("name"),
                                     productInfo.getInt("originalPrice"),
                                     discountedPrice,
-                                    productInfo.optInt("samplePrice"),
+                                    productInfo.optDouble("samplePrice"),
                                     10,
                                     productInfo.getString("grade"),
                                     productInfo.getString("lotNumber"),

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.URLUtil
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -255,9 +256,9 @@ class OrderDetailsFragment : Fragment() {
                             binding.txtPaymentStatus.text = "PENDING"
                         }
 
-//                        invoiceLink = orderDetails.optString("invoiceLink")
-                        invoiceLink = "darjeelingteagarden.com"
-                        if (invoiceLink.isNotBlank()){
+                        invoiceLink = orderDetails.optString("invoiceLink")
+//                        invoiceLink = "darjeelingteagarden.com"
+                        if (invoiceLink.isNotBlank() && URLUtil.isValidUrl(invoiceLink)){
                             binding.btnInvoice.visibility = View.VISIBLE
                         }
                         else{

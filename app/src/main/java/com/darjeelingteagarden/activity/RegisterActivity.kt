@@ -122,7 +122,7 @@ class RegisterActivity : AppCompatActivity() {
 
         binding.textInputEditTextPhoneNumber.doOnTextChanged { text, start, before, count ->
 
-            if (text!!.isNotEmpty() && InputValidator().validatePhoneNumber(text!!.trim().toString().toLong())){
+            if (text!!.isNotEmpty() && InputValidator().validatePhoneNumber(text.toString().trim())){
                 binding.textInputLayoutPhoneNumber.error = null
                 errorList.remove("phoneNumber")
                 phoneNumber = text.trim().toString().toLong()
@@ -310,6 +310,16 @@ class RegisterActivity : AppCompatActivity() {
         binding.btnSubmitOTP.setOnClickListener {
 
             if (binding.textInputLayoutEmailOTP.error != null || binding.textInputLayoutSmsOTP.error != null){
+                return@setOnClickListener
+            }
+
+            if (this::smsOtp.isInitialized && smsOtp.toString().length != 6){
+                Toast.makeText(this, "Sms OTP is required", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
+            else if (this::emailOtp.isInitialized && emailOtp.toString().length != 6){
+                Toast.makeText(this, "Sms OTP is required", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
 
@@ -602,7 +612,7 @@ class RegisterActivity : AppCompatActivity() {
 
         val jsonBody = JSONObject()
         jsonBody.put("name", binding.textInputEditTextName.text.toString())
-        jsonBody.put("phoneNumber", binding.textInputEditTextPhoneNumber.text.toString().toLong())
+        jsonBody.put("phoneNumber", binding.textInputEditTextPhoneNumber.text?.trim()?.toString()?.toLong())
         jsonBody.put("email", binding.textInputEditTextEmail.text.toString())
         jsonBody.put("role", binding.autoCompleteTextViewRole.text.toString())
         jsonBody.put("firmName", binding.textInputEditTextFirmName.text.toString())
@@ -787,13 +797,13 @@ class RegisterActivity : AppCompatActivity() {
             latitude = currentLocation!!.latitude
             longitude = currentLocation!!.longitude
             // use latitude and longitude as per your need
-            Toast.makeText(this, "latitude : $latitude, longitude: $longitude", Toast.LENGTH_LONG).show()
+//            Toast.makeText(this, "latitude : $latitude, longitude: $longitude", Toast.LENGTH_LONG).show()
         } else {
             currentLocation = locationByNetwork
             latitude = currentLocation!!.latitude
             longitude = currentLocation!!.longitude
             // use latitude and longitude as per your need
-            Toast.makeText(this, "latitude : $latitude, longitude: $longitude", Toast.LENGTH_LONG).show()
+//            Toast.makeText(this, "latitude : $latitude, longitude: $longitude", Toast.LENGTH_LONG).show()
         }
     }
 

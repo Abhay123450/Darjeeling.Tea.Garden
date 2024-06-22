@@ -17,6 +17,7 @@ import com.darjeelingteagarden.model.Product
 import com.darjeelingteagarden.model.ProductDetails
 import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.repository.CartDataSingleton
+import com.darjeelingteagarden.repository.NotificationDataSingleton
 import com.darjeelingteagarden.repository.SampleDataSingleton
 import com.darjeelingteagarden.util.ResizeTransformation
 import com.denzcoskun.imageslider.interfaces.ItemClickListener
@@ -51,9 +52,15 @@ class ProductDetailsActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        if (intent != null){
+        if (NotificationDataSingleton.notificationToOpen){
+            productId = NotificationDataSingleton.resourceId
+            NotificationDataSingleton.notificationToOpen = false
+        }
+        else if (intent != null){
             productId = intent.getStringExtra("productId")
         }
+
+
         Log.i("product id is : ", productId.toString())
 
         if (productId != null){
@@ -226,7 +233,7 @@ class ProductDetailsActivity : AppCompatActivity() {
             binding.llChangeSampleQuantity.visibility = View.GONE
         }
 
-        if (productDetails.samplePrice == 0){
+        if (productDetails.samplePrice == 0.0){
             binding.rlAddToSampleCart.visibility = View.GONE
         }
         else if (productDetails.samplePrice > 0){
@@ -370,7 +377,7 @@ class ProductDetailsActivity : AppCompatActivity() {
             price = originalPrice
         }
 
-        if (product.samplePrice == 0){
+        if (product.samplePrice == 0.0){
             binding.rlAddToSampleCart.visibility = View.GONE
             binding.txtSamplePrice.visibility = View.GONE
             binding.txtSamplePriceText.visibility = View.GONE
@@ -433,8 +440,8 @@ class ProductDetailsActivity : AppCompatActivity() {
                             productDetailsObject.getString("_id"),
                             productDetailsObject.getString("name"),
                             productDetailsObject.getInt("originalPrice"),
-                            productDetailsObject.getInt("discountedPrice"),
-                            productDetailsObject.optInt("samplePrice"),
+                            productDetailsObject.optInt("discountedPrice"),
+                            productDetailsObject.optDouble("samplePrice"),
                             productDetailsObject.optInt("sampleQuantity"),
                             productDetailsObject.getString("grade"),
                             productDetailsObject.getString("lotNumber"),
@@ -450,7 +457,7 @@ class ProductDetailsActivity : AppCompatActivity() {
                             productDetailsObject.getString("name"),
                             productDetailsObject.getInt("originalPrice"),
                             productDetailsObject.getInt("discountedPrice"),
-                            productDetailsObject.optInt("samplePrice"),
+                            productDetailsObject.optDouble("samplePrice"),
                             productDetailsObject.optInt("sampleQuantity"),
                             productDetailsObject.getString("grade"),
                             productDetailsObject.getString("lotNumber"),

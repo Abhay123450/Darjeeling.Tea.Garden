@@ -73,6 +73,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llItemPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -124,7 +125,7 @@
             android:id="@+id/llQuantityDelivered"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txtQuantityText"
+            android:layout_below="@id/llItemPrice"
             android:orientation="horizontal"
             android:paddingVertical="4dp"
             android:visibility="gone">

@@ -225,19 +225,35 @@
 
     </ScrollView>
 
-    <RelativeLayout
-        android:id="@+id/rlWebView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/AboutAppBar"
-        android:visibility="gone">
+<!--    Web View-->
 
-        <WebView
-            android:id="@+id/webView"
+<!--    <androidx.core.widget.NestedScrollView-->
+<!--        android:id="@+id/scrollViewWebView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_below="@id/AboutAppBar"-->
+<!--        android:visibility="gone">-->
+
+        <RelativeLayout
+            android:id="@+id/rlWebView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_below="@id/AboutAppBar"
+            android:visibility="gone">
 
-    </RelativeLayout>
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="80dp"/>
+
+        </RelativeLayout>
+
+<!--    </androidx.core.widget.NestedScrollView>-->
+
 <!--About-->
     <ScrollView
         android:id="@+id/scrollAbout"
@@ -518,14 +534,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/AboutAppBar"
-        android:background="@color/white"
         android:elevation="10dp"
         android:visibility="gone">
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/white"
             android:indeterminate="true"
             android:indeterminateTint="@color/colorPrimary"
             android:elevation="11dp"/>

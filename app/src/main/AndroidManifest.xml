@@ -35,10 +35,11 @@
             android:exported="false" />
         <activity
             android:name=".activity.RazorpayPaymentActivity"
-            android:exported="false" /> <!-- Razorpay api key -->
+            android:exported="false" />
+        <!-- Razorpay api key -->
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_live_WmQa9kdDLgWdVy" />
+            android:value="rzp_live_ATmPibT2CabmJU" />
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />

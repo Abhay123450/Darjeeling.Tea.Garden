@@ -12,6 +12,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.model.*
+import java.text.SimpleDateFormat
+import java.util.Date
 
 object AppDataSingleton {
 
@@ -278,9 +280,20 @@ object AppDataSingleton {
 
     fun callNow(context: Context) {
         val intent = Intent(Intent.ACTION_DIAL)
-        intent.data = Uri.parse("tel:+917007789842")
+        intent.data = Uri.parse("tel:+917307180148")
         context.startActivity(intent)
     }
 
     var orderPlaced = false
+
+    //for refreshing home page data
+    var lastRefreshed = Date().time
+    var homePageRefreshed = false
+    fun shouldRefreshHomePage(): Boolean{
+        if (Date().after(Date(lastRefreshed + 3 * 60 * 1000))){
+            return true
+        }
+        return false
+    }
+
 }

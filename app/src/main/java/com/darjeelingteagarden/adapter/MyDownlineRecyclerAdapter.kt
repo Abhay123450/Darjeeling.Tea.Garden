@@ -30,7 +30,7 @@ class MyDownlineRecyclerAdapter(
             val txtUserId: TextView = view.findViewById(R.id.txtUserId)
             val rlDueBalance: RelativeLayout = view.findViewById(R.id.rlDueBalance)
             val txtDueBalance: TextView = view.findViewById(R.id.txtUserDueBalance)
-            val btnDueRelease: MaterialButton = view.findViewById(R.id.btnDueRelease)
+//            val btnDueRelease: MaterialButton = view.findViewById(R.id.btnDueRelease)
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyDownlineViewHolder {
@@ -56,26 +56,26 @@ class MyDownlineRecyclerAdapter(
 
             holder.rlDueBalance.visibility = View.VISIBLE
 
-            if (userInfo.balanceDue > 0){
-                holder.btnDueRelease.visibility = View.VISIBLE
-            }
-            else{
-                holder.btnDueRelease.visibility = View.GONE
-            }
-
-            holder.btnDueRelease.setOnClickListener {
-                MaterialAlertDialogBuilder(context)
-                    .setTitle("Confirm Release")
-                    .setMessage("Are you sure ?")
-                    .setPositiveButton("Yes"){dialog, int ->
-                        releaseDue(userInfo)
-                    }
-                    .setNegativeButton("Cancel"){dialog, int ->
-                        dialog.dismiss()
-                    }
-                    .show()
-
-            }
+//            if (userInfo.balanceDue > 0){
+//                holder.btnDueRelease.visibility = View.VISIBLE
+//            }
+//            else{
+//                holder.btnDueRelease.visibility = View.GONE
+//            }
+//
+//            holder.btnDueRelease.setOnClickListener {
+//                MaterialAlertDialogBuilder(context)
+//                    .setTitle("Confirm Release")
+//                    .setMessage("Are you sure ?")
+//                    .setPositiveButton("Yes"){dialog, int ->
+//                        releaseDue(userInfo)
+//                    }
+//                    .setNegativeButton("Cancel"){dialog, int ->
+//                        dialog.dismiss()
+//                    }
+//                    .show()
+//
+//            }
 
         }
         else{

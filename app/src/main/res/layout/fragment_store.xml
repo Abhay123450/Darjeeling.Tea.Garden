@@ -9,6 +9,14 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+<!--    <androidx.core.widget.NestedScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+<!--        -->
+<!--        -->
+<!--        -->
+<!--    </androidx.core.widget.NestedScrollView>-->
+
     <RelativeLayout
         android:id="@+id/rlStore"
         android:layout_width="match_parent"
@@ -84,13 +92,15 @@
             android:layout_below="@+id/llFilterSort"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:visibility="visible"/>
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="10dp"
+            android:visibility="visible"
+            />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_below="@id/recyclerViewStore"
-            android:layout_height="80dp"/>
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_below="@id/recyclerViewStore"-->
+<!--            android:layout_height="80dp"/>-->
 
 <!--        <RelativeLayout-->
 <!--            android:id="@+id/rlProductDetails"-->

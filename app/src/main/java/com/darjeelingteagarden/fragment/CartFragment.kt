@@ -47,7 +47,7 @@ class CartFragment : Fragment() {
 
     var authToken = ""
 
-    var totalAmount = 0
+    var totalAmount = 0.0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -136,7 +136,7 @@ class CartFragment : Fragment() {
     }
 
     private fun calculateTotalAmount(){
-        totalAmount = 0
+        totalAmount = 0.00
         cartItemList.forEach {
 //            totalAmount += if (it.isSample){
 //                it.samplePrice * it.sampleQuantity
@@ -159,7 +159,9 @@ class CartFragment : Fragment() {
             binding.cardInfoMinimumOrderValue.visibility = View.GONE
 
         }
-        (getString(R.string.rupee_symbol) + " " + totalAmount.toString()).also { binding.txtTotalAmount.text = it }
+
+        binding.txtTotalAmount.text = "${getString(R.string.rupee_symbol)} ${String.format("%.2f", totalAmount)}"
+//        (getString(R.string.rupee_symbol) + " " + totalAmount.toString()).also { binding.txtTotalAmount.text = it }
     }
 
     private fun populateRecyclerView(){

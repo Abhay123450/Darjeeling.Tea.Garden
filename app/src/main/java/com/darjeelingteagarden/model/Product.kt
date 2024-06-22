@@ -5,7 +5,7 @@ data class Product(
     val productName: String,
     val originalPrice: Int,
     val discountedPrice: Int,
-    val samplePrice: Int,
+    val samplePrice: Double,
     val sampleQuantity: Int,
     val grade: String,
     val lotNumber: String,

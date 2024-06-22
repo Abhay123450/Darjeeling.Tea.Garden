@@ -156,7 +156,7 @@ class MyDownlineListFragment : Fragment() {
             text = "Showing 1 - ${currentPage * limit} of $totalUsers users"
             binding.btnLoadMoreMyDownline.visibility = View.VISIBLE
         } else {
-            text = "Showing 1 - $totalUsers of $totalUsers orders"
+            text = "Showing 1 - $totalUsers of $totalUsers users"
             binding.btnLoadMoreMyDownline.visibility = View.GONE
         }
 
@@ -173,7 +173,7 @@ class MyDownlineListFragment : Fragment() {
             text = "Showing 1 - ${currentPage * limit} of $totalUsers users"
             binding.btnLoadMoreMyDownline.visibility = View.VISIBLE
         } else {
-            text = "Showing 1 - $totalUsers of $totalUsers orders"
+            text = "Showing 1 - $totalUsers of $totalUsers users"
             binding.btnLoadMoreMyDownline.visibility = View.GONE
         }
 
@@ -284,7 +284,7 @@ class MyDownlineListFragment : Fragment() {
 
     private fun releaseCredit(userId: String){
 
-        val url = "${getString(R.string.homeUrl)}api/v1/user/releaseCredit"
+        val url = "${getString(R.string.homeUrl)}api/v1/admin/user/releaseCredit/$userId"
 
         val jsonObjectRequest = object: JsonObjectRequest(
             Method.GET,

@@ -1,73 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipeRefreshNews"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlParentNewsList"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.NewsListFragment">
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshNews"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/rlParent"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewNewsList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"
-                android:nestedScrollingEnabled="false"/>
-
-            <TextView
-                android:id="@+id/txtPage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/recyclerViewNewsList"
-                android:layout_margin="10dp"
-                android:layout_centerHorizontal="true"/>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fabCallNow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="10dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:contentDescription="@string/call_now"
-                android:src="@drawable/ic_baseline_call_24"
-                />
+            android:layout_height="match_parent">
 
             <RelativeLayout
+                android:id="@+id/rlParent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txtPage"
-                android:layout_margin="10dp">
+                android:layout_height="match_parent">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnLoadMoreNews"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewNewsList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/load_more"
-                    android:visibility="gone"/>
+                    android:visibility="invisible"
+                    android:nestedScrollingEnabled="false"/>
 
-                <ProgressBar
-                    android:id="@+id/progressBarNews"
+                <TextView
+                    android:id="@+id/txtPage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/recyclerViewNewsList"
+                    android:layout_margin="10dp"
+                    android:layout_centerHorizontal="true"/>
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:indeterminateTint="@color/colorPrimary"
-                    android:visibility="visible"/>
+                    android:layout_below="@id/txtPage"
+                    android:layout_margin="10dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnLoadMoreNews"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/load_more"
+                        android:visibility="gone"/>
+
+                    <ProgressBar
+                        android:id="@+id/progressBarNews"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:indeterminateTint="@color/colorPrimary"
+                        android:visibility="visible"/>
+
+                </RelativeLayout>
 
             </RelativeLayout>
 
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
-        </RelativeLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCallNow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:contentDescription="@string/call_now"
+        android:src="@drawable/ic_baseline_call_24"
+        />
 
-    </androidx.core.widget.NestedScrollView>
-
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</RelativeLayout>

@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.marginBottom
+import androidx.core.view.setMargins
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -64,9 +66,18 @@ class StoreRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: StoreViewHolder, position: Int) {
-        val product: Product = productList[position]
-        holder.textProductName.text = product.productName
 
+        if (position == productList.size){
+            holder.rlParent.visibility = View.INVISIBLE
+            return
+        }
+        else{
+            holder.rlParent.visibility = View.VISIBLE
+        }
+
+        val product: Product = productList[position]
+
+        holder.textProductName.text = product.productName
         holder.txtGrade.text = product.grade
         holder.txtLotNumber.text = product.lotNumber.toString()
         holder.txtBagSize.text = product.bagSize.toString()
@@ -77,6 +88,7 @@ class StoreRecyclerAdapter(
         if (product.discount && product.discountedPrice != product.originalPrice){
             holder.textProductOriginalPrice.text = product.originalPrice.toString()
             holder.textProductDiscountedPrice.text = product.discountedPrice.toString()
+            holder.rlOriginalPrice.visibility = View.VISIBLE
         }
         else{
             holder.textProductDiscountedPrice.text = product.originalPrice.toString()
@@ -152,7 +164,7 @@ class StoreRecyclerAdapter(
 //            holder.llChangeSampleQuantity.visibility = View.GONE
 //        }
 
-        if (product.samplePrice == 0){
+        if (product.samplePrice == 0.0){
             holder.rlAddToSampleCart.visibility = View.GONE
         }
         else{
@@ -263,7 +275,7 @@ class StoreRecyclerAdapter(
     }
 
     override fun getItemCount(): Int {
-        return productList.size
+        return productList.size + 1
     }
 
 }
