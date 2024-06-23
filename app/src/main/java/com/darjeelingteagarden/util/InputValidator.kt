@@ -13,7 +13,8 @@ class InputValidator {
 
     }
 
-    fun validateEmailAddress(email: String): Boolean{
+    fun validateEmailAddress(email: String?): Boolean{
+        if (email == null) return false
         return email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
@@ -29,9 +30,12 @@ class InputValidator {
         return true
     }
 
-    fun validateOTP(otp: Int): Boolean{
-        if (otp < 100000 || otp > 999999) return false
-        return true
+    fun validateOTP(otp: String): Boolean{
+        val otpNum = otp.toIntOrNull()
+        if (otpNum != null && otpNum >= 100000 && otpNum <= 999999){
+            return true
+        }
+        return false
     }
 
 

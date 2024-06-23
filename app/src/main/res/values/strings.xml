@@ -362,5 +362,7 @@ Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincid
     <string name="ask_for_sample">Ask For Sample</string>
     <string name="minimum_order_value_is_rs_200">Minimum order value is ₹ 200</string>
     <string name="call_now">Call Now</string>
+    <string name="firm_name_optional">Firm Name (optional)</string>
+    <string name="phone_number_">Phone number</string>
 </resources>
 

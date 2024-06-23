@@ -265,7 +265,7 @@ class OrdersForMeFragment : Fragment() {
                                     from.getString("_id"),
                                     from.getString("name"),
                                     from.getString("role"),
-                                    from.getString("addressLineOne"),
+                                    from.optString("addressLineOne"),
                                     orderForMe.getString("orderDate").toDate()!!.formatTo("dd MMM yyyy HH:mm"),
                                     orderForMe.getInt("itemCount"),
                                     orderForMe.getDouble("amountPayable"),

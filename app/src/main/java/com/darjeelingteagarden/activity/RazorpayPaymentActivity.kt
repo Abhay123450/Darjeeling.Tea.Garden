@@ -238,7 +238,7 @@ class RazorpayPaymentActivity : AppCompatActivity(), PaymentResultWithDataListen
                         startPayment(
                             data.getString("id"),
                             data.getInt("amount"),
-                            AppDataSingleton.getUserInfo.email,
+                            AppDataSingleton.getUserInfo.email.toString(),
                             AppDataSingleton.getUserInfo.phoneNumber
                         )
 

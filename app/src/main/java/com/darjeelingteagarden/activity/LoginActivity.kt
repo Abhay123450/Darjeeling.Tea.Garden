@@ -105,6 +105,11 @@ class LoginActivity : AppCompatActivity() {
 
         }
 
+        binding.txtNewUser.setOnClickListener {
+            val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.btnRegisterAsBusinessPartner.setOnClickListener {
             val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
             startActivity(intent)
@@ -145,8 +150,7 @@ class LoginActivity : AppCompatActivity() {
                                     val user = it.getJSONObject("user")
 
                                     val accountVerified =
-                                        user.getBoolean("phoneNumberVerified") &&
-                                                user.getBoolean("emailVerified")
+                                        user.getBoolean("phoneNumberVerified")
 
                                     if(!accountVerified){
 
@@ -155,14 +159,12 @@ class LoginActivity : AppCompatActivity() {
                                         val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
                                         intent.putExtra("registered", true)
                                         intent.putExtra("phoneNumber", user.getLong("phoneNumber"))
-                                        intent.putExtra("email", user.getString("email"))
+//                                        intent.putExtra("email", user.getString("email"))
                                         intent.putExtra("userId", user.getString("userId"))
                                         startActivity(intent)
 
                                         return@Listener
                                     }
-
-
 
                                     binding.txtMessage.text = it.getString("message")
                                     Log.i("response", it.getJSONObject("user").toString())

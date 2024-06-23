@@ -319,7 +319,7 @@ class MainActivity : AppCompatActivity() {
                         val success = it.getBoolean("success")
 
                         if (success){
-                            Toast.makeText(this, it.getString("message"), Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(this, it.getString("message"), Toast.LENGTH_SHORT).show()
 
                             val editor = sharedPreferences.edit()
                             editor.putBoolean("fcm-token-updated", true)

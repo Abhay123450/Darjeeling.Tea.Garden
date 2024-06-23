@@ -45,7 +45,7 @@ class ResetPasswordActivity : AppCompatActivity() {
         }
 
         binding.textInputEditTextOTP.doOnTextChanged { text, start, before, count ->
-            if (text.isNullOrEmpty() || !InputValidator().validateOTP(text.toString().toInt())){
+            if (text.isNullOrBlank() || !InputValidator().validateOTP(text.toString())){
                 binding.textInputLayoutOTP.error = "Please enter valid OTP"
             }
             else{
@@ -54,7 +54,7 @@ class ResetPasswordActivity : AppCompatActivity() {
         }
 
         binding.textInputEditTextNewPassword.doOnTextChanged { text, start, before, count ->
-            if (text.isNullOrEmpty() || text.length < 6){
+            if (text.isNullOrBlank() || text.length < 6){
                 binding.textInputLayoutNewPassword.error = "Password must be at least 6 characters"
             }
             else{

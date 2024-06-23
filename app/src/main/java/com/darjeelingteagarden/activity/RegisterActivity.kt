@@ -62,7 +62,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
 
-    private var errorList = arrayListOf("name", "role", "phoneNumber", "email", "firmName", "address", "pincode")
+    private var errorList = arrayListOf("name", "role", "phoneNumber", "password")
 
     var phoneNumber: Long = 0
     var email = ""
@@ -83,13 +83,13 @@ class RegisterActivity : AppCompatActivity() {
             registered = intent.getBooleanExtra("registered", false)
             if (registered){
                 phoneNumber = intent.getLongExtra("phoneNumber", 0)
-                email = intent.getStringExtra("email").toString()
+//                email = intent.getStringExtra("email").toString()
                 userId = intent.getStringExtra("userId").toString()
             }
         }
 
         if(registered){
-            sendOTP(phoneNumber.toString(), email, null)
+            sendOTP(phoneNumber.toString(), null, null)
             binding.svForm.visibility = View.GONE
             binding.llStep2.visibility = View.VISIBLE
             binding.llLoading.visibility = View.GONE
@@ -110,7 +110,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         binding.autoCompleteTextViewRole.doOnTextChanged { text, start, before, count ->
-            if (text.isNullOrEmpty()){
+            if (text.isNullOrBlank()){
                 if (!errorList.contains("role")){
                     errorList.add("role")
                 }
@@ -122,7 +122,7 @@ class RegisterActivity : AppCompatActivity() {
 
         binding.textInputEditTextPhoneNumber.doOnTextChanged { text, start, before, count ->
 
-            if (text!!.isNotEmpty() && InputValidator().validatePhoneNumber(text.toString().trim())){
+            if (!text.isNullOrBlank() && InputValidator().validatePhoneNumber(text.toString().trim())){
                 binding.textInputLayoutPhoneNumber.error = null
                 errorList.remove("phoneNumber")
                 phoneNumber = text.trim().toString().toLong()
@@ -135,32 +135,32 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
 
-        binding.textInputEditTextEmail.doOnTextChanged { text, start, before, count ->
-            if (InputValidator().validateEmailAddress((text!!.toString()))){
-                errorList.remove("email")
-                binding.textInputLayoutEmail.error = null
-                email = text.trim().toString()
-            }
-            else{
-                if (!errorList.contains("email")){
-                    errorList.add("email")
-                }
-                binding.textInputLayoutEmail.error = "Enter a valid email"
-            }
-        }
+//        binding.textInputEditTextEmail.doOnTextChanged { text, start, before, count ->
+//            if (InputValidator().validateEmailAddress((text!!.toString()))){
+//                errorList.remove("email")
+//                binding.textInputLayoutEmail.error = null
+//                email = text.trim().toString()
+//            }
+//            else{
+//                if (!errorList.contains("email")){
+//                    errorList.add("email")
+//                }
+//                binding.textInputLayoutEmail.error = "Enter a valid email"
+//            }
+//        }
 
-        binding.textInputEditTextGSTINNumber.doOnTextChanged { text, start, before, count ->
-            if (InputValidator().validateGSTINNumber(text!!.toString())){
-                binding.textInputLayoutGSTINNumber.error = null
-                errorList.remove("gstin")
-            }
-            else{
-                if (!errorList.contains("gstin")){
-                    errorList.add("gstin")
-                }
-                binding.textInputLayoutGSTINNumber.error = "Enter a valid GSTIN number"
-            }
-        }
+//        binding.textInputEditTextGSTINNumber.doOnTextChanged { text, start, before, count ->
+//            if (InputValidator().validateGSTINNumber(text!!.toString())){
+//                binding.textInputLayoutGSTINNumber.error = null
+//                errorList.remove("gstin")
+//            }
+//            else{
+//                if (!errorList.contains("gstin")){
+//                    errorList.add("gstin")
+//                }
+//                binding.textInputLayoutGSTINNumber.error = "Enter a valid GSTIN number"
+//            }
+//        }
 
         binding.textInputEditTextName.doOnTextChanged { text, start, before, count ->
             if (text.isNullOrBlank() || text.length < 3){
@@ -172,6 +172,19 @@ class RegisterActivity : AppCompatActivity() {
             else{
                 errorList.remove("name")
                 binding.textInputLayoutName.error = null
+            }
+        }
+
+        binding.textInputEditTextNewPassword.doOnTextChanged{ text, start, before, count ->
+            if (text.isNullOrBlank() || text.length < 6){
+                binding.textInputLayoutNewPassword.error = "Password cannot be less than 6 characters long."
+                if (!errorList.contains("password")){
+                    errorList.add("password")
+                }
+            }
+            else{
+                errorList.remove("password")
+                binding.textInputLayoutNewPassword.error = null
             }
         }
 
@@ -188,61 +201,61 @@ class RegisterActivity : AppCompatActivity() {
 //            }
 //        }
 
-        binding.textInputEditTextFirmName.doOnTextChanged { text, start, before, count ->
-            if (text.isNullOrBlank() || text.length < 3){
-                binding.textInputLayoutFirmName.error = "Enter firm name"
-                if (!errorList.contains("firmName")){
-                    errorList.add("firmName")
-                }
-            }
-            else{
-                errorList.remove("firmName")
-                binding.textInputLayoutFirmName.error = null
-            }
-        }
-
-        binding.textInputEditTextAddressLine1.doOnTextChanged { text, start, before, count ->
-            if (text.isNullOrBlank() || text.length < 4){
-                if (!errorList.contains("address")){
-                    errorList.add("address")
-                }
-                binding.textInputLayoutAddressLine1.error = "Enter your address"
-            }
-            else{
-                binding.textInputLayoutAddressLine1.error = null
-                errorList.remove("address")
-            }
-        }
-
-        binding.textInputEditTextPincode.doOnTextChanged { text, _, _, count ->
-
-            if(count > 0 && InputValidator().validatePincode(text!!.toString().toInt())){
-
-                errorList.remove("pincode")
-                binding.textInputLayoutPincode.error = null
-
-                if (ConnectionManager().isOnline(this@RegisterActivity)){
-
-                    binding.progressBarPincode.visibility = ProgressBar.VISIBLE
-                    getCityAndStateByPincode(text.toString().toInt())
-
-                }
-            }
-            else {
-
-                if (!errorList.contains("pincode")){
-                    errorList.add("pincode")
-                }
-
-                binding.textInputLayoutPincode.error = "Pincode must be of 6 digits only"
-//                autoCompleteTextViewStates.setText("")
-//                autoCompleteTextViewCity.setText("")
-//                binding.progressBarPincode.visibility = ProgressBar.INVISIBLE
-                binding.autoCompleteTextViewStates.setText("")
-                binding.autoCompleteTextViewCity.setText("")
-
-            }
-        }
+//        binding.textInputEditTextFirmName.doOnTextChanged { text, start, before, count ->
+//            if (text.isNullOrBlank() || text.length < 3){
+//                binding.textInputLayoutFirmName.error = "Enter firm name"
+//                if (!errorList.contains("firmName")){
+//                    errorList.add("firmName")
+//                }
+//            }
+//            else{
+//                errorList.remove("firmName")
+//                binding.textInputLayoutFirmName.error = null
+//            }
+//        }
+//
+//        binding.textInputEditTextAddressLine1.doOnTextChanged { text, start, before, count ->
+//            if (text.isNullOrBlank() || text.length < 4){
+//                if (!errorList.contains("address")){
+//                    errorList.add("address")
+//                }
+//                binding.textInputLayoutAddressLine1.error = "Enter your address"
+//            }
+//            else{
+//                binding.textInputLayoutAddressLine1.error = null
+//                errorList.remove("address")
+//            }
+//        }
+//
+//        binding.textInputEditTextPincode.doOnTextChanged { text, _, _, count ->
+//
+//            if(count > 0 && InputValidator().validatePincode(text!!.toString().toInt())){
+//
+//                errorList.remove("pincode")
+//                binding.textInputLayoutPincode.error = null
+//
+//                if (ConnectionManager().isOnline(this@RegisterActivity)){
+//
+//                    binding.progressBarPincode.visibility = ProgressBar.VISIBLE
+//                    getCityAndStateByPincode(text.toString().toInt())
+//
+//                }
+//            }
+//            else {
+//
+//                if (!errorList.contains("pincode")){
+//                    errorList.add("pincode")
+//                }
+//
+//                binding.textInputLayoutPincode.error = "Pincode must be of 6 digits only"
+////                autoCompleteTextViewStates.setText("")
+////                autoCompleteTextViewCity.setText("")
+////                binding.progressBarPincode.visibility = ProgressBar.INVISIBLE
+//                binding.autoCompleteTextViewStates.setText("")
+//                binding.autoCompleteTextViewCity.setText("")
+//
+//            }
+//        }
 
         binding.btnSubmit.setOnClickListener {
 
@@ -268,14 +281,16 @@ class RegisterActivity : AppCompatActivity() {
                 val builder = AlertDialog.Builder(this@RegisterActivity)
                 builder.setTitle("No Internet")
                 builder.setMessage("Internet Connection not available. Please enable internet")
-                builder.setNeutralButton("OK"){ _, _ ->            }
-                builder.setCancelable(false).create().show()
+                builder.setNeutralButton("OK"){ dialog, _ ->
+                    dialog.dismiss()
+                }
+                builder.setCancelable(true).create().show()
             }
 
         }
 
         binding.textInputEditTextSmsOTP.doOnTextChanged { text, start, before, count ->
-            if (InputValidator().validateOTP(text.toString().toInt())){
+            if (!text.isNullOrBlank() && InputValidator().validateOTP(text.toString())){
                 smsOtp = text.toString().toInt()
                 binding.textInputLayoutSmsOTP.error = null
             }
@@ -284,15 +299,15 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
 
-        binding.textInputEditTextEmailOTP.doOnTextChanged { text, start, before, count ->
-            if (InputValidator().validateOTP(text.toString().toInt())){
-                emailOtp = text.toString().toInt()
-                binding.textInputLayoutEmailOTP.error = null
-            }
-            else{
-                binding.textInputLayoutEmailOTP.error = "OTP must be of 6 digits only"
-            }
-        }
+//        binding.textInputEditTextEmailOTP.doOnTextChanged { text, start, before, count ->
+//            if (!text.isNullOrBlank() && InputValidator().validateOTP(text.toString())){
+//                emailOtp = text.toString().toInt()
+//                binding.textInputLayoutEmailOTP.error = null
+//            }
+//            else{
+//                binding.textInputLayoutEmailOTP.error = "OTP must be of 6 digits only"
+//            }
+//        }
 
         binding.txtPrivacyPolicyInfo.setOnClickListener {
             val intent = Intent(this, AboutActivity::class.java)
@@ -303,25 +318,25 @@ class RegisterActivity : AppCompatActivity() {
             sendOTP(phoneNumber.toString(), null, it)
         }
 
-        binding.btnResendEmailOTP.setOnClickListener {
-            sendOTP(null, email, it)
-        }
+//        binding.btnResendEmailOTP.setOnClickListener {
+//            sendOTP(null, email, it)
+//        }
 
         binding.btnSubmitOTP.setOnClickListener {
 
-            if (binding.textInputLayoutEmailOTP.error != null || binding.textInputLayoutSmsOTP.error != null){
+            if ( binding.textInputLayoutSmsOTP.error != null){
                 return@setOnClickListener
             }
 
-            if (this::smsOtp.isInitialized && smsOtp.toString().length != 6){
+            if (!(this::smsOtp.isInitialized) || smsOtp.toString().length != 6){
                 Toast.makeText(this, "Sms OTP is required", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
 
-            else if (this::emailOtp.isInitialized && emailOtp.toString().length != 6){
-                Toast.makeText(this, "Sms OTP is required", Toast.LENGTH_LONG).show()
-                return@setOnClickListener
-            }
+//            else if (this::emailOtp.isInitialized && emailOtp.toString().length != 6){
+//                Toast.makeText(this, "Sms OTP is required", Toast.LENGTH_LONG).show()
+//                return@setOnClickListener
+//            }
 
             if (ConnectionManager().isOnline(this@RegisterActivity)){
 
@@ -334,7 +349,7 @@ class RegisterActivity : AppCompatActivity() {
                 val builder = AlertDialog.Builder(this@RegisterActivity)
                 builder.setTitle("No Internet")
                 builder.setMessage("Internet Connection not available. Please enable internet")
-                builder.setNeutralButton("OK"){ _, _ ->            }
+                builder.setNeutralButton("OK"){ _, _ -> }
                 builder.setCancelable(false).create().show()
             }
 
@@ -355,11 +370,11 @@ class RegisterActivity : AppCompatActivity() {
 
         val jsonParams = JSONObject()
         jsonParams.put("phoneNumber", phoneNumber)
-        jsonParams.put("smsOtp", smsOtp)
-        jsonParams.put("email", email)
-        jsonParams.put("emailOtp", emailOtp)
+        jsonParams.put("otp", smsOtp)
+//        jsonParams.put("email", email)
+//        jsonParams.put("emailOtp", emailOtp)
 
-        val verifyPhoneWithOtpUrl = "${getString(R.string.homeUrl)}api/v1/user/verifyOTP"
+        val verifyPhoneWithOtpUrl = "${getString(R.string.homeUrl)}api/v1/user/verifyPhoneNumber"
 
         val queue = Volley.newRequestQueue(this@RegisterActivity)
 
@@ -416,7 +431,8 @@ class RegisterActivity : AppCompatActivity() {
 
         val jsonParams = createJsonBody()
         Log.i("JsonBody", jsonParams.toString())
-        val registerUrl = getString(R.string.registerUrl)
+//        val registerUrl = getString(R.string.registerUrl)
+        val registerUrl = getString(R.string.homeUrl) + "api/v2/user/register"
 
         val queue = Volley.newRequestQueue(this@RegisterActivity)
 
@@ -437,24 +453,24 @@ class RegisterActivity : AppCompatActivity() {
 
                         binding.btnResendSmsOTP.visibility = View.GONE
                         binding.txtResendSmsOtpTimer.visibility = View.VISIBLE
-                        binding.btnResendEmailOTP.visibility = View.GONE
-                        binding.txtResendEmailOtpTimer.visibility = View.VISIBLE
+//                        binding.btnResendEmailOTP.visibility = View.GONE
+//                        binding.txtResendEmailOtpTimer.visibility = View.VISIBLE
 
                         val timer = object: CountDownTimer(60000, 1000){
                             override fun onTick(p0: Long) {
                                 binding.txtResendSmsOtpTimer.text =
                                     "Resend OTP in ${p0/1000} second"
-                                binding.txtResendEmailOtpTimer.text =
-                                    "Resend OTP in ${p0/1000} second"
+//                                binding.txtResendEmailOtpTimer.text =
+//                                    "Resend OTP in ${p0/1000} second"
                             }
 
                             override fun onFinish() {
                                 binding.btnResendSmsOTP.visibility = View.VISIBLE
                                 binding.txtResendSmsOtpTimer.visibility = View.GONE
                                 binding.txtResendSmsOtpTimer.text = ""
-                                binding.btnResendEmailOTP.visibility = View.VISIBLE
-                                binding.txtResendEmailOtpTimer.visibility = View.GONE
-                                binding.txtResendEmailOtpTimer.text = ""
+//                                binding.btnResendEmailOTP.visibility = View.VISIBLE
+//                                binding.txtResendEmailOtpTimer.visibility = View.GONE
+//                                binding.txtResendEmailOtpTimer.text = ""
                             }
 
                         }
@@ -485,7 +501,9 @@ class RegisterActivity : AppCompatActivity() {
                 MaterialAlertDialogBuilder(this@RegisterActivity)
                     .setTitle("Message")
                     .setMessage(response.getString("message").toString())
-                    .setNeutralButton("OK") { _, _ -> }
+                    .setNeutralButton("OK") { dialog, _ ->
+                        dialog.dismiss()
+                    }
                     .show()
                 binding.llLoading.visibility = View.GONE
 //                Toast.makeText(this@RegisterActivity, "Some error occurred. $response", Toast.LENGTH_LONG).show()
@@ -533,7 +551,7 @@ class RegisterActivity : AppCompatActivity() {
                     if (success){
 
                         val otpSentToPhone = it.getBoolean("otpSentToPhone")
-                        val otpSentToEmail = it.getBoolean("otpSentToEmail")
+//                        val otpSentToEmail = it.getBoolean("otpSentToEmail")
 
                         if (otpSentToPhone){
 
@@ -556,25 +574,25 @@ class RegisterActivity : AppCompatActivity() {
 
                         }
 
-                        if (otpSentToEmail){
-
-                            binding.btnResendEmailOTP.visibility = View.GONE
-                            binding.txtResendEmailOtpTimer.visibility = View.VISIBLE
-
-                            val timer = object: CountDownTimer(60000, 1000){
-                                override fun onTick(p0: Long) {
-                                    binding.txtResendEmailOtpTimer.text =
-                                        "Resend OTP in ${p0/1000} seconds"
-                                }
-
-                                override fun onFinish() {
-                                    binding.btnResendEmailOTP.visibility = View.VISIBLE
-                                    binding.txtResendEmailOtpTimer.text = ""
-                                }
-
-                            }
-                            timer.start()
-                        }
+//                        if (otpSentToEmail){
+//
+//                            binding.btnResendEmailOTP.visibility = View.GONE
+//                            binding.txtResendEmailOtpTimer.visibility = View.VISIBLE
+//
+//                            val timer = object: CountDownTimer(60000, 1000){
+//                                override fun onTick(p0: Long) {
+//                                    binding.txtResendEmailOtpTimer.text =
+//                                        "Resend OTP in ${p0/1000} seconds"
+//                                }
+//
+//                                override fun onFinish() {
+//                                    binding.btnResendEmailOTP.visibility = View.VISIBLE
+//                                    binding.txtResendEmailOtpTimer.text = ""
+//                                }
+//
+//                            }
+//                            timer.start()
+//                        }
 
 
 
@@ -612,20 +630,20 @@ class RegisterActivity : AppCompatActivity() {
 
         val jsonBody = JSONObject()
         jsonBody.put("name", binding.textInputEditTextName.text.toString())
-        jsonBody.put("phoneNumber", binding.textInputEditTextPhoneNumber.text?.trim()?.toString()?.toLong())
-        jsonBody.put("email", binding.textInputEditTextEmail.text.toString())
+        jsonBody.put("phoneNumber", binding.textInputEditTextPhoneNumber.text?.trim()?.toString())
+//        jsonBody.put("email", binding.textInputEditTextEmail.text.toString())
         jsonBody.put("role", binding.autoCompleteTextViewRole.text.toString())
-        jsonBody.put("firmName", binding.textInputEditTextFirmName.text.toString())
-        jsonBody.put("addressLineOne", binding.textInputEditTextAddressLine1.text.toString())
-        jsonBody.put("addressLineTwo", binding.textInputEditTextAddressLine2.text.toString())
-        jsonBody.put("pincode", binding.textInputEditTextPincode.text.toString().toInt())
-        jsonBody.put("state", binding.autoCompleteTextViewStates.text.toString())
-        jsonBody.put("city", binding.autoCompleteTextViewCity.text.toString())
+//        jsonBody.put("firmName", binding.textInputEditTextFirmName.text.toString())
+//        jsonBody.put("addressLineOne", binding.textInputEditTextAddressLine1.text.toString())
+//        jsonBody.put("addressLineTwo", binding.textInputEditTextAddressLine2.text.toString())
+//        jsonBody.put("pincode", binding.textInputEditTextPincode.text.toString().toInt())
+//        jsonBody.put("state", binding.autoCompleteTextViewStates.text.toString())
+//        jsonBody.put("city", binding.autoCompleteTextViewCity.text.toString())
         jsonBody.put("latitude", latitude)
         jsonBody.put("longitude", longitude)
         jsonBody.put("password", binding.textInputEditTextNewPassword.text.toString())
         jsonBody.put("inviteCode", binding.textInputEditTextInviteCode.text.toString())
-        jsonBody.put("gstin", binding.textInputEditTextGSTINNumber.text.toString())
+//        jsonBody.put("gstin", binding.textInputEditTextGSTINNumber.text.toString())
 
         return jsonBody
     }
@@ -644,7 +662,7 @@ class RegisterActivity : AppCompatActivity() {
         val states = arrayListOf("Andhra Pradesh", "Arunachal Pradesh", "Bihar", "Gujarat", "Uttar Pradesh")
 
         val arrayAdapter = ArrayAdapter(this@RegisterActivity, R.layout.dropdown_item, states)
-        binding.autoCompleteTextViewStates.setAdapter(arrayAdapter)
+//        binding.autoCompleteTextViewStates.setAdapter(arrayAdapter)
 
     }
 
@@ -680,37 +698,37 @@ class RegisterActivity : AppCompatActivity() {
                     returnObject.put("state", pincodeObject.getString("State"))
                     returnObject.put("city", pincodeObject.getString("District"))
 
-                    binding.autoCompleteTextViewStates.setText(returnObject.getString("state"))
-                    binding.autoCompleteTextViewCity.setText(returnObject.getString("city"))
-
-                    binding.progressBarPincode.visibility = ProgressBar.INVISIBLE
+//                    binding.autoCompleteTextViewStates.setText(returnObject.getString("state"))
+//                    binding.autoCompleteTextViewCity.setText(returnObject.getString("city"))
+//
+//                    binding.progressBarPincode.visibility = ProgressBar.INVISIBLE
 
                 } else {
                     Toast.makeText(this@RegisterActivity, "Request not successful", Toast.LENGTH_LONG).show()
-                    binding.progressBarPincode.visibility = ProgressBar.INVISIBLE
-                    binding.autoCompleteTextViewStates.setText("")
-                    binding.autoCompleteTextViewCity.setText("")
-                    binding.autoCompleteTextViewStates.inputType = InputType.TYPE_CLASS_TEXT
-                    binding.autoCompleteTextViewCity.inputType = InputType.TYPE_CLASS_TEXT
+//                    binding.progressBarPincode.visibility = ProgressBar.INVISIBLE
+//                    binding.autoCompleteTextViewStates.setText("")
+//                    binding.autoCompleteTextViewCity.setText("")
+//                    binding.autoCompleteTextViewStates.inputType = InputType.TYPE_CLASS_TEXT
+//                    binding.autoCompleteTextViewCity.inputType = InputType.TYPE_CLASS_TEXT
                 }
 
             } catch (e: Exception){
                 Toast.makeText(this@RegisterActivity, "Some Error Occurred", Toast.LENGTH_LONG).show()
-                binding.progressBarPincode.visibility = ProgressBar.INVISIBLE
-                binding.autoCompleteTextViewStates.setText("")
-                binding.autoCompleteTextViewCity.setText("")
-                binding.autoCompleteTextViewStates.inputType = InputType.TYPE_CLASS_TEXT
-                binding.autoCompleteTextViewCity.inputType = InputType.TYPE_CLASS_TEXT
+//                binding.progressBarPincode.visibility = ProgressBar.INVISIBLE
+//                binding.autoCompleteTextViewStates.setText("")
+//                binding.autoCompleteTextViewCity.setText("")
+//                binding.autoCompleteTextViewStates.inputType = InputType.TYPE_CLASS_TEXT
+//                binding.autoCompleteTextViewCity.inputType = InputType.TYPE_CLASS_TEXT
             }
 
         }, Response.ErrorListener {
 
             Toast.makeText(this@RegisterActivity, "Cannot Fetch City and State", Toast.LENGTH_LONG).show()
-            binding.progressBarPincode.visibility = ProgressBar.INVISIBLE
-            binding.autoCompleteTextViewStates.setText("")
-            binding.autoCompleteTextViewCity.setText("")
-            binding.autoCompleteTextViewStates.inputType = InputType.TYPE_CLASS_TEXT
-            binding.autoCompleteTextViewCity.inputType = InputType.TYPE_CLASS_TEXT
+//            binding.progressBarPincode.visibility = ProgressBar.INVISIBLE
+//            binding.autoCompleteTextViewStates.setText("")
+//            binding.autoCompleteTextViewCity.setText("")
+//            binding.autoCompleteTextViewStates.inputType = InputType.TYPE_CLASS_TEXT
+//            binding.autoCompleteTextViewCity.inputType = InputType.TYPE_CLASS_TEXT
 
         }){
             override fun getHeaders(): MutableMap<String, String> {

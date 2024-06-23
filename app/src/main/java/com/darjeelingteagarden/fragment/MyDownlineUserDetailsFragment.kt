@@ -144,12 +144,12 @@ class MyDownlineUserDetailsFragment : Fragment() {
                     binding.txtUserName.text = user.getString("name")
                     binding.txtUserRole.text = user.optString("role")
                     binding.txtUserPhoneNumber.text = user.getLong("phoneNumber").toString()
-                    binding.txtUserEmail.text = user.getString("email")
+                    binding.txtUserEmail.text = user.optString("email")
                     binding.txtUserAddressLine1.text = user.optString("addressLineOne")
                     binding.txtUserAddressLine2.text = user.optString("addressLineTwo")
-                    binding.txtUserAddressCity.text = user.getString("city")
-                    binding.txtUserAddressState.text = user.getString("state")
-                    binding.txtUserAddressPincode.text = user.getString("pincode")
+                    binding.txtUserAddressCity.text = user.optString("city")
+                    binding.txtUserAddressState.text = user.optString("state")
+                    binding.txtUserAddressPincode.text = user.optString("pincode")
 
                     if (AppDataSingleton.getUserInfo.role.equals("admin", ignoreCase = true)){
 

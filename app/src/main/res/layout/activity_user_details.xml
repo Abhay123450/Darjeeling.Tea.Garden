@@ -134,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     app:errorEnabled="true"
-                    android:hint="@string/firm_name"
+                    android:hint="@string/firm_name_optional"
                     >
 
                     <com.google.android.material.textfield.TextInputEditText

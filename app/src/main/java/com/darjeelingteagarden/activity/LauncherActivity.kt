@@ -256,7 +256,7 @@ class LauncherActivity : AppCompatActivity() {
                             data.getString("name"),
                             data.getString("role"),
                             data.getLong("phoneNumber"),
-                            data.getString("email"),
+                            data.optString("email"),
                         )
 
                         println("user is $user")
@@ -294,7 +294,7 @@ class LauncherActivity : AppCompatActivity() {
                 Toast.makeText(
                     this@LauncherActivity,"An error occurred", Toast.LENGTH_LONG
                 ).show()
-                val response = JSONObject(String(it.networkResponse.data))
+//                val response = JSONObject(String(it.networkResponse.data))
                 if (it.networkResponse.statusCode == 401){
                     isLoggedIn = false
                     startAnotherActivity()

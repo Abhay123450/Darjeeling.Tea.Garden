@@ -70,7 +70,7 @@ class UserDetailsActivity : AppCompatActivity() {
         }
 
         binding.textInputEditTextEmail.doOnTextChanged { text, start, before, count ->
-            if (InputValidator().validateEmailAddress((text!!.toString()))){
+            if (text.isNullOrBlank() || InputValidator().validateEmailAddress((text.toString()))){
                 errorList.remove("email")
                 binding.textInputLayoutEmail.error = null
             }
@@ -109,7 +109,7 @@ class UserDetailsActivity : AppCompatActivity() {
         }
 
         binding.textInputEditTextAddressLine1.doOnTextChanged { text, start, before, count ->
-            if (text.isNullOrBlank() || text.length < 4){
+            if (!text.isNullOrBlank() && text.length < 4){
                 if (!errorList.contains("address")){
                     errorList.add("address")
                 }
@@ -157,6 +157,7 @@ class UserDetailsActivity : AppCompatActivity() {
         binding.btnUpdate.setOnClickListener {
 
             updatedUserDetails = getFormData()
+            Log.d("updatedUsersDetail", updatedUserDetails.toString())
 
             var phoneNumber: Long? = 0
 
@@ -175,7 +176,7 @@ class UserDetailsActivity : AppCompatActivity() {
             var email: String? = ""
 
             if (
-                InputValidator().validateEmailAddress(userDetails.email) &&
+                (userDetails.email.isNullOrBlank() || InputValidator().validateEmailAddress(userDetails.email)) &&
                 InputValidator().validateEmailAddress(updatedUserDetails.email) &&
                 userDetails.email != updatedUserDetails.email
             ){
@@ -289,12 +290,15 @@ class UserDetailsActivity : AppCompatActivity() {
         binding.textInputEditTextInviteCode.setText(userDetails.inviteCode)
         binding.textInputEditTextAddressLine1.setText(userDetails.addressLineOne)
         binding.textInputEditTextAddressLine2.setText(userDetails.addressLineTwo)
-        binding.textInputEditTextPincode.setText(userDetails.pincode.toString())
+        if (userDetails.pincode != 0){
+            binding.textInputEditTextPincode.setText(userDetails.pincode.toString())
+        }
         binding.autoCompleteTextViewCity.setText(userDetails.city)
         binding.autoCompleteTextViewStates.setText(userDetails.state)
     }
 
     private fun getFormData(): UserDetails{
+//        if (binding.textInputEditTextPincode.text.toString().)
         return UserDetails(
             userDetails._id,
             userDetails.userId,
@@ -304,7 +308,7 @@ class UserDetailsActivity : AppCompatActivity() {
             binding.textInputEditTextEmail.text.toString(),
             binding.textInputEditTextAddressLine1.text.toString(),
             binding.textInputEditTextAddressLine2.text.toString(),
-            binding.textInputEditTextPincode.text.toString().toInt(),
+            binding.textInputEditTextPincode.text.toString().toIntOrNull(),
             binding.autoCompleteTextViewCity.text.toString(),
             binding.autoCompleteTextViewStates.text.toString(),
             binding.textInputEditTextFirmName.text.toString(),
@@ -361,12 +365,12 @@ class UserDetailsActivity : AppCompatActivity() {
                             data.getString("name"),
                             data.getString("role"),
                             data.getLong("phoneNumber"),
-                            data.getString("email"),
-                            data.getString("addressLineOne"),
+                            data.optString("email"),
+                            data.optString("addressLineOne"),
                             data.optString("addressLineTwo"),
-                            data.getInt("pincode"),
-                            data.getString("city"),
-                            data.getString("state"),
+                            data.optInt("pincode"),
+                            data.optString("city"),
+                            data.optString("state"),
                             data.optString("firmName"),
                             data.optString("gstin"),
                             data.optString("inviteCode"),
@@ -438,12 +442,12 @@ class UserDetailsActivity : AppCompatActivity() {
                             data.getString("name"),
                             data.getString("role"),
                             data.getLong("phoneNumber"),
-                            data.getString("email"),
-                            data.getString("addressLineOne"),
+                            data.optString("email"),
+                            data.optString("addressLineOne"),
                             data.optString("addressLineTwo"),
-                            data.getInt("pincode"),
-                            data.getString("city"),
-                            data.getString("state"),
+                            data.optInt("pincode"),
+                            data.optString("city"),
+                            data.optString("state"),
                             data.optString("firmName"),
                             data.optString("gstin"),
                             data.optString("inviteCode"),
@@ -541,6 +545,7 @@ class UserDetailsActivity : AppCompatActivity() {
             },
             Response.ErrorListener {
                 binding.rlProgressBar.visibility = View.GONE
+//                val response = JSONObject(String(it.networkResponse.data))
                 Toast.makeText(this, "An error occurred", Toast.LENGTH_LONG).show()
 
             }

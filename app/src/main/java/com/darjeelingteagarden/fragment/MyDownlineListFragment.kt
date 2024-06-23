@@ -2,6 +2,7 @@ package com.darjeelingteagarden.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -164,7 +165,7 @@ class MyDownlineListFragment : Fragment() {
     }
 
     private fun populateAdditionalData(){
-        myDownlineRecyclerAdapter.notifyItemRangeInserted((currentPage-1)*limit+1, limit)
+        myDownlineRecyclerAdapter.notifyItemRangeInserted((currentPage - 1) * limit + 1, limit)
         binding.progressBarMyDownline.visibility = View.GONE
 
         var text = ""
@@ -197,6 +198,7 @@ class MyDownlineListFragment : Fragment() {
         binding.progressBarMyDownline.visibility = View.GONE
 
         val url = getString(R.string.homeUrl) + "api/v1/user/myDownline?role=$role&page=$page&sort=$sort"
+        Log.d("myDownlineUrl", url)
 
         val jsonObjectRequest = object: JsonObjectRequest(
             Method.GET,
@@ -211,7 +213,9 @@ class MyDownlineListFragment : Fragment() {
 
                     if (success){
 
-                        myDownlineList.clear()
+                        if (page == 1){
+                            myDownlineList.clear()
+                        }
 
                         totalUsers = it.getInt("itemsCount")
 
@@ -241,7 +245,9 @@ class MyDownlineListFragment : Fragment() {
 
                         }
 
-                        if (currentPage == 1){
+                        Log.d("myDownlineList", myDownlineList.toString())
+
+                        if (page == 1){
                             populateRecyclerView(myDownlineList)
                         }
                         else{

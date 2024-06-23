@@ -228,7 +228,7 @@ class SampleOrdersForMeFragment : Fragment() {
                                 val orderForMe = data.getJSONObject(i)
                                 val from = orderForMe.getJSONObject("from")
 
-                                val fromAddress = "${from.getString("city")}, ${from.getString("state")}"
+                                val fromAddress = "${from.optString("city")}, ${from.optString("state")}"
 
                                 val dataObject = OrderForMe(
                                     orderForMe.getString("_id"),

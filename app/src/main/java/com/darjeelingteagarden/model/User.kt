@@ -5,5 +5,5 @@ data class User(
     val name: String,
     val role: String,
     val phoneNumber: Long,
-    val email: String
+    val email: String?
 )
