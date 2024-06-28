@@ -23,18 +23,23 @@
         tools:targetApi="31">
         <activity
             android:name=".activity.FaqActivity"
+            android:theme="@style/Theme.DarjeelingTeaGarden"
             android:exported="false" />
         <activity
             android:name=".activity.UserDetailsActivity"
+            android:theme="@style/Theme.DarjeelingTeaGarden"
             android:exported="false" />
         <activity
             android:name=".activity.VideosActivity"
+            android:theme="@style/Theme.DarjeelingTeaGarden"
             android:exported="false" />
         <activity
             android:name=".activity.AboutActivity"
+            android:theme="@style/Theme.DarjeelingTeaGarden"
             android:exported="false" />
         <activity
             android:name=".activity.RazorpayPaymentActivity"
+            android:theme="@style/Theme.DarjeelingTeaGarden"
             android:exported="false" />
         <!-- Razorpay api key -->
         <meta-data
@@ -68,16 +73,20 @@
 
         <activity
             android:name=".activity.SampleOrdersForMeActivity"
+            android:theme="@style/Theme.DarjeelingTeaGarden"
             android:exported="false" />
         <activity
             android:name=".activity.SampleOrderDetailsActivity"
+            android:theme="@style/Theme.DarjeelingTeaGarden"
             android:exported="false" />
         <activity
             android:name=".activity.ProductDetailsActivity"
+            android:theme="@style/Theme.DarjeelingTeaGarden"
             android:exported="false"
             android:hardwareAccelerated="false" />
         <activity
             android:name=".activity.MyDownlineActivity"
+            android:theme="@style/Theme.DarjeelingTeaGarden"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -85,6 +94,7 @@
         </activity>
         <activity
             android:name=".activity.SampleOrderActivity"
+            android:theme="@style/Theme.DarjeelingTeaGarden"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -92,6 +102,7 @@
         </activity>
         <activity
             android:name=".activity.NewsActivity"
+            android:theme="@style/Theme.DarjeelingTeaGarden"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -99,6 +110,7 @@
         </activity>
         <activity
             android:name=".activity.OrdersForMeActivity"
+            android:theme="@style/Theme.DarjeelingTeaGarden"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -106,6 +118,7 @@
         </activity>
         <activity
             android:name=".activity.MyOrdersActivity"
+            android:theme="@style/Theme.DarjeelingTeaGarden"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -115,6 +128,7 @@
         <!-- android:exported="false" /> -->
         <activity
             android:name=".activity.ProfileActivity"
+            android:theme="@style/Theme.DarjeelingTeaGarden"
             android:exported="false" />
         <activity
             android:name=".activity.LauncherActivity"
@@ -137,6 +151,7 @@
             android:exported="true" />
         <activity
             android:name=".activity.MainActivity"
+            android:theme="@style/Theme.DarjeelingTeaGarden"
             android:exported="false" />
     </application>
 

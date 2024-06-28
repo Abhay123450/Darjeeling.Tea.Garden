@@ -117,7 +117,9 @@ object StoreDataSingleton {
                 MaterialAlertDialogBuilder(context)
                     .setTitle("Message")
                     .setMessage(response.getString("message").toString())
-                    .setNeutralButton("OK") { _, _ -> }
+                    .setNeutralButton("OK") { dialog, _ ->
+                        dialog.dismiss()
+                    }
                     .show()
 
 //                storeSwipeRefreshLayout.isRefreshing = false
