@@ -210,7 +210,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Call Now - 7007789842"
+                        android:textColor="@color/white"
                         app:icon="@drawable/ic_baseline_call_24"
+                        app:iconTint="@color/white"
                         app:iconGravity="textStart"/>
 
                     <com.google.android.material.button.MaterialButton
@@ -218,7 +220,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Message on Whatsapp"
+                        android:textColor="@color/white"
                         app:icon="@drawable/ic_baseline_chat_24"
+                        app:iconTint="@color/white"
                         app:iconGravity="textStart"/>
 
                 </LinearLayout>

@@ -5,18 +5,19 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
+    <color name="black">#FFDDDDDD</color>
     <color name="darkGray">#FF222222</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#FF232323</color>
     <color name="whiteTransparent">#AAFFFFFF</color>
-    <color name="blue">#FF0000ff</color>
+    <color name="blue">#FFaaaaff</color>
     <color name="yellow">#FFffff00</color>
     <color name="tea">#42f57b</color>
-<!--    <color name="tea">#FF34eb4c</color>-->
+    <!--    <color name="tea">#FF34eb4c</color>-->
     <color name="red">#FFFF0000</color>
     <color name="colorPrimary">#FF00CCAA</color>
     <color name="colorSecondary">#FF34EB4C</color>
     <color name="progressTransparentBackground">#22000000</color>
     <color name="warningColor">#FFFFC185</color>
-    <color name="activity_title">#FFFFFFFF</color>
+    <color name="gray_666666">#FFABABAB</color>
+    <color name="activity_title">#FFDDDDDD</color>
 </resources>

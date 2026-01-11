@@ -258,6 +258,7 @@
             android:layout_height="wrap_content"
             app:strokeWidth="1dp"
             app:strokeColor="@color/colorPrimary"
+            android:textColor="@color/white"
             android:text="@string/add"
             />
 
