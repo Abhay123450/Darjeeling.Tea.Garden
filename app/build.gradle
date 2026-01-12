@@ -7,12 +7,12 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk = 36
 
     defaultConfig {
         applicationId "com.darjeelingteagarden"
         minSdk 21
-        targetSdk 33
+        targetSdk 35
         versionCode 24
         versionName "1.1.1"
 
