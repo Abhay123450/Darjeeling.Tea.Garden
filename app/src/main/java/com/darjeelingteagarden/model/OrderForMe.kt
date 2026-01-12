@@ -8,6 +8,6 @@ data class OrderForMe(
     val fromAddress: String,
     val orderDate: String,
     val totalItems: Int,
-    val totalPrice: Int,
+    val totalPrice: Double,
     val orderStatus: String
 )

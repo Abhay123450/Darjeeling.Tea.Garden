@@ -19,7 +19,7 @@
             android:minHeight="?actionBarSize"
             app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
             app:navigationContentDescription="Back"
-            app:titleTextColor="@color/white"
+            app:titleTextColor="@color/activity_title"
             app:title="My Profile"/>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -40,98 +40,114 @@
                 android:layout_margin="10dp"
                 app:contentPadding="10dp">
 
-                <LinearLayout
-                    android:id="@+id/llUserInfo"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/txtUserName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:textSize="22sp"
-                        android:textColor="#444444"
-                        android:textStyle="bold"
-                        android:text="Abhay Anand"/>
-
-                    <TextView
-                        android:id="@+id/txtUserRole"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:text="@string/role"/>
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:id="@+id/llUserInfo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="10dp">
+                        android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/txtUserName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:text="User Id : "/>
-
-                        <TextView
-                            android:id="@+id/txtUserId"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="16sp"
+                            android:layout_marginBottom="10dp"
+                            android:textSize="22sp"
                             android:textColor="@color/black"
-                            android:text="Abhay040001"/>
+                            android:textStyle="bold"
+                            android:text=""/>
+
+                        <TextView
+                            android:id="@+id/txtUserRole"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:text=""/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:text="User Id : "/>
+
+                            <TextView
+                                android:id="@+id/txtUserId"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:textColor="@color/black"
+                                android:text=""/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:text="Phone : "/>
+
+                            <TextView
+                                android:id="@+id/txtUserPhoneNumber"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:textColor="@color/black"
+                                android:text=""/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:text="Email : "/>
+
+                            <TextView
+                                android:id="@+id/txtUserEmail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:textColor="@color/black"
+                                android:text=""/>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="10dp">
+                    <ImageView
+                        android:id="@+id/imgEditDetails"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/ic_baseline_edit_note_24"
+                        app:tint="@color/colorPrimary" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:text="Phone : "/>
+                </RelativeLayout>
 
-                        <TextView
-                            android:id="@+id/txtUserPhoneNumber"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:textColor="@color/black"
-                            android:text="9874563210"/>
 
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="10dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:text="Email : "/>
-
-                        <TextView
-                            android:id="@+id/txtUserEmail"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:textColor="@color/black"
-                            android:text="abhay123450@gmail.com"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -191,7 +207,8 @@
                     app:strokeColor="@color/white_eceff1"
                     android:textColor="@color/black"
                     android:textAlignment="textStart"
-                    android:text="@string/sample_order"/>
+                    android:text="@string/sample_order"
+                    android:visibility="gone"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSampleOrderForMe"
@@ -208,7 +225,8 @@
                     app:strokeColor="@color/white_eceff1"
                     android:textColor="@color/black"
                     android:textAlignment="textStart"
-                    android:text="@string/sample_order_for_me"/>
+                    android:text="@string/sample_order_for_me"
+                    android:visibility="gone"/>
 
 
                 <com.google.android.material.button.MaterialButton
@@ -229,6 +247,23 @@
                     android:text="@string/news"/>
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnVideos"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:paddingVertical="12dp"
+                    app:rippleColor="@color/colorPrimary"
+                    android:backgroundTint="@color/white"
+                    app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"
+                    app:drawableTint="@color/colorPrimary"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/white_eceff1"
+                    android:textColor="@color/black"
+                    android:textAlignment="textStart"
+                    android:text="@string/videos"/>
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnMyDownline"
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                     android:layout_width="match_parent"
@@ -244,6 +279,40 @@
                     android:textColor="@color/black"
                     android:textAlignment="textStart"
                     android:text="@string/my_downline"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAbout"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:paddingVertical="12dp"
+                    app:rippleColor="@color/colorPrimary"
+                    android:backgroundTint="@color/white"
+                    app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"
+                    app:drawableTint="@color/colorPrimary"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/white_eceff1"
+                    android:textColor="@color/black"
+                    android:textAlignment="textStart"
+                    android:text="@string/about_and_privacy_policy"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnFAQ"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:paddingVertical="12dp"
+                    app:rippleColor="@color/colorPrimary"
+                    android:backgroundTint="@color/white"
+                    app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"
+                    app:drawableTint="@color/colorPrimary"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/white_eceff1"
+                    android:textColor="@color/black"
+                    android:textAlignment="textStart"
+                    android:text="FAQ"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnLogout"
@@ -262,156 +331,42 @@
                     android:textAlignment="textStart"
                     android:text="@string/logout"/>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"/>
+
             </LinearLayout>
 
         </RelativeLayout>
 
     </ScrollView>
 
+    <RelativeLayout
+        android:id="@+id/rlProgress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:elevation="10dp"
+        android:visibility="gone">
 
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/colorPrimary"/>
 
-<!--    <com.google.android.material.card.MaterialCardView-->
-<!--        android:id="@+id/cardUserActions"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@+id/cardPersonalInfo"-->
-<!--        android:clickable="false"-->
-<!--        android:focusable="false"-->
-<!--        android:layout_margin="10dp"-->
-<!--        android:visibility="gone">-->
-<!--&lt;!&ndash;        app:strokeWidth="1dp"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:strokeColor="@color/white_eceff1">&ndash;&gt;-->
+    </RelativeLayout>
 
-<!--        <LinearLayout-->
-<!--            android:id="@+id/llOptions"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/txtMyOrders"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:padding="10dp"-->
-<!--                android:clickable="true"-->
-<!--                android:focusable="true"-->
-<!--                android:background="?attr/selectableItemBackgroundBorderless"-->
-<!--                android:textSize="16sp"-->
-<!--                android:text="@string/my_orders"-->
-<!--                app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"-->
-<!--                app:drawableTint="@color/colorPrimary" />-->
-
-<!--            <View-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="1dp"-->
-<!--                android:background="@color/white_eceff1"/>-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/txtOrdersForMe"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:padding="10dp"-->
-<!--                android:clickable="true"-->
-<!--                android:focusable="true"-->
-<!--                android:background="?attr/selectableItemBackgroundBorderless"-->
-<!--                android:textSize="16sp"-->
-<!--                android:text="@string/orders_for_me"-->
-<!--                app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"-->
-<!--                app:drawableTint="@color/colorPrimary" />-->
-
-<!--            <View-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="1dp"-->
-<!--                android:background="@color/white_eceff1"/>-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/txtMyDownline"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:padding="10dp"-->
-<!--                android:clickable="true"-->
-<!--                android:focusable="true"-->
-<!--                android:background="?attr/selectableItemBackgroundBorderless"-->
-<!--                android:textSize="16sp"-->
-<!--                android:text="@string/my_downline"-->
-<!--                app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"-->
-<!--                app:drawableTint="@color/colorPrimary" />-->
-
-<!--            <View-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="1dp"-->
-<!--                android:background="@color/white_eceff1"/>-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/txtSameOrder"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:padding="10dp"-->
-<!--                android:clickable="true"-->
-<!--                android:focusable="true"-->
-<!--                android:background="?attr/selectableItemBackgroundBorderless"-->
-<!--                android:textSize="16sp"-->
-<!--                android:text="@string/sample_order"-->
-<!--                app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"-->
-<!--                app:drawableTint="@color/colorPrimary" />-->
-
-<!--            <View-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="1dp"-->
-<!--                android:background="@color/white_eceff1"/>-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/txtOffersAndCoupons"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:padding="10dp"-->
-<!--                android:clickable="true"-->
-<!--                android:focusable="true"-->
-<!--                android:background="?attr/selectableItemBackgroundBorderless"-->
-<!--                android:textSize="16sp"-->
-<!--                android:text="@string/offers_and_coupons"-->
-<!--                app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"-->
-<!--                app:drawableTint="@color/colorPrimary" />-->
-
-
-<!--        </LinearLayout>-->
-
-<!--    </com.google.android.material.card.MaterialCardView>-->
-
-
-
-<!--    <com.google.android.material.card.MaterialCardView-->
-<!--        android:id="@+id/cartUserAction2"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@id/llUserActions"-->
-<!--        android:layout_margin="10dp">-->
-<!--&lt;!&ndash;        app:strokeWidth="1dp"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:strokeColor="@color/white_eceff1">&ndash;&gt;-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/txtLogout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:padding="10dp"-->
-<!--            android:clickable="true"-->
-<!--            android:focusable="true"-->
-<!--            android:background="?attr/selectableItemBackgroundBorderless"-->
-<!--            android:textSize="16sp"-->
-<!--            android:text="@string/logout"-->
-<!--            app:drawableEndCompat="@drawable/ic_baseline_logout_24"-->
-<!--            app:drawableTint="@color/colorPrimary" />-->
-
-<!--    </com.google.android.material.card.MaterialCardView>-->
-
-
-<!--    <androidx.fragment.app.FragmentContainerView-->
-<!--        android:id="@+id/fragmentContainerProfile"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/profileAppBar"-->
-<!--        android:name="com.darjeelingteagarden.fragment.ProfileMainFragment"-->
-<!--        tools:layout="@layout/fragment_profile_main" />-->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCallNow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:contentDescription="@string/call_now"
+        android:src="@drawable/ic_baseline_call_24"
+        android:elevation="2dp" />
 
 </RelativeLayout>

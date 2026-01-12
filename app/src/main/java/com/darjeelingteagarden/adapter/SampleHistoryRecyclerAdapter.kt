@@ -41,6 +41,10 @@ class SampleHistoryRecyclerAdapter(
         holder.txtTotalPrice.text = sampleOrder.totalPrice.toString()
         holder.txtOrderedOn.text = sampleOrder.orderDate
 
+        holder.txtOrderStatusActive.visibility = View.GONE
+        holder.txtOrderStatusCancelled.visibility = View.GONE
+        holder.txtOrderStatusDelivered.visibility = View.GONE
+
         when(sampleOrder.currentStatus){
             "Active" -> holder.txtOrderStatusActive.visibility = View.VISIBLE
             "Cancelled" -> holder.txtOrderStatusCancelled.visibility = View.VISIBLE

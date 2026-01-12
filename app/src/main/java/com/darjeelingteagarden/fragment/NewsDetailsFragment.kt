@@ -4,10 +4,12 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
+import android.text.method.LinkMovementMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -21,6 +23,7 @@ import com.darjeelingteagarden.databinding.FragmentNewsDetailsBinding
 import com.darjeelingteagarden.databinding.FragmentNewsListBinding
 import com.darjeelingteagarden.model.NewsDetails
 import com.darjeelingteagarden.repository.AppDataSingleton
+import com.darjeelingteagarden.repository.NotificationDataSingleton
 import com.darjeelingteagarden.util.ConnectionManager
 import com.darjeelingteagarden.util.formatTo
 import com.darjeelingteagarden.util.toDate
@@ -45,11 +48,38 @@ class NewsDetailsFragment : Fragment() {
         binding = FragmentNewsDetailsBinding.inflate(inflater, container, false)
 
         if (ConnectionManager().isOnline(mContext)){
-            loadNews(AppDataSingleton.getCurrentNewsId)
+
+            if (NotificationDataSingleton.notificationToOpen){
+                loadNews(NotificationDataSingleton.resourceId.toString())
+                NotificationDataSingleton.notificationToOpen = false
+            }
+            else{
+                loadNews(AppDataSingleton.getCurrentNewsId)
+            }
+
+            binding.txtNewsContent.movementMethod = LinkMovementMethod.getInstance()
+
+            binding.fabCallNow.setOnClickListener {
+                AppDataSingleton.callNow(mContext)
+            }
+
+
         }
 
         return binding.root
 
+    }
+
+    private fun loadYoutubeVideo(webView: WebView, url: String){
+
+        if (url.isEmpty() || url == "null"){
+            webView.visibility = View.GONE
+            return
+        }
+        webView.visibility = View.VISIBLE
+        webView.loadData(url, "text/html", "utf-8")
+        webView.settings.javaScriptEnabled = true
+        webView.webChromeClient = WebChromeClient()
     }
 
     private fun loadNews(id: String){
@@ -77,6 +107,7 @@ class NewsDetailsFragment : Fragment() {
                             newsObject.getString("date"),
                             newsObject.getString("description"),
                             newsObject.getString("image"),
+                            newsObject.optString("ytVideoLink")
                         )
 
                         binding.txtNewsTitle.text = newsDetails.newsTitle
@@ -89,6 +120,8 @@ class NewsDetailsFragment : Fragment() {
                         binding.txtNewsContent.text = HtmlCompat.fromHtml(
                             newsDetails.newsContent, HtmlCompat.FROM_HTML_MODE_LEGACY
                         )
+
+                        loadYoutubeVideo(binding.webViewNewsDetails, newsDetails.ytVideo.toString())
 
                     }
 

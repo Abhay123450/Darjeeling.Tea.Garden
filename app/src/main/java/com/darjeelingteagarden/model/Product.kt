@@ -5,8 +5,11 @@ data class Product(
     val productName: String,
     val originalPrice: Int,
     val discountedPrice: Int,
+    val samplePrice: Double,
+    val sampleQuantity: Int,
     val grade: String,
-    val lotNumber: Long,
+    val lotNumber: String,
     val bagSize: Int,
-    val imageUrl: String
+    val imageUrl: String,
+    val discount: Boolean
 )

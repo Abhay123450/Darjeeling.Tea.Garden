@@ -19,7 +19,7 @@
             android:minHeight="?actionBarSize"
             app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
             app:navigationContentDescription="Back"
-            app:titleTextColor="@color/white"
+            app:titleTextColor="@color/activity_title"
             app:title="Orders For Me"/>
 
     </com.google.android.material.appbar.AppBarLayout>

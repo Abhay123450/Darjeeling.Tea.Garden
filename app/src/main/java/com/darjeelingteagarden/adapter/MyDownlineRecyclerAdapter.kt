@@ -10,8 +10,10 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.model.MyDownline
+import com.darjeelingteagarden.repository.AppDataSingleton
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class MyDownlineRecyclerAdapter(
     val context: Context,
@@ -28,7 +30,7 @@ class MyDownlineRecyclerAdapter(
             val txtUserId: TextView = view.findViewById(R.id.txtUserId)
             val rlDueBalance: RelativeLayout = view.findViewById(R.id.rlDueBalance)
             val txtDueBalance: TextView = view.findViewById(R.id.txtUserDueBalance)
-            val btnDueRelease: MaterialButton = view.findViewById(R.id.btnDueRelease)
+//            val btnDueRelease: MaterialButton = view.findViewById(R.id.btnDueRelease)
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyDownlineViewHolder {
@@ -46,6 +48,7 @@ class MyDownlineRecyclerAdapter(
         holder.txtDueBalance.text = userInfo.balanceDue.toString()
 
         holder.cardParent.setOnClickListener {
+            AppDataSingleton.myDownlineUserId = userInfo.userId
             navController.navigate(R.id.action_myDownlineListFragment_to_myDownlineUserDetailsFragment)
         }
 
@@ -53,16 +56,26 @@ class MyDownlineRecyclerAdapter(
 
             holder.rlDueBalance.visibility = View.VISIBLE
 
-            if (userInfo.balanceDue > 0){
-                holder.btnDueRelease.visibility = View.VISIBLE
-            }
-            else{
-                holder.btnDueRelease.visibility = View.GONE
-            }
-
-            holder.btnDueRelease.setOnClickListener {
-                releaseDue(userInfo)
-            }
+//            if (userInfo.balanceDue > 0){
+//                holder.btnDueRelease.visibility = View.VISIBLE
+//            }
+//            else{
+//                holder.btnDueRelease.visibility = View.GONE
+//            }
+//
+//            holder.btnDueRelease.setOnClickListener {
+//                MaterialAlertDialogBuilder(context)
+//                    .setTitle("Confirm Release")
+//                    .setMessage("Are you sure ?")
+//                    .setPositiveButton("Yes"){dialog, int ->
+//                        releaseDue(userInfo)
+//                    }
+//                    .setNegativeButton("Cancel"){dialog, int ->
+//                        dialog.dismiss()
+//                    }
+//                    .show()
+//
+//            }
 
         }
         else{

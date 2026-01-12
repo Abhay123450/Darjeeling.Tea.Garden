@@ -21,7 +21,7 @@
             android:minHeight="?actionBarSize"
             app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
             app:navigationContentDescription="My Profile"
-            app:titleTextColor="@color/white"
+            app:titleTextColor="@color/activity_title"
             app:title="Sample Order Details"/>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -61,7 +61,30 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
-                        android:text="bcjeh336ydrw637" />
+                        android:text="" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llOrderStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txtOrderStatusText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="5dp"
+                        android:text="@string/status" />
+
+                    <TextView
+                        android:id="@+id/txtOrderStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text=""
+                        android:textColor="@color/black"/>
 
                 </LinearLayout>
 
@@ -88,7 +111,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/txtOrderedOnText"
-                        android:text="2 October, 2022"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -120,6 +143,56 @@
                     android:layout_height="1dp"
                     android:layout_marginVertical="5dp"
                     android:background="@color/white_eceff1" />
+
+                <LinearLayout
+                    android:id="@+id/llFrom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text="From"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/txtFromName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/txtFromRole"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/txtFromAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="5dp"
+                        android:background="@color/white_eceff1" />
+
+                </LinearLayout>
+
+
 
 <!--                <LinearLayout-->
 <!--                    android:id="@+id/llOrderStatus"-->
@@ -169,6 +242,13 @@
 
 <!--                </LinearLayout>-->
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/order_status"
+                    android:textSize="16sp" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewSampleOrdersStatusTimeline"
                     android:layout_width="match_parent"
@@ -180,6 +260,13 @@
                     android:layout_height="1dp"
                     android:layout_marginVertical="5dp"
                     android:background="@color/white_eceff1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="Items"
+                    android:textSize="16sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewSampleOrderDetails"
@@ -224,7 +311,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:text="999"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
@@ -258,7 +345,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:text="999"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
@@ -292,7 +379,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:text="999"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -330,7 +417,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:text="Update Status"
+                    android:text="@string/update_status"
                     android:textSize="16sp" />
 
                 <com.google.android.material.textfield.TextInputLayout

@@ -21,9 +21,20 @@ class SampleOrderActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+
+
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerSampleOrder) as NavHostFragment
         val navController = navHostFragment.navController
         binding.bottomNavSampleOrder.setupWithNavController(navController)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            title = when(destination.id){
+                R.id.sampleStoreFragment -> "Sample Store"
+                R.id.sampleCartFragment -> "Sample Cart"
+                R.id.sampleHistoryFragment -> "Sample Order History"
+                else -> "Sample Order"
+            }
+            changeToolbarTitle(title.toString())
+        }
 
         if(intent != null){
             val orderHistory = intent.getBooleanExtra("orderHistory", false)
@@ -42,5 +53,14 @@ class SampleOrderActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         SampleDataSingleton.clearSampleOrderList()
+    }
+
+    private fun setUpToolBar(){
+        setSupportActionBar(binding.sampleOrderToolbar)
+        supportActionBar?.title = "Sample Store"
+    }
+
+    private fun changeToolbarTitle(name: String){
+        supportActionBar?.title = name
     }
 }

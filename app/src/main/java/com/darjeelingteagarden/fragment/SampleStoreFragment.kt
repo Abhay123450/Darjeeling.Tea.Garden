@@ -120,7 +120,7 @@ class SampleStoreFragment : Fragment() {
                                 sampleInfo.getString("_id"),
                                 sampleInfo.getString("name"),
                                 sampleInfo.getInt("price"),
-                                sampleInfo.getInt("lotNumber"),
+                                sampleInfo.getString("lotNumber"),
                                 sampleInfo.getInt("bagSize"),
                                 sampleInfo.getString("grade"),
                                 sampleInfo.getString("mainImage")
@@ -143,7 +143,7 @@ class SampleStoreFragment : Fragment() {
 
                 }catch (e: Exception){
                     Toast.makeText(
-                        activity as Context,"An error occurred: $e", Toast.LENGTH_LONG
+                        mContext,"An error occurred: $e", Toast.LENGTH_LONG
                     ).show()
                     swipeRefreshLayout.isRefreshing = false
                 }

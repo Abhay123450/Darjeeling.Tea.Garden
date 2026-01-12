@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/logout"
+        android:textSize="18sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/are_you_sure_you_want_to_logout"
+        android:textSize="16sp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLogoutThis"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:paddingVertical="12dp"
+        app:rippleColor="@color/colorPrimary"
+        android:backgroundTint="@color/white"
+        app:drawableTint="@color/colorPrimary"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/white_eceff1"
+        android:textColor="@color/black"
+        android:textAllCaps="false"
+        android:text="@string/logout_from_this_device"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLogoutAll"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:paddingVertical="12dp"
+        app:rippleColor="@color/colorPrimary"
+        android:backgroundTint="@color/white"
+        app:drawableTint="@color/colorPrimary"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/white_eceff1"
+        android:textColor="@color/black"
+        android:textAllCaps="false"
+        android:text="@string/logout_from_all_devices"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCancelLogout"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:paddingVertical="12dp"
+        app:rippleColor="@color/colorPrimary"
+        android:backgroundTint="@color/white"
+        app:drawableTint="@color/colorPrimary"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/white_eceff1"
+        android:textColor="@color/black"
+        android:textAllCaps="false"
+        android:text="Cancel"/>
+
+</LinearLayout>
