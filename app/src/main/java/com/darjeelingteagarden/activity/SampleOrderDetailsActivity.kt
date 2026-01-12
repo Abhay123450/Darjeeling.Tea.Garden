@@ -1,6 +1,7 @@
 package com.darjeelingteagarden.activity
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -40,7 +41,9 @@ class SampleOrderDetailsActivity : AppCompatActivity() {
     private lateinit var recyclerAdapterSampleOrderStatusHistory: SampleOrderStatusHistoryRecyclerAdapter
     private var sampleStatusHistory = mutableListOf<StatusHistory>()
 
+    private var orderType: String? = null // (order/sampleOrder)
     private var sampleOrderId: String? = null
+    private var fromUserId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,11 +66,26 @@ class SampleOrderDetailsActivity : AppCompatActivity() {
             getSampleOrderDetails(sampleOrderId.toString())
         }
 
+        Log.i("sampleorderid", sampleOrderId.toString())
+
         if (AppDataSingleton.getUserInfo.role.equals("Admin", ignoreCase = true)){
             binding.llAdminSampleStatus.visibility = View.VISIBLE
         }
         else{
             binding.llAdminSampleStatus.visibility = View.GONE
+        }
+
+        binding.toolbarSampleOrderDetailsActivity.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
+        binding.llFrom.setOnClickListener {
+            if (fromUserId != ""){
+                AppDataSingleton.showUserDetails = true
+                AppDataSingleton.myDownlineUserId = fromUserId
+                val intent = Intent(this, MyDownlineActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         binding.btnUpdateStatus.setOnClickListener {
@@ -135,29 +153,32 @@ class SampleOrderDetailsActivity : AppCompatActivity() {
                     if (success) {
 
                         sampleDetailsItemList = mutableListOf()
+                        sampleStatusHistory = mutableListOf()
 
                         val data = it.getJSONObject("data")
+
+                        val orderBy = data.getJSONObject("from")
+
+                        fromUserId = orderBy.getString("userId")
+                        if (fromUserId == AppDataSingleton.getUserInfo.userId){
+                            binding.llFrom.visibility = View.GONE
+                        }
+                        else{
+                            binding.llFrom.visibility = View.VISIBLE
+                        }
+                        binding.txtFromName.text = orderBy.getString("name")
+                        binding.txtFromRole.text = orderBy.getString("role")
+                        binding.txtFromAddress.text =
+                            orderBy.optString("addressLineOne") + "\n" + orderBy.optString("addressLineTwo")
+
 
                         binding.txtOrderId.text = data.getString("_id")
                         binding.txtOrderedOn.text =
                             data.getString("orderDate").toDate()!!.formatTo("dd MMM yyy HH:mm")
                         val currentStatus = data.getString("currentStatus")
-//                        binding.txtOrderStatus.text = currentStatus
+                        binding.txtOrderStatus.text = currentStatus
 
                         val statusHistory = data.getJSONArray("statusHistory")
-
-                        sampleStatusHistory = mutableListOf()
-
-//                        sampleStatusHistory = mutableListOf(
-//                            StatusHistory("Order Created", "1690206243935"),
-//                            StatusHistory("Order reached your city. Will be delivered soon", "1690206256879"),
-//                            StatusHistory("Order dispatched", "1690206248900")
-//                        )
-
-//                        sampleStatusHistory.sortBy { history ->
-//                            history.date
-//                        }
-//                        val statusHistory = data.getJSONArray("statusHistory")
 
                         for (i in 0 until statusHistory.length()){
 
@@ -165,14 +186,19 @@ class SampleOrderDetailsActivity : AppCompatActivity() {
                                 StatusHistory(
                                     statusHistory.getJSONObject(i).getString("status"),
                                     statusHistory.getJSONObject(i).getString("updatedOn")
+                                        .toDate()!!.formatTo("dd MMM yyyy HH:mm")
                                 )
                             )
 
                         }
 
-                        binding.txtItemsPrice.text = data.getDouble("itemsPrice").toString()
-                        binding.txtTax.text = data.getDouble("totalTax").toString()
-                        binding.txtTotal.text = data.getDouble("totalPrice").toString()
+                        binding.txtItemsPrice.text = String.format("%.2f", data.getDouble("itemsPrice"))
+                        binding.txtTax.text = String.format("%.2f", data.getDouble("totalTax"))
+                        binding.txtTotal.text = String.format("%.2f", data.getDouble("totalPrice"))
+
+//                        binding.txtItemsPrice.text = data.getDouble("itemsPrice").toString()
+//                        binding.txtTax.text = data.getDouble("totalTax").toString()
+//                        binding.txtTotal.text = data.getDouble("totalPrice").toString()
 
                         val itemList = data.getJSONArray("items")
 
@@ -183,7 +209,10 @@ class SampleOrderDetailsActivity : AppCompatActivity() {
                             sampleDetailsItemList.add(
                                 SampleOrderItemDetails(
                                     item.getString("sampleId"),
-                                    "Sample name !!",
+                                    item.optString("sampleName"),
+                                    item.optString("sampleGrade"),
+                                    item.optString("sampleLotNumber"),
+                                    item.optString("sampleBagSize"),
                                     item.getDouble("price"),
                                     item.getInt("orderQuantity")
                                 )
@@ -197,8 +226,15 @@ class SampleOrderDetailsActivity : AppCompatActivity() {
                         populateRecyclerViewSampleOrderTimeline(sampleStatusHistory)
                         binding.rlProgressSampleOrderDetails.visibility = View.GONE
 
+                        if (
+                            !currentStatus.equals("Delivered", ignoreCase = true) &&
+                            AppDataSingleton.getUserInfo.role.equals("admin", ignoreCase = true)
+                        ){
+                            binding.llAdminSampleStatus.visibility = View.VISIBLE
+                        }
+
                     } else {
-                        binding.rlProgressSampleOrderDetails.visibility = View.GONE
+                        binding.llAdminSampleStatus.visibility = View.GONE
                     }
 
                 } catch (e: Exception) {

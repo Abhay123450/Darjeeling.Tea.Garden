@@ -5,5 +5,6 @@ data class NewsDetails(
     val newsTitle: String,
     val newsDate: String,
     val newsContent: String,
-    val newsImage: String
+    val newsImage: String,
+    val ytVideo: String?
 )

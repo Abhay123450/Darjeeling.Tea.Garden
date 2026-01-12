@@ -6,6 +6,7 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="darkGray">#FF222222</color>
     <color name="white">#FFFFFFFF</color>
     <color name="whiteTransparent">#AAFFFFFF</color>
     <color name="blue">#FF0000ff</color>
@@ -15,5 +16,7 @@
     <color name="red">#FFFF0000</color>
     <color name="colorPrimary">#FF00CCAA</color>
     <color name="colorSecondary">#FF34EB4C</color>
-
+    <color name="progressTransparentBackground">#22000000</color>
+    <color name="warningColor">#FFFFC185</color>
+    <color name="activity_title">#FFFFFFFF</color>
 </resources>

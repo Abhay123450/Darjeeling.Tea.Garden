@@ -17,12 +17,14 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.activity.PaymentActivity
+import com.darjeelingteagarden.activity.RazorpayPaymentActivity
 import com.darjeelingteagarden.adapter.CartRecyclerAdapter
 import com.darjeelingteagarden.adapter.SampleCartRecyclerAdapter
 import com.darjeelingteagarden.databinding.FragmentSampleCartBinding
 import com.darjeelingteagarden.model.Cart
 import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.repository.SampleDataSingleton
+import com.darjeelingteagarden.util.ConnectionManager
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -69,7 +71,14 @@ class SampleCartFragment : Fragment() {
 
             it.visibility = View.GONE
             binding.progressContinue.visibility = View.VISIBLE
-            createOrder()
+
+            if (ConnectionManager().isOnline(mContext)){
+                createOrder()
+            }
+            else{
+
+            }
+
 
         }
 
@@ -146,12 +155,15 @@ class SampleCartFragment : Fragment() {
                         val totalAmount = orderDetails.getDouble("totalPrice")
                         Log.i("total Amount", totalAmount.toString())
 
-                        val intent = Intent(activity as Context, PaymentActivity::class.java)
+                        val apiKeyId = it.getString("apiKeyId")
+
+                        val intent = Intent(activity as Context, RazorpayPaymentActivity::class.java)
                         intent.putExtra("sampleOrder", true)
                         intent.putExtra("orderId", orderId)
                         intent.putExtra("itemTotal", itemTotal)
                         intent.putExtra("totalTax", totalTax)
                         intent.putExtra("totalAmount", totalAmount)
+                        intent.putExtra("apiKeyId", apiKeyId)
                         startActivity(intent)
 
                         binding.progressContinue.visibility = View.GONE

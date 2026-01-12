@@ -20,10 +20,61 @@
             android:text="Item name"/>
 
         <LinearLayout
+            android:id="@+id/llGrade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtItemName"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtGradeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="2dp"
+                android:text="@string/grade"/>
+
+            <TextView
+                android:id="@+id/txtGrade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="2dp"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/llLot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtItemName"
+            android:layout_toEndOf="@+id/llGrade"
+            android:layout_marginStart="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtLotText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="2dp"
+                android:text="@string/lot_number"/>
+
+            <TextView
+                android:id="@+id/txtLot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="2dp"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/llSingleItemPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txtItemName"
+            android:layout_below="@id/llGrade"
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingHorizontal="5dp">

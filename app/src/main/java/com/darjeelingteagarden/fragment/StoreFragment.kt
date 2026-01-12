@@ -3,6 +3,7 @@ package com.darjeelingteagarden.fragment
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -29,6 +30,8 @@ import com.darjeelingteagarden.databinding.FragmentStoreBinding
 import com.darjeelingteagarden.model.Cart
 import com.darjeelingteagarden.model.Product
 import com.darjeelingteagarden.repository.AppDataSingleton
+import com.darjeelingteagarden.repository.CartDataSingleton
+import com.darjeelingteagarden.repository.StoreDataSingleton
 import com.darjeelingteagarden.util.ResizeTransformation
 import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
@@ -40,8 +43,14 @@ import com.google.android.material.slider.Slider
 import com.google.android.material.textfield.TextInputEditText
 import com.squareup.picasso.Picasso
 import com.stfalcon.imageviewer.StfalconImageViewer
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import java.security.AllPermission
+import java.util.Timer
 
 class StoreFragment : Fragment() {
 
@@ -51,6 +60,8 @@ class StoreFragment : Fragment() {
 
     private lateinit var recyclerViewStore: RecyclerView
     private lateinit var layoutManager: RecyclerView.LayoutManager
+
+    private var productList = mutableListOf<Product>()
 
     private lateinit var materialAlertDialogBuilder: MaterialAlertDialogBuilder
     private lateinit var customAlertDialogView: View
@@ -86,6 +97,8 @@ class StoreFragment : Fragment() {
 //    private lateinit var mAppDataViewModel: AppDataViewModel
 //    private var productList = mutableListOf<Product>()
     private var cartList = mutableListOf<Cart>()
+    private var storeLoaded = false
+    private var isFragmentResumed = false
 
     lateinit var recyclerAdapter: StoreRecyclerAdapter
 
@@ -98,6 +111,11 @@ class StoreFragment : Fragment() {
 
     private lateinit var binding: FragmentStoreBinding
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -109,7 +127,7 @@ class StoreFragment : Fragment() {
 //        productList = mAppDataViewModel.storeItemList
 //        cartList = mAppDataViewModel.cartItemList
 //        productList = AppDataSingleton.getStoreItemList
-        cartList = AppDataSingleton.getCartItemList
+        cartList = CartDataSingleton.cartList
         token = AppDataSingleton.getAuthToken
 
         textInputEditTextSearchBar = binding.storeSearchText
@@ -121,8 +139,23 @@ class StoreFragment : Fragment() {
         Log.i("StoreFragCartList", cartList.toString())
 //        Log.i("mAppDataViewBinding PL", mAppDataViewModel.storeItemList.toString())
 
-        if (AppDataSingleton.getStoreItemList.size > 0){
-            populateRecyclerView(AppDataSingleton.getStoreItemList)
+        storeSwipeRefreshLayout.isRefreshing = true
+        isFragmentResumed = true
+
+        if (StoreDataSingleton.loadingStoreItem){
+            loadStoreItems()
+        }
+        else{
+            if (productList.size <= 0){
+                productList = AppDataSingleton.getStoreItemList
+                if (productList.size <= 0){
+                    StoreDataSingleton.getStoreItems(mContext)
+                    loadStoreItems()
+                }
+            }
+            if (!storeLoaded){
+                populateRecyclerView(productList)
+            }
         }
 
         textInputEditTextSearchBar.doOnTextChanged { text, start, before, count ->
@@ -150,8 +183,12 @@ class StoreFragment : Fragment() {
             storeSwipeRefreshLayout.isRefreshing = true
             isProductListReceived = false
             AppDataSingleton.clearStoreItemList()
-            recyclerAdapter.notifyDataSetChanged()
-            getStoreItems()
+            StoreDataSingleton.getStoreItems(mContext)
+            loadStoreItems()
+        }
+
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(mContext)
         }
 
 //        binding.imgBtnClose.setOnClickListener {
@@ -163,11 +200,69 @@ class StoreFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (AppDataSingleton.getStoreItemList.size == 0){
-            storeSwipeRefreshLayout.isRefreshing = true
-            getStoreItems()
-//            getCartItems()
+        isFragmentResumed = true
+        if (AppDataSingleton.currentProductIndex > -1){
+            recyclerAdapter.notifyItemChanged(AppDataSingleton.currentProductIndex)
         }
+//        if (AppDataSingleton.getStoreItemList.size == 0){
+//            while (StoreDataSingleton.loadingStoreItem){
+//                continue
+//            }
+//            if (AppDataSingleton.getStoreItemList.size == 0){
+//                storeSwipeRefreshLayout.isRefreshing = true
+//                getStoreItems()
+//            }
+//            else{
+//                populateRecyclerView(AppDataSingleton.getStoreItemList)
+//                storeSwipeRefreshLayout.isRefreshing = false
+//            }
+//
+////            getCartItems()
+//        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        isFragmentResumed = false
+    }
+
+    private fun loadStoreItems(){
+//        launch {
+        if (StoreDataSingleton.loadingStoreItem){
+            val timer = object : CountDownTimer(120000L, 500){
+                override fun onTick(millisUntilFinished: Long) {
+                    if (!StoreDataSingleton.loadingStoreItem){
+                        if (isFragmentResumed) {
+                            productList = AppDataSingleton.getStoreItemList
+                            populateRecyclerView(productList)
+                            storeSwipeRefreshLayout.isRefreshing = false
+//                        Log.i("storefrag timer", millisUntilFinished.toString())
+                            cancel()
+                        }
+                    }
+                }
+
+                override fun onFinish() {
+
+                }
+
+            }
+            timer.start()
+        }
+        else{
+            if (AppDataSingleton.getStoreItemList.size <= 0){
+                storeSwipeRefreshLayout.isRefreshing = true
+                AppDataSingleton.clearStoreItemList()
+                StoreDataSingleton.getStoreItems(mContext)
+                loadStoreItems()
+            }
+            else{
+                productList = AppDataSingleton.getStoreItemList
+                populateRecyclerView(productList)
+                storeSwipeRefreshLayout.isRefreshing = false
+            }
+        }
+
     }
 
     private fun showFilterDialog(){
@@ -230,10 +325,10 @@ class StoreFragment : Fragment() {
                         customAlertDialogView.findViewById<Chip>(chipGroupSort.checkedChipId)
                     filterCheckedChipId = checkedChip.id
 
-                    if (checkedChip.text == "Ascending") {
+                    if (checkedChip.text == getString(R.string.low_to_high)) {
                         sort = 0
                         filterAscending = true
-                    } else if (checkedChip.text == "Descending") {
+                    } else if (checkedChip.text == getString(R.string.high_to_low)) {
                         sort = 1
                         filterAscending = false
                     }
@@ -267,7 +362,8 @@ class StoreFragment : Fragment() {
                 filterCheckedChipId = View.NO_ID
                 filterGrade = "All"
 
-                populateRecyclerView(AppDataSingleton.getStoreItemList)
+                productList = AppDataSingleton.getStoreItemList
+                populateRecyclerView(productList)
 
             }
 
@@ -278,24 +374,34 @@ class StoreFragment : Fragment() {
 //    category: String, grade: String
     private fun applyFilter(minPrice: Int, maxPrice: Int, sort: Int?, category: String, grade: String){
 
-        Log.i("min max Price ", "$minPrice || $maxPrice")
+        Log.i("min max Price sort ", "$minPrice || $maxPrice || $sort")
 
-        val filteredList: MutableList<Product> = AppDataSingleton.getStoreItemList.filter {
-            it.discountedPrice in minPrice..maxPrice &&
+//        val filteredList: MutableList<Product> = AppDataSingleton.getStoreItemList.filter {
+
+        productList = AppDataSingleton.getStoreItemList
+        productList = productList.filter {
+
+            it.discountedPrice in minPrice..maxPrice
+                    &&
             it.grade.contains(grade, ignoreCase = true)
+
         } as MutableList<Product>
 
         //sort according to price
         if (sort == 0){//ascending
-            filteredList.sortBy { it.discountedPrice }
+            productList.sortBy {
+                it.discountedPrice
+            }
         }
         else if (sort == 1){//descending
-            filteredList.sortByDescending { it.discountedPrice }
+            productList.sortByDescending {
+                it.discountedPrice
+            }
         }
 
-        Log.i("filtered List :::", filteredList.toString())
+        Log.i("filtered List :::", productList.toString())
 
-        populateRecyclerView(filteredList)
+        populateRecyclerView(productList)
 
     }
 
@@ -313,11 +419,12 @@ class StoreFragment : Fragment() {
     }
 
     private fun populateRecyclerView(productList: MutableList<Product>){
+        storeLoaded = true
         Log.i("store recycleradapterPL", productList.toString())
         Log.i("store recycleradapterCL", cartList.toString())
         Log.i("product list size", productList.size.toString())
         Log.i("cart list size", cartList.size.toString())
-        recyclerAdapter = StoreRecyclerAdapter(activity as Context, productList, cartList, findNavController()){
+        recyclerAdapter = StoreRecyclerAdapter(mContext, productList, cartList, findNavController()){
 
 //            getProductDetails(it.productId)
             val intent = Intent(mContext, ProductDetailsActivity::class.java)
@@ -383,28 +490,28 @@ class StoreFragment : Fragment() {
                             ).show()
                         }
 
-                        for (i in 0 until data.length()){
-                            val cartInfo = data.getJSONObject(i)
-                            val cartObject = Cart(
-                                cartInfo.getJSONObject("productId").getString("_id"),
-                                cartInfo.getString("name"),
-                                cartInfo.getJSONObject("productId").getInt("discountedPrice"),
-                                cartInfo.getInt("quantity")
-                            )
-
-                            AppDataSingleton.addCartItem(cartObject)
-//                            cartList.add(cartObject)
-
-                        }
-
-                        isCartItemLoaded = true
+//                        for (i in 0 until data.length()){
+//                            val cartInfo = data.getJSONObject(i)
+//                            val cartObject = Cart(
+//                                cartInfo.getJSONObject("productId").getString("_id"),
+//                                cartInfo.getString("name"),
+//                                cartInfo.getJSONObject("productId").getInt("discountedPrice"),
+//                                cartInfo.getInt("quantity")
+//                            )
+//
+//                            AppDataSingleton.addCartItem(cartObject)
+////                            cartList.add(cartObject)
+//
+//                        }
+//
+//                        isCartItemLoaded = true
 
                         if (isCartItemLoaded && isStoreItemLoaded){
                             populateRecyclerView(AppDataSingleton.getStoreItemList)
                             storeSwipeRefreshLayout.isRefreshing = false
                         }
 
-                        cartList = AppDataSingleton.getCartItemList
+                        cartList = CartDataSingleton.cartList
 
                     }
                     else{
@@ -487,17 +594,28 @@ class StoreFragment : Fragment() {
                             ).show()
                         }
 
+                        AppDataSingleton.clearStoreItemList()
+
                         for (i in 0 until data.length()){
                             val productInfo = data.getJSONObject(i)
+
+                            val discountedPrice = if (productInfo.getBoolean("discount")){
+                                productInfo.getInt("discountedPrice")
+                            }else{
+                                productInfo.getInt("originalPrice")
+                            }
                             val productObject = Product(
                                 productInfo.getString("_id"),
                                 productInfo.getString("name"),
                                 productInfo.getInt("originalPrice"),
-                                productInfo.getInt("discountedPrice"),
+                                discountedPrice,
+                                productInfo.optDouble("samplePrice"),
+                                10,
                                 productInfo.getString("grade"),
-                                productInfo.getLong("lotNumber"),
+                                productInfo.getString("lotNumber"),
                                 productInfo.getInt("bagSize"),
-                                productInfo.getString("mainImage")
+                                productInfo.getString("mainImage"),
+                                productInfo.getBoolean("discount")
                             )
                             AppDataSingleton.addStoreItem(productObject)
                         }
@@ -506,6 +624,7 @@ class StoreFragment : Fragment() {
                         isStoreItemLoaded = true
                         if (isCartItemLoaded && isStoreItemLoaded){
                             populateRecyclerView(AppDataSingleton.getStoreItemList)
+                            recyclerAdapter.notifyDataSetChanged()
                             storeSwipeRefreshLayout.isRefreshing = false
                         }
 

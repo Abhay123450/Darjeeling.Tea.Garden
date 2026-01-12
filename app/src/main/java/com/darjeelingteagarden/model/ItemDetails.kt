@@ -7,5 +7,6 @@ data class ItemDetails(
     val itemQuantity: Int,
     val itemStatus: String,
     val receiveQuantity: Int,
-    val receiveTime: String
+    val receiveTime: String,
+    val isSample: Boolean
 )

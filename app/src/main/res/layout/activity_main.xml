@@ -21,7 +21,7 @@
             android:minHeight="?actionBarSize"
             app:navigationIcon="@drawable/ic_baseline_menu_24"
             app:navigationContentDescription="My Profile"
-            app:titleTextColor="@color/white"
+            app:titleTextColor="@color/activity_title"
             app:title="Home"/>
 
     </com.google.android.material.appbar.AppBarLayout>

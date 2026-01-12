@@ -41,8 +41,13 @@ class MyOrdersRecyclerAdapter(
         val myOrder: MyOrder = myOrdersList[position]
 
         holder.txtTotalItems.text = myOrder.totalItems.toString()
-        holder.txtTotalPrice.text = myOrder.totalPrice.toString()
+        holder.txtTotalPrice.text = String.format("%.2f", myOrder.totalPrice)
         holder.txtOrderedOn.text = myOrder.orderDate
+
+        holder.txtOrderStatusActive.visibility = View.GONE
+        holder.txtOrderStatusCancelled.visibility = View.GONE
+        holder.txtOrderStatusPartiallyDelivered.visibility = View.GONE
+        holder.txtOrderStatusDelivered.visibility = View.GONE
 
         when(myOrder.currentStatus){
             "Active" -> holder.txtOrderStatusActive.visibility = View.VISIBLE
@@ -58,11 +63,6 @@ class MyOrdersRecyclerAdapter(
 
             navController.navigate(R.id.action_myOrdersFragment_to_orderDetailsFragment)
 
-//            val activity = it.context as AppCompatActivity
-//            activity.supportFragmentManager.beginTransaction().
-//                replace(R.id.fragmentContainerView, OrderDetailsFragment()).
-//                addToBackStack(OrderDetailsFragment::class.toString()).
-//                commit()
         }
 
 

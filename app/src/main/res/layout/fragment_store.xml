@@ -9,6 +9,14 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+<!--    <androidx.core.widget.NestedScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+<!--        -->
+<!--        -->
+<!--        -->
+<!--    </androidx.core.widget.NestedScrollView>-->
+
     <RelativeLayout
         android:id="@+id/rlStore"
         android:layout_width="match_parent"
@@ -30,7 +38,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="16"
-                android:layout_margin="10dp"
+                android:layout_marginHorizontal="10dp"
                 app:errorEnabled="false"
                 app:startIconDrawable="@drawable/ic_baseline_search_24"
                 app:endIconDrawable="@drawable/ic_baseline_clear_24"
@@ -84,8 +92,15 @@
             android:layout_below="@+id/llFilterSort"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:visibility="visible"/>
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="10dp"
+            android:visibility="visible"
+            />
+
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_below="@id/recyclerViewStore"-->
+<!--            android:layout_height="80dp"/>-->
 
 <!--        <RelativeLayout-->
 <!--            android:id="@+id/rlProductDetails"-->
@@ -159,6 +174,18 @@
 <!--            </ScrollView>-->
 
 <!--        </RelativeLayout>-->
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabCallNow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:contentDescription="@string/call_now"
+            android:src="@drawable/ic_baseline_call_24"
+            android:elevation="2dp" />
 
     </RelativeLayout>
 

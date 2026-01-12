@@ -4,11 +4,13 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginHorizontal="10dp"
+    android:layout_marginVertical="5dp"
     app:contentPadding="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
 
         <TextView
             android:id="@+id/txtItemName"
@@ -17,7 +19,7 @@
             android:textSize="16sp"
             android:textColor="@color/black"
             android:paddingBottom="5dp"
-            android:text="product name"/>
+            android:text=""/>
 
         <TextView
             android:id="@+id/txtQuantityText"
@@ -38,25 +40,119 @@
             android:textSize="16sp"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:text="2"/>
+            android:text=""/>
+
+        <LinearLayout
+            android:id="@+id/llItemTotalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/txtItemName"
+            android:layout_alignParentEnd="true"
+            android:paddingVertical="10dp">
+
+            <TextView
+                android:id="@+id/txtItemRupeeSymbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="5dp"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:text="@string/rupee_symbol"
+                android:visibility="visible"/>
+
+            <TextView
+                android:id="@+id/txtItemTotalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:text=""
+                android:visibility="visible"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llItemPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/txtQuantityText">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="5dp"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:text="@string/rupee_symbol"
+                android:visibility="visible"/>
+
+            <TextView
+                android:id="@+id/txtItemPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:text="180"
+                android:visibility="visible"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtItemIsSample"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtQuantityText"
+            android:textSize="16sp"
+            android:paddingBottom="5dp"
+            android:text="[ Sample ]"
+            android:visibility="gone"/>
 
         <EditText
             android:id="@+id/etQuantity"
-            android:layout_width="60dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtItemName"
-            android:layout_toEndOf="@id/txtQuantityText"
+            android:layout_alignParentEnd="true"
             android:textAlignment="center"
             android:inputType="number"
             android:text="2"
             android:imeOptions="actionDone"
             android:visibility="gone"/>
 
+        <LinearLayout
+            android:id="@+id/llQuantityDelivered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llItemPrice"
+            android:orientation="horizontal"
+            android:paddingVertical="4dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/txtQuantityDeliveredText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="Delivered : "/>
+
+            <TextView
+                android:id="@+id/txtQuantityDelivered"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:text="2"/>
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/txtOrderStatusDelivered"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txtItemName"
+            android:layout_below="@id/txtQuantityText"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
@@ -74,17 +170,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_below="@id/txtItemName"
+            android:layout_below="@id/txtQuantityText"
             android:layout_marginTop="5dp"
             android:text="Deliver"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
         <LinearLayout
             android:id="@+id/llDeliver"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_below="@id/txtItemName"
+            android:layout_below="@id/txtQuantityText"
             android:layout_marginTop="5dp"
             android:orientation="horizontal"
             android:visibility="gone">

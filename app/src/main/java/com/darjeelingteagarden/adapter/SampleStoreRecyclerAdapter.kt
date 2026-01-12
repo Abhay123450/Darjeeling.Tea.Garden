@@ -63,12 +63,12 @@ class SampleStoreRecyclerAdapter(
             it.productId == sample.sampleId
         }
 
-        val cartItem = Cart(
-            sample.sampleId,
-            sample.sampleName,
-            sample.samplePrice,
-            1
-        )
+//        val cartItem = Cart(
+//            sample.sampleId,
+//            sample.sampleName,
+//            sample.samplePrice,
+//            1
+//        )
 
         if (itemFoundInCart != null){
             holder.btnAddToCart.visibility = View.GONE
@@ -84,7 +84,7 @@ class SampleStoreRecyclerAdapter(
             holder.llChangeQuantity.visibility = View.VISIBLE
             it.visibility = View.GONE
 
-            SampleDataSingleton.addCartItem(cartItem)
+//            SampleDataSingleton.addCartItem(cartItem)
             Log.i("increase quantity", SampleDataSingleton.getCartItemList.toString())
 
         }

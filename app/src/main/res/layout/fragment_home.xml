@@ -7,186 +7,282 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.HomeFragment">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardMyOrders"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="5dp"
-            app:contentPadding="10dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/txtMyOrders"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/my_orders"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"/>
-
-                <ProgressBar
-                    android:id="@+id/progressMyOrders"
-                    android:layout_width="36dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:indeterminateTint="@color/colorPrimary"
-                    android:visibility="visible"/>
-
-                <TextView
-                    android:id="@+id/txtMyOrdersText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/txtMyOrders"
-                    android:layout_marginTop="5dp"
-                    android:text="You have 0 active order(s)"
-                    android:textColor="@color/light_gray_a9a9a9"
-                    android:textSize="16sp"
-                    android:visibility="invisible"/>
-
-                <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:id="@+id/btnViewMyOrders"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_below="@id/txtMyOrdersText"
-                    app:strokeColor="@color/colorPrimary"
-                    app:strokeWidth="1dp"
-                    android:text="@string/view"
-                    android:visibility="gone"/>
-
-            </RelativeLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardOrdersForMe"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="5dp"
-            android:layout_below="@id/cardMyOrders"
-            app:contentPadding="10dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/txtOrdersForMe"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/orders_for_me"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"/>
-
-                <ProgressBar
-                    android:id="@+id/progressOrdersForMe"
-                    android:layout_width="36dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:indeterminateTint="@color/colorPrimary"
-                    android:visibility="visible"/>
-
-                <TextView
-                    android:id="@+id/txtOrdersForMeText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/txtOrdersForMe"
-                    android:layout_marginTop="5dp"
-                    android:text="There 0 active order(s)"
-                    android:textColor="@color/light_gray_a9a9a9"
-                    android:textSize="16sp"
-                    android:visibility="invisible"/>
-
-                <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:id="@+id/btnViewOrdersForMe"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_below="@id/txtOrdersForMeText"
-                    app:strokeColor="@color/colorPrimary"
-                    app:strokeWidth="1dp"
-                    android:text="@string/view"
-                    android:visibility="gone"/>
-
-            </RelativeLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardSampleOrdersForMe"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="5dp"
-        android:layout_below="@id/cardOrdersForMe"
-        app:contentPadding="10dp">
-
         <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardMyOrders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="5dp"
+                app:contentPadding="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/txtMyOrders"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/my_orders"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"/>
+
+                    <ProgressBar
+                        android:id="@+id/progressMyOrders"
+                        android:layout_width="36dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:indeterminateTint="@color/colorPrimary"
+                        android:visibility="visible"/>
+
+                    <TextView
+                        android:id="@+id/txtMyOrdersText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txtMyOrders"
+                        android:layout_marginTop="5dp"
+                        android:text="You have 0 active order(s)"
+                        android:textColor="@color/light_gray_a9a9a9"
+                        android:textSize="16sp"
+                        android:visibility="invisible"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:id="@+id/btnViewMyOrders"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/txtMyOrdersText"
+                        app:strokeColor="@color/colorPrimary"
+                        app:strokeWidth="1dp"
+                        android:text="@string/view"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardOrdersForMe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="5dp"
+                android:layout_below="@id/cardMyOrders"
+                app:contentPadding="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/txtOrdersForMe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/orders_for_me"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"/>
+
+                    <ProgressBar
+                        android:id="@+id/progressOrdersForMe"
+                        android:layout_width="36dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:indeterminateTint="@color/colorPrimary"
+                        android:visibility="visible"/>
+
+                    <TextView
+                        android:id="@+id/txtOrdersForMeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txtOrdersForMe"
+                        android:layout_marginTop="5dp"
+                        android:text="There 0 active order(s)"
+                        android:textColor="@color/light_gray_a9a9a9"
+                        android:textSize="16sp"
+                        android:visibility="invisible"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:id="@+id/btnViewOrdersForMe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/txtOrdersForMeText"
+                        app:strokeColor="@color/colorPrimary"
+                        app:strokeWidth="1dp"
+                        android:text="@string/view"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSampleOrdersForMe"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="5dp"
+            android:layout_below="@id/cardOrdersForMe"
+            app:contentPadding="10dp"
+            android:visibility="gone">
 
-            <TextView
-                android:id="@+id/txtSampleOrder"
+                <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtSampleOrder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sample_orders"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+
+                <ProgressBar
+                    android:id="@+id/progressSampleOrders"
+                    android:layout_width="36dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:indeterminateTint="@color/colorPrimary"
+                    android:visibility="visible"/>
+
+                <TextView
+                    android:id="@+id/txtSampleOrderText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtSampleOrder"
+                    android:layout_marginTop="5dp"
+                    android:text="There 0 active sample order(s)"
+                    android:textSize="16sp"
+                    android:textColor="@color/light_gray_a9a9a9"
+                    android:visibility="invisible"/>
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:id="@+id/btnViewMySampleOrders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@id/txtSampleOrderText"
+                    app:strokeColor="@color/colorPrimary"
+                    app:strokeWidth="1dp"
+                    android:text="@string/view"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardNeedHelp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cardSampleOrdersForMe"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="5dp"
+                app:contentPadding="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:text="Need Help ?"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCallNow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Call Now - 7007789842"
+                        android:textColor="@color/white"
+                        app:icon="@drawable/ic_baseline_call_24"
+                        app:iconTint="@color/white"
+                        app:iconGravity="textStart"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnWhatsappNow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Message on Whatsapp"
+                        android:textColor="@color/white"
+                        app:icon="@drawable/ic_baseline_chat_24"
+                        app:iconTint="@color/white"
+                        app:iconGravity="textStart"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sample_orders"
-                android:textColor="@color/black"
-                android:textSize="16sp"/>
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:orientation="vertical"
+                android:elevation="20dp"
+                android:visibility="gone">
 
-            <ProgressBar
-                android:id="@+id/progressSampleOrders"
-                android:layout_width="36dp"
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_call_24"
+                    android:layout_marginBottom="16dp"/>
+
+                <Space
+                    android:layout_width="@dimen/dimen_10dp"
+                    android:layout_height="10dp"/>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton style=""
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_call_24"
+                    android:layout_marginBottom="16dp"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cardNeedHelp"
+                android:layout_marginVertical="5dp"
+                android:src="@drawable/darjeelingteagardenlogo_low"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabCallNow"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:indeterminateTint="@color/colorPrimary"
-                android:visibility="visible"/>
-
-            <TextView
-                android:id="@+id/txtSampleOrderText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txtSampleOrder"
-                android:layout_marginTop="5dp"
-                android:text="There 0 active sample order(s)"
-                android:textSize="16sp"
-                android:textColor="@color/light_gray_a9a9a9"
-                android:visibility="visible"/>
-
-            <com.google.android.material.button.MaterialButton
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:id="@+id/btnViewMySampleOrders"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@id/txtSampleOrderText"
-                app:strokeColor="@color/colorPrimary"
-                app:strokeWidth="1dp"
-                android:text="@string/view"
-                android:visibility="visible"/>
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:contentDescription="@string/call_now"
+                android:elevation="2dp"
+                android:src="@drawable/ic_baseline_call_24"
+                android:visibility="gone"/>
 
         </RelativeLayout>
 
-    </com.google.android.material.card.MaterialCardView>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/cardSampleOrdersForMe"
-            android:layout_marginVertical="5dp"
-            android:src="@drawable/darjeelingteagardenlogo_low"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"/>
-
-    </RelativeLayout>
+    </ScrollView>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -80,7 +80,8 @@
                 android:id="@+id/txtUserDueBalanceRupeeSymbol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtUserDueBalanceText"
+                android:layout_below="@+id/divider1"
+                android:layout_toEndOf="@id/txtUserDueBalanceText"
                 android:layout_marginVertical="2dp"
                 android:layout_marginHorizontal="5dp"
                 android:text="@string/rupee_symbol"
@@ -91,7 +92,7 @@
                 android:id="@+id/txtUserDueBalance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtUserDueBalanceText"
+                android:layout_below="@+id/divider1"
                 android:layout_toEndOf="@id/txtUserDueBalanceRupeeSymbol"
                 android:layout_marginVertical="2dp"
                 android:layout_marginHorizontal="5dp"
@@ -99,13 +100,13 @@
                 android:textSize="16sp"
                 android:textColor="@color/black"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnDueRelease"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/divider1"
-                android:layout_alignParentEnd="true"
-                android:text="@string/release"/>
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:id="@+id/btnDueRelease"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@id/divider1"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:text="@string/release"/>-->
 
         </RelativeLayout>
 

@@ -16,14 +16,14 @@
             android:id="@+id/imgSwitcherProductDetails"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true" />
 
         <ImageView
             android:id="@+id/imgPreviousImage"
             android:layout_width="40dp"
             android:layout_height="80dp"
-            android:layout_centerVertical="true"
             android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
             android:src="@drawable/ic_baseline_arrow_back_ios_new_24"
             app:tint="@color/gray_8ba6c1" />
 
@@ -32,117 +32,158 @@
             android:id="@+id/imgNextImage"
             android:layout_width="40dp"
             android:layout_height="80dp"
-            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:src="@drawable/ic_baseline_arrow_forward_ios_24"
             app:tint="@color/gray_8ba6c1" />
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/txtProductName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rlProductImage"
-        android:padding="10dp"
-        android:textSize="18sp"
-        android:textColor="@color/black"
-        android:text="Product Name"/>
-
-    <RelativeLayout
-        android:id="@+id/rlOriginalPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtProductName"
-        android:padding="10dp">
-
-        <TextView
-            android:id="@+id/txtItemOriginalPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="999"
-            android:textSize="16sp" />
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_alignStart="@+id/txtItemOriginalPrice"
-            android:layout_alignEnd="@+id/txtItemOriginalPrice"
-            android:layout_centerVertical="true"
-            android:background="@android:color/darker_gray" />
-
-
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/txtRupeeSymbol"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/rlOriginalPrice"
-        android:layout_below="@+id/txtProductName"
-        android:paddingVertical="10dp"
-        android:paddingEnd="5dp"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:textColor="@color/black"
-        android:text="@string/rupee_symbol"/>
-
-    <TextView
-        android:id="@+id/txtDiscountPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/txtRupeeSymbol"
-        android:layout_below="@+id/txtProductName"
-        android:paddingVertical="10dp"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:textColor="@color/black"
-        android:text="899"/>
-
-    <TextView
-        android:id="@+id/txtGradeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txtDiscountPrice"
-        android:layout_marginHorizontal="10dp"
-        android:text="Grade : "/>
-
-    <TextView
-        android:id="@+id/txtGrade"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txtDiscountPrice"
-        android:layout_toEndOf="@id/txtGradeText"
-        android:textColor="@color/black"
-        android:text="OF"/>
-
     <ScrollView
         android:id="@+id/descriptionScrollview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtGradeText">
+        android:layout_below="@id/rlProductImage">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/txtProductDescription"
+                android:id="@+id/txtProductName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:textSize="16sp"
-                android:text="@string/lorem_ipsum"/>
+                android:text="Product Name"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
-            <ImageView
+            <RelativeLayout
+                android:id="@+id/rlOriginalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtProductName"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/txtItemOriginalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="999"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_alignStart="@+id/txtItemOriginalPrice"
+                    android:layout_alignEnd="@+id/txtItemOriginalPrice"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/darker_gray" />
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txtRupeeSymbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtProductName"
+                android:layout_toEndOf="@+id/rlOriginalPrice"
+                android:paddingVertical="10dp"
+                android:paddingEnd="5dp"
+                android:text="@string/rupee_symbol"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtDiscountPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtProductName"
+                android:layout_toEndOf="@+id/txtRupeeSymbol"
+                android:paddingVertical="10dp"
+                android:text="899"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtGradeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtDiscountPrice"
+                android:layout_marginHorizontal="10dp"
+                android:text="Grade : " />
+
+            <TextView
+                android:id="@+id/txtGrade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtDiscountPrice"
+                android:layout_toEndOf="@id/txtGradeText"
+                android:text="OF"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/txtLotNumberText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtGradeText"
+                android:layout_marginHorizontal="10dp"
+                android:text="Lot No. : " />
+
+            <TextView
+                android:id="@+id/txtLotNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtGradeText"
+                android:layout_toEndOf="@id/txtLotNumberText"
+                android:text="OF"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/txtBagSizeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtLotNumberText"
+                android:layout_marginHorizontal="10dp"
+                android:text="Bag Size : " />
+
+            <TextView
+                android:id="@+id/txtBagSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtLotNumberText"
+                android:layout_toEndOf="@id/txtLotNumber"
+                android:text="OF"
+                android:textColor="@color/black" />
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_baseline_linear_scale_24"
-                android:contentDescription="@string/end"
-                app:tint="@color/gray_8ba6c1" />
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtBagSizeText"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/txtProductDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/lorem_ipsum"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:contentDescription="@string/end"
+                    android:src="@drawable/ic_baseline_linear_scale_24"
+                    app:tint="@color/gray_8ba6c1" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </ScrollView>
 
@@ -151,7 +192,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -161,6 +202,16 @@
 
     </RelativeLayout>
 
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCallNow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:contentDescription="@string/call_now"
+        android:src="@drawable/ic_baseline_call_24"
+        android:elevation="2dp" />
 
 </RelativeLayout>

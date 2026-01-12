@@ -20,6 +20,8 @@ class SampleOrderDetailsItemListRecyclerAdapter(
 
     class SampleOrderDetailsViewHolder(view: View): RecyclerView.ViewHolder(view){
         val txtItemName: TextView = view.findViewById(R.id.txtItemName)
+        val txtGrade: TextView = view.findViewById(R.id.txtGrade)
+        val txtLot: TextView = view.findViewById(R.id.txtLot)
         val txtItemPrice: TextView = view.findViewById(R.id.txtItemPrice)
         val txtItemQuantity: TextView = view.findViewById(R.id.txtItemQuantity)
         val txtItemTotalPrice: TextView = view.findViewById(R.id.txtItemTotalPrice)
@@ -35,6 +37,8 @@ class SampleOrderDetailsItemListRecyclerAdapter(
         val itemDetails: SampleOrderItemDetails = itemsList[position]
 
         holder.txtItemName.text = itemDetails.sampleName
+        holder.txtGrade.text = itemDetails.grade
+        holder.txtLot.text = itemDetails.lot
         holder.txtItemPrice.text = itemDetails.samplePrice.toString()
         holder.txtItemQuantity.text = itemDetails.quantity.toString()
         holder.txtItemTotalPrice.text = (itemDetails.samplePrice * itemDetails.quantity).toString()

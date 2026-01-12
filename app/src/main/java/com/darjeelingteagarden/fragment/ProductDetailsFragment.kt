@@ -40,6 +40,10 @@ class ProductDetailsFragment : Fragment() {
 
         getProductDetails(AppDataSingleton.getCurrentProductId)
 
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(mContext)
+        }
+
         return binding.root
     }
 

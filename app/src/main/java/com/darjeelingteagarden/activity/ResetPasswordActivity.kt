@@ -12,6 +12,7 @@ import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.databinding.ActivityRegisterBinding
 import com.darjeelingteagarden.databinding.ActivityResetPasswordBinding
+import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.util.ConnectionManager
 import com.darjeelingteagarden.util.InputValidator
 import org.json.JSONObject
@@ -30,8 +31,12 @@ class ResetPasswordActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(this)
+        }
+
         binding.textInputEditTextPhoneNumber.doOnTextChanged { text, start, before, count ->
-            if (text.isNullOrEmpty() || !InputValidator().validatePhoneNumber(text.toString().toLong())){
+            if (text.isNullOrEmpty() || !InputValidator().validatePhoneNumber(text.toString().trim())){
                 binding.textInputLayoutPhoneNumber.error = "Please enter valid phone number"
             }
             else {
@@ -40,7 +45,7 @@ class ResetPasswordActivity : AppCompatActivity() {
         }
 
         binding.textInputEditTextOTP.doOnTextChanged { text, start, before, count ->
-            if (text.isNullOrEmpty() || !InputValidator().validateOTP(text.toString().toInt())){
+            if (text.isNullOrBlank() || !InputValidator().validateOTP(text.toString())){
                 binding.textInputLayoutOTP.error = "Please enter valid OTP"
             }
             else{
@@ -49,7 +54,7 @@ class ResetPasswordActivity : AppCompatActivity() {
         }
 
         binding.textInputEditTextNewPassword.doOnTextChanged { text, start, before, count ->
-            if (text.isNullOrEmpty() || text.length < 6){
+            if (text.isNullOrBlank() || text.length < 6){
                 binding.textInputLayoutNewPassword.error = "Password must be at least 6 characters"
             }
             else{
@@ -194,7 +199,7 @@ class ResetPasswordActivity : AppCompatActivity() {
 
         progressBarVisible()
 
-        val url = getString(R.string.homeUrl) + "api/v1/user/verifyOTP"
+        val url = getString(R.string.homeUrl) + "api/v1/user/verifyPhoneNumber"
         val queue = Volley.newRequestQueue(this@ResetPasswordActivity)
 
         val jsonParams = JSONObject()
