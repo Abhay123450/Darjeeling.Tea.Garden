@@ -19,4 +19,5 @@
     <color name="progressTransparentBackground">#22000000</color>
     <color name="warningColor">#FFFFC185</color>
     <color name="activity_title">#FFFFFFFF</color>
+    <color name="gray_666666">#FF666666</color>
 </resources>
