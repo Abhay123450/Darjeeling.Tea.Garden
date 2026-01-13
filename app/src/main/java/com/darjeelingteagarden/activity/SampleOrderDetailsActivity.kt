@@ -25,7 +25,7 @@ import com.darjeelingteagarden.util.toDate
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.json.JSONObject
 
-class SampleOrderDetailsActivity : AppCompatActivity() {
+class SampleOrderDetailsActivity : BaseActivity() {
 
     private lateinit var binding: ActivitySampleOrderDetailsBinding
 

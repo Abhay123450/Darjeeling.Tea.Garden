@@ -14,8 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.darjeelingteagarden.R
-import com.darjeelingteagarden.database.CartEntity
-import com.darjeelingteagarden.database.CartViewModel
 import com.darjeelingteagarden.fragment.ProductDetailsFragment
 import com.darjeelingteagarden.fragment.StoreFragment
 import com.darjeelingteagarden.model.Cart

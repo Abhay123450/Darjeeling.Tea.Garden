@@ -15,7 +15,7 @@ import com.darjeelingteagarden.databinding.ActivitySampleOrderBinding
 import com.darjeelingteagarden.model.MyDownline
 import com.darjeelingteagarden.repository.AppDataSingleton
 
-class MyDownlineActivity : AppCompatActivity() {
+class MyDownlineActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMyDownlineBinding
 

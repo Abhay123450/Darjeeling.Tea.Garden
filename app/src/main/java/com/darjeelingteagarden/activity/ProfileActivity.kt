@@ -28,7 +28,7 @@ import com.google.gson.JsonObject
 import com.razorpay.Checkout
 import org.json.JSONObject
 
-class ProfileActivity : AppCompatActivity() {
+class ProfileActivity : BaseActivity() {
 
     private lateinit var binding: ActivityProfileBinding
     private lateinit var sharedPreferences: SharedPreferences

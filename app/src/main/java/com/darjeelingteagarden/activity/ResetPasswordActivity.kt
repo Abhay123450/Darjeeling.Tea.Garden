@@ -17,7 +17,7 @@ import com.darjeelingteagarden.util.ConnectionManager
 import com.darjeelingteagarden.util.InputValidator
 import org.json.JSONObject
 
-class ResetPasswordActivity : AppCompatActivity() {
+class ResetPasswordActivity : BaseActivity() {
 
     private lateinit var binding: ActivityResetPasswordBinding
 

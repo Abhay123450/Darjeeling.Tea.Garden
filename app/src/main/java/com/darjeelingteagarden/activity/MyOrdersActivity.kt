@@ -11,7 +11,7 @@ import com.darjeelingteagarden.databinding.ActivityMyOrdersBinding
 import com.darjeelingteagarden.fragment.MyOrdersFragment
 import com.darjeelingteagarden.fragment.OrderDetailsFragment
 
-class MyOrdersActivity : AppCompatActivity() {
+class MyOrdersActivity : BaseActivity() {
 
     private lateinit var toolbar: Toolbar
 

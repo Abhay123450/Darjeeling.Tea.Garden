@@ -22,7 +22,7 @@ import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
 import org.json.JSONObject
 
-class RazorpayPaymentActivity : AppCompatActivity(), PaymentResultWithDataListener, ExternalWalletListener {
+class RazorpayPaymentActivity : BaseActivity(), PaymentResultWithDataListener, ExternalWalletListener {
 
     private lateinit var binding: ActivityRazorpayPaymentBinding
 

@@ -9,7 +9,7 @@ import com.darjeelingteagarden.databinding.ActivityNewsBinding
 import com.darjeelingteagarden.databinding.ActivityProfileBinding
 import com.darjeelingteagarden.repository.NotificationDataSingleton
 
-class NewsActivity : AppCompatActivity() {
+class NewsActivity : BaseActivity() {
 
     private lateinit var binding: ActivityNewsBinding
 

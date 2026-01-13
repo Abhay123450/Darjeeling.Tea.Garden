@@ -29,12 +29,12 @@ import com.darjeelingteagarden.repository.NotificationDataSingleton
 import com.darjeelingteagarden.repository.StoreDataSingleton
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.ktx.messaging
+import com.google.firebase.messaging.messaging
 import org.json.JSONObject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     lateinit var bottomNavigationView: BottomNavigationView
     lateinit var toolbar: Toolbar
