@@ -20,7 +20,7 @@ import com.paytm.pgsdk.PaytmPaymentTransactionCallback
 import com.paytm.pgsdk.TransactionManager
 import org.json.JSONObject
 
-class PaymentActivity : AppCompatActivity() {
+class PaymentActivity : BaseActivity() {
 
     lateinit var paytmOrder: PaytmOrder
     lateinit var transactionManager: TransactionManager

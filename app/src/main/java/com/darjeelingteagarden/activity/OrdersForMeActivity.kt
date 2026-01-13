@@ -12,7 +12,7 @@ import com.darjeelingteagarden.R
 import com.darjeelingteagarden.databinding.ActivityMyOrdersBinding
 import com.darjeelingteagarden.databinding.ActivityOrdersForMeBinding
 
-class OrdersForMeActivity : AppCompatActivity() {
+class OrdersForMeActivity : BaseActivity() {
 
     private lateinit var toolbar: Toolbar
 

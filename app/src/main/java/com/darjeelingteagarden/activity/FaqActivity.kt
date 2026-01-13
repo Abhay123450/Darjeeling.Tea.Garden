@@ -18,7 +18,7 @@ import com.darjeelingteagarden.R
 import com.darjeelingteagarden.databinding.ActivityFaqBinding
 import com.darjeelingteagarden.databinding.ActivityProfileBinding
 
-class FaqActivity : AppCompatActivity() {
+class FaqActivity : BaseActivity() {
 
     private lateinit var binding: ActivityFaqBinding
 

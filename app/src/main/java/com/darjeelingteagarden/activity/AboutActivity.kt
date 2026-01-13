@@ -22,7 +22,7 @@ import com.darjeelingteagarden.databinding.ActivitySampleOrderDetailsBinding
 import com.darjeelingteagarden.model.About
 import com.darjeelingteagarden.repository.AppDataSingleton
 
-class AboutActivity : AppCompatActivity() {
+class AboutActivity : BaseActivity() {
 
     private lateinit var binding: ActivityAboutBinding
 

@@ -25,7 +25,7 @@ import com.denzcoskun.imageslider.models.SlideModel
 import com.squareup.picasso.Picasso
 import com.stfalcon.imageviewer.StfalconImageViewer
 
-class ProductDetailsActivity : AppCompatActivity() {
+class ProductDetailsActivity : BaseActivity() {
 
     private lateinit var binding: ActivityProductDetailsBinding
 

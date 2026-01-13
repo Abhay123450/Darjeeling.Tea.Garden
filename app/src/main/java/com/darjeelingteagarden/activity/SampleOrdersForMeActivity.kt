@@ -9,7 +9,7 @@ import com.darjeelingteagarden.R
 import com.darjeelingteagarden.databinding.ActivitySampleOrderDetailsBinding
 import com.darjeelingteagarden.databinding.ActivitySampleOrdersForMeBinding
 
-class SampleOrdersForMeActivity : AppCompatActivity() {
+class SampleOrdersForMeActivity : BaseActivity() {
 
     private lateinit var binding: ActivitySampleOrdersForMeBinding
 

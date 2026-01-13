@@ -11,7 +11,7 @@ import com.darjeelingteagarden.databinding.ActivitySampleOrderBinding
 import com.darjeelingteagarden.model.Sample
 import com.darjeelingteagarden.repository.SampleDataSingleton
 
-class SampleOrderActivity : AppCompatActivity() {
+class SampleOrderActivity : BaseActivity() {
 
     private lateinit var binding: ActivitySampleOrderBinding
 

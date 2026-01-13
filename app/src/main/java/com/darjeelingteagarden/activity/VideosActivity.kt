@@ -28,7 +28,7 @@ import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.util.formatTo
 import com.darjeelingteagarden.util.toDate
 
-class VideosActivity : AppCompatActivity() {
+class VideosActivity : BaseActivity() {
 
     private lateinit var binding: ActivityVideosBinding
 

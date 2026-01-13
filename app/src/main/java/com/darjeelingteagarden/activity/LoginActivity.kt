@@ -22,7 +22,7 @@ import org.json.JSONObject
 import java.lang.Exception
 import java.util.Date
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
     private lateinit var binding: ActivityLoginBinding
 

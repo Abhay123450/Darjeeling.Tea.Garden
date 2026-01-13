@@ -27,7 +27,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import org.json.JSONObject
 
-class UserDetailsActivity : AppCompatActivity() {
+class UserDetailsActivity : BaseActivity() {
 
     private lateinit var binding: ActivityUserDetailsBinding
 
