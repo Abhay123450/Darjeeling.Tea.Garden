@@ -364,5 +364,8 @@ Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincid
     <string name="call_now">Call Now</string>
     <string name="firm_name_optional">Firm Name (optional)</string>
     <string name="phone_number_">Phone number</string>
+
+    <string name="price_format">₹ %.2f</string>
+    <string name="some_error_occurred">Some error occurred</string>
 </resources>
 
