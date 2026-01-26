@@ -4,7 +4,7 @@
     <string name="login">Login</string>
     <string name="enter_your_password">Enter your Password</string>
     <string name="dont_have_an_account">Don\'t have an account?</string>
-    <string name="create_an_account">Create an account</string>
+    <string name="create_an_account">Create account</string>
     <string name="forgot_password">Forgot Password ?</string>
     <string name="register_as_a_business_partner">Register as a business partner</string>
 
@@ -367,5 +367,6 @@ Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincid
 
     <string name="price_format">₹ %.2f</string>
     <string name="some_error_occurred">Some error occurred</string>
+    <string name="or">OR</string>
 </resources>
 

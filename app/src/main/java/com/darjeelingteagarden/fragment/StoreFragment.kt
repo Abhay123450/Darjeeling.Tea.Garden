@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.doOnTextChanged
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -32,25 +31,13 @@ import com.darjeelingteagarden.model.Product
 import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.repository.CartDataSingleton
 import com.darjeelingteagarden.repository.StoreDataSingleton
-import com.darjeelingteagarden.util.ResizeTransformation
-import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.RangeSlider
-import com.google.android.material.slider.Slider
 import com.google.android.material.textfield.TextInputEditText
-import com.squareup.picasso.Picasso
-import com.stfalcon.imageviewer.StfalconImageViewer
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
-import java.security.AllPermission
-import java.util.Timer
 
 class StoreFragment : Fragment() {
 
@@ -149,7 +136,7 @@ class StoreFragment : Fragment() {
             if (productList.size <= 0){
                 productList = AppDataSingleton.getStoreItemList
                 if (productList.size <= 0){
-                    StoreDataSingleton.getStoreItems(mContext)
+                    StoreDataSingleton.fetchStoreItems(mContext)
                     loadStoreItems()
                 }
             }
@@ -183,7 +170,7 @@ class StoreFragment : Fragment() {
             storeSwipeRefreshLayout.isRefreshing = true
             isProductListReceived = false
             AppDataSingleton.clearStoreItemList()
-            StoreDataSingleton.getStoreItems(mContext)
+            StoreDataSingleton.fetchStoreItems(mContext)
             loadStoreItems()
         }
 
@@ -253,7 +240,7 @@ class StoreFragment : Fragment() {
             if (AppDataSingleton.getStoreItemList.size <= 0){
                 storeSwipeRefreshLayout.isRefreshing = true
                 AppDataSingleton.clearStoreItemList()
-                StoreDataSingleton.getStoreItems(mContext)
+                StoreDataSingleton.fetchStoreItems(mContext)
                 loadStoreItems()
             }
             else{

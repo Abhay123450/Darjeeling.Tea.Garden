@@ -79,7 +79,13 @@ class CartFragment : Fragment() {
         binding.btnContinueToPayment.setOnClickListener {
 
             if (ConnectionManager().isOnline(activity as Context)){
-                createOrder()
+                if (AppDataSingleton.isLoggedIn()){
+                    createOrder()
+                }
+                else{
+                    val intent = Intent(activity as Context, LoginActivity::class.java)
+                    startActivity(intent)
+                }
             }
 
         }

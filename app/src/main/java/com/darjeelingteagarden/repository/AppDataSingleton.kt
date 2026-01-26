@@ -23,6 +23,9 @@ object AppDataSingleton {
     fun setAuthToken(token: String){
         authToken = token
     }
+    fun isLoggedIn(): Boolean{
+        return authToken != ""
+    }
 
     //product id to use in product details page
     private var currentProductId = ""
