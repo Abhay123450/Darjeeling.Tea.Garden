@@ -6,7 +6,6 @@ import android.view.View
 import android.webkit.WebView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
@@ -14,16 +13,17 @@ import com.darjeelingteagarden.databinding.ActivityPayuPaymentBinding
 import com.darjeelingteagarden.model.OrderInfo
 import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.repository.CartDataSingleton
+import com.darjeelingteagarden.util.RandomGenerator
 import com.payu.base.models.ErrorResponse
+import com.payu.base.models.OrderDetails
 import com.payu.base.models.PayUPaymentParams
 import com.payu.checkoutpro.PayUCheckoutPro
+import com.payu.checkoutpro.models.PayUCheckoutProConfig
 import com.payu.checkoutpro.utils.PayUCheckoutProConstants
 import com.payu.ui.model.listeners.PayUCheckoutProListener
 import com.payu.ui.model.listeners.PayUHashGenerationListener
 import org.json.JSONObject
 import java.util.Date
-
-const val BASE_URL = "https://actionable-superlocal-micheal.ngrok-free.dev"
 
 class PayuPaymentActivity : BaseActivity() {
 
@@ -31,11 +31,13 @@ class PayuPaymentActivity : BaseActivity() {
 
     private lateinit var orderInfo: OrderInfo
 
+    private val BASE_URL: String by lazy {
+        getString(R.string.homeUrl)
+    }
+
     companion object {
         private const val TAG = "PaymentActivity"
         private const val MERCHANT_KEY = "hBk1nP"
-        private const val MERCHANT_SALT = "KUrkqkpDsttJWHSFatxofsccdZwfEr3P"
-        private const val HASH_API_URL = "https://yourbackend.com/api/payu/hash"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,17 +82,36 @@ class PayuPaymentActivity : BaseActivity() {
 
         binding.btnPayNow.setOnClickListener {
 
+            val orderDetailList = ArrayList<OrderDetails>()
+            CartDataSingleton.cartList.forEach {
+                orderDetailList.add(
+                    OrderDetails(
+                        it.productName,
+                        it.discountedPrice.toString())
+                )
+            }
+
+            val payUCheckoutProConfig = PayUCheckoutProConfig()
+            payUCheckoutProConfig.cartDetails = orderDetailList
+
+            payUCheckoutProConfig.merchantName = "Dewill Industries Pvt Ltd"
+            payUCheckoutProConfig.merchantLogo = R.drawable.darjeelingteagardenlogo_low
+            payUCheckoutProConfig.showMerchantLogo = true
+            payUCheckoutProConfig.autoSelectOtp = true
+
+            val txnId = RandomGenerator().generateRandomString(7) + Date().time
+
             val payUPaymentParams = PayUPaymentParams.Builder()
             .setAmount(orderInfo.totalAmount.toString())
             .setIsProduction(false)  //set is to true for Production and false for UAT
             .setKey(MERCHANT_KEY)
             .setProductInfo("Tea")
             .setPhone(AppDataSingleton.getUserInfo.phoneNumber.toString())
-            .setTransactionId(orderInfo.orderId)
+            .setTransactionId(txnId)
             .setFirstName(AppDataSingleton.getUserInfo.name)
             .setEmail("${AppDataSingleton.getUserInfo.phoneNumber}@darjeelingteagarden.com")
-            .setSurl("${BASE_URL}/api/v1/payment/payu/success") //Pass your own surl your
-            .setFurl("${BASE_URL}/api/v1/payment/payu/failure") //Pass your own furl your
+            .setSurl("${BASE_URL}/api/v1/payment/payu/success")
+            .setFurl("${BASE_URL}/api/v1/payment/payu/failure")
             .setUserCredential("${MERCHANT_KEY}:${AppDataSingleton.getUserInfo.userId}")
             .setAdditionalParams(hashMapOf<String, Any?>("orderId" to orderInfo.orderId, "userId" to AppDataSingleton.getUserInfo.userId)) //Optional, can contain any additional PG params
             .build()
@@ -98,6 +119,7 @@ class PayuPaymentActivity : BaseActivity() {
             PayUCheckoutPro.open(
                 this,
                 payUPaymentParams,
+                payUCheckoutProConfig,
                 object : PayUCheckoutProListener {
 
                     override fun onPaymentSuccess(response: Any) {
@@ -145,7 +167,6 @@ class PayuPaymentActivity : BaseActivity() {
                         binding.llProgressBar.visibility = View.GONE
                     }
 
-
                     override fun onError(errorResponse: ErrorResponse) {
                         if (errorResponse.errorMessage != null && errorResponse.errorMessage!!.isNotEmpty())
                             Log.e(TAG, "SDK Error: ${errorResponse.errorMessage}")
@@ -163,11 +184,11 @@ class PayuPaymentActivity : BaseActivity() {
                     }
 
                     override fun generateHash(
-                        valueMap: HashMap<String, String?>,
+                        map: HashMap<String, String?>,
                         hashGenerationListener: PayUHashGenerationListener
                     ) {
-                        val hashName = valueMap[PayUCheckoutProConstants.CP_HASH_NAME]
-                        val hashString = valueMap[PayUCheckoutProConstants.CP_HASH_STRING]
+                        val hashName = map[PayUCheckoutProConstants.CP_HASH_NAME]
+                        val hashString = map[PayUCheckoutProConstants.CP_HASH_STRING]
 
                         Log.i("hashName", hashName.toString())
                         Log.i("hashString", hashString.toString())
@@ -182,7 +203,7 @@ class PayuPaymentActivity : BaseActivity() {
 //                        hashGenerationListener.onHashGenerated(hashMap)
 
 //                        val baseUrl = "http://192.168.1.3:3000"
-                        val url = "${BASE_URL}/api/v1/payment/payuHash"
+                        val url = "${BASE_URL}/api/v1/payment/payu/hash"
 
                         // Create the JSON object
                         val jsonParams = JSONObject()
@@ -190,7 +211,7 @@ class PayuPaymentActivity : BaseActivity() {
                         jsonParams.put("hashString", hashString)
 
                         val jsonRequest = object: JsonObjectRequest(
-                            Request.Method.POST, url, jsonParams,
+                            Method.POST, url, jsonParams,
                             { response ->
                                 Log.i("getHashResponse", response.toString())
                                 // Assuming server returns: {"hash": "calculated_sha512_string"}
@@ -202,7 +223,7 @@ class PayuPaymentActivity : BaseActivity() {
                             },
                             { error ->
                                 Log.e("generate hash error", "Error: ${error.toString()}")
-
+                                Toast.makeText(this@PayuPaymentActivity, "An error occurred", Toast.LENGTH_LONG).show()
                             }
                         ){
                             override fun getHeaders(): MutableMap<String, String> {
@@ -249,7 +270,4 @@ class PayuPaymentActivity : BaseActivity() {
         binding.llOrderPlacedSuccessfully.visibility = View.GONE
     }
 
-    fun generatePayuTxnId(): String{
-        return Date().time.toString() + AppDataSingleton.getUserInfo.userId.subSequence(-6, -1)
-    }
 }
