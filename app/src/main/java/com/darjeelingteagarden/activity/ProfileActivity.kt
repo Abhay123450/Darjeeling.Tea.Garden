@@ -167,6 +167,37 @@ class ProfileActivity : BaseActivity() {
     private fun showUserInfo(){
         Log.i("user info ::: ", AppDataSingleton.getUserInfo.toString())
         val user = AppDataSingleton.getUserInfo
+
+        if (AppDataSingleton.getAuthToken == "" || user.userId == ""){
+            binding.llUserInfo.visibility = View.GONE
+            binding.llUserNotLoggedIn.visibility = View.VISIBLE
+
+            binding.btnMyOrders.visibility = View.GONE
+            binding.btnOrdersForMe.visibility = View.GONE
+            binding.btnMyDownline.visibility = View.GONE
+            binding.btnLogout.visibility = View.GONE
+
+            binding.btnLogin.setOnClickListener {
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+
+            binding.btnCreateAccount.setOnClickListener {
+                val intent = Intent(this, RegisterActivity::class.java)
+                startActivity(intent)
+            }
+
+            return
+        }
+
+        binding.llUserInfo.visibility = View.VISIBLE
+        binding.llUserNotLoggedIn.visibility = View.GONE
+
+        binding.btnMyOrders.visibility = View.VISIBLE
+        binding.btnOrdersForMe.visibility = View.VISIBLE
+        binding.btnMyDownline.visibility = View.VISIBLE
+        binding.btnLogout.visibility = View.VISIBLE
+
         binding.txtUserName.text = user.name
         binding.txtUserRole.text = user.role
         binding.txtUserEmail.text = user.email

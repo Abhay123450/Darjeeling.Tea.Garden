@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -14,16 +13,13 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
-import com.darjeelingteagarden.fragment.CartFragment
 import com.darjeelingteagarden.fragment.HomeFragment
-import com.darjeelingteagarden.fragment.StoreFragment
 import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.repository.NotificationDataSingleton
 import com.darjeelingteagarden.repository.StoreDataSingleton
@@ -66,7 +62,7 @@ class MainActivity : BaseActivity() {
 
         sharedPreferences = getSharedPreferences(getString(R.string.shared_preference_name), MODE_PRIVATE)
 
-        StoreDataSingleton.getStoreItems(this)
+        StoreDataSingleton.fetchStoreItems(this)
 
 //        openHome()
 
@@ -75,6 +71,27 @@ class MainActivity : BaseActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
 
         val navController = navHostFragment.navController
+        val navGraph = navController.navInflater.inflate(R.navigation.main_bottom_nav)
+
+        val isLoggedIn = AppDataSingleton.isLoggedIn()
+        val menu = bottomNavigationView.menu
+
+        if (isLoggedIn){
+            navGraph.setStartDestination(R.id.homeFragment)
+            if (menu.findItem(R.id.homeFragment) == null){
+                val newItem = menu.add(0, R.id.homeFragment, 0, "Home")
+                newItem.setIcon(R.drawable.ic_baseline_home_24)
+            }
+        }
+        else{
+            navGraph.setStartDestination(R.id.storeFragment)
+            if (menu.findItem(R.id.homeFragment) !== null){
+                menu.removeItem(R.id.homeFragment)
+            }
+        }
+
+        navController.graph = navGraph
+
         bottomNavigationView.setupWithNavController(navController)
         navController.addOnDestinationChangedListener{ _, destination, _ ->
             Log.i("Destination: ", destination.toString())

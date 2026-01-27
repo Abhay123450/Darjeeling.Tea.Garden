@@ -19,6 +19,7 @@ import com.darjeelingteagarden.R
 import com.darjeelingteagarden.activity.LoginActivity
 import com.darjeelingteagarden.activity.MyOrdersActivity
 import com.darjeelingteagarden.activity.PaymentActivity
+import com.darjeelingteagarden.activity.PayuPaymentActivity
 import com.darjeelingteagarden.activity.RazorpayPaymentActivity
 import com.darjeelingteagarden.adapter.CartRecyclerAdapter
 import com.darjeelingteagarden.databinding.FragmentCartBinding
@@ -78,7 +79,13 @@ class CartFragment : Fragment() {
         binding.btnContinueToPayment.setOnClickListener {
 
             if (ConnectionManager().isOnline(activity as Context)){
-                createOrder()
+                if (AppDataSingleton.isLoggedIn()){
+                    createOrder()
+                }
+                else{
+                    val intent = Intent(activity as Context, LoginActivity::class.java)
+                    startActivity(intent)
+                }
             }
 
         }
@@ -251,7 +258,7 @@ class CartFragment : Fragment() {
                         val apiKeyId = it.getString("apiKeyId")
 
 
-                        val intent = Intent(activity as Context, RazorpayPaymentActivity::class.java)
+                        val intent = Intent(activity as Context, PayuPaymentActivity::class.java)
                         intent.putExtra("orderId", orderId)
                         intent.putExtra("itemTotal", itemTotal)
                         intent.putExtra("totalTax", totalTax)

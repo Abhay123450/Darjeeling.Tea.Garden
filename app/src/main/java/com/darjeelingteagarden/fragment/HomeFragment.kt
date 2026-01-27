@@ -43,7 +43,7 @@ class HomeFragment : Fragment(){
 
         queue = Volley.newRequestQueue(mContext)
 
-        if (!AppDataSingleton.homePageRefreshed || AppDataSingleton.shouldRefreshHomePage()){
+        if (AppDataSingleton.isLoggedIn() && (!AppDataSingleton.homePageRefreshed || AppDataSingleton.shouldRefreshHomePage())){
             getActiveMyOrdersCount()
             getActiveOrdersForMeCount()
 //            getActiveSampleOrdersCount()
@@ -51,8 +51,10 @@ class HomeFragment : Fragment(){
 
         binding.swipeRefreshHome.setOnRefreshListener {
 
-            getActiveMyOrdersCount()
-            getActiveOrdersForMeCount()
+            if (AppDataSingleton.isLoggedIn()){
+                getActiveMyOrdersCount()
+                getActiveOrdersForMeCount()
+            }
 
         }
 

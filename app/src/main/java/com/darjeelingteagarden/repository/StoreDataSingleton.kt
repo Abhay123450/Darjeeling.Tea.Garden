@@ -1,7 +1,6 @@
 package com.darjeelingteagarden.repository
 
 import android.content.Context
-import android.os.CountDownTimer
 import android.util.Log
 import android.widget.Toast
 import com.android.volley.Response
@@ -10,14 +9,13 @@ import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.model.Product
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.delay
 import org.json.JSONObject
 
 object StoreDataSingleton {
 
     var loadingStoreItem = false
 
-    fun getStoreItems(context: Context){
+    fun fetchStoreItems(context: Context){
 
         loadingStoreItem = true
 
@@ -129,7 +127,6 @@ object StoreDataSingleton {
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String, String>()
                 headers["Content-Type"] = "application/json"
-                headers["auth-token"] = AppDataSingleton.getAuthToken
                 return headers
             }
         }

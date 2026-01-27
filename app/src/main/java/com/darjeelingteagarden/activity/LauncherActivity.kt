@@ -216,11 +216,7 @@ class LauncherActivity : AppCompatActivity() {
 
     private fun startAnotherActivity(){
 
-        val intent: Intent = if (isLoggedIn && token != null){
-            Intent(this@LauncherActivity, MainActivity::class.java)
-        } else {
-            Intent(this@LauncherActivity, LoginActivity::class.java)
-        }
+        val intent = Intent(this@LauncherActivity, MainActivity::class.java)
 
         Log.i("before start activity", intent.toString())
         Log.i("isLoggedIn", isLoggedIn.toString())

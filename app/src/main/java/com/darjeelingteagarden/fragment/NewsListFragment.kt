@@ -214,7 +214,6 @@ class NewsListFragment : Fragment() {
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String, String>()
                 headers["Content-Type"] = "application/json"
-                headers["auth-token"] = AppDataSingleton.getAuthToken
                 return headers
             }
         }

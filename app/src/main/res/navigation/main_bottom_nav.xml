@@ -9,7 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.darjeelingteagarden.fragment.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_storeFragment"
             app:destination="@id/storeFragment" />
@@ -21,7 +21,7 @@
         android:id="@+id/storeFragment"
         android:name="com.darjeelingteagarden.fragment.StoreFragment"
         android:label="fragment_store"
-        tools:layout="@layout/fragment_store" >
+        tools:layout="@layout/fragment_store">
         <action
             android:id="@+id/action_storeFragment_to_cartFragment"
             app:destination="@id/cartFragment" />
@@ -33,7 +33,7 @@
         android:id="@+id/cartFragment"
         android:name="com.darjeelingteagarden.fragment.CartFragment"
         android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart" >
+        tools:layout="@layout/fragment_cart">
         <action
             android:id="@+id/action_cartFragment_to_storeFragment"
             app:destination="@id/storeFragment" />
