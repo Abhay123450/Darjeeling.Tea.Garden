@@ -351,7 +351,7 @@ Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincid
     <string name="logout_from_this_device">Logout from this device</string>
     <string name="logout_from_all_devices">Logout from all devices</string>
     <string name="deliver_all">Deliver All</string>
-    <string name="by_registering_you_agree_to_our_privacy_policy">By registering you agree to our <u>Privacy Policy</u>.</string>
+    <string name="by_registering_you_agree_to_our_privacy_policy">By signing up you agree to our <u>Privacy Policy</u>.</string>
     <string name="low_to_high">Low To High</string>
     <string name="high_to_low">High To Low</string>
     <string name="status">Status :</string>
@@ -368,5 +368,24 @@ Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincid
     <string name="price_format">₹ %.2f</string>
     <string name="some_error_occurred">Some error occurred</string>
     <string name="or">OR</string>
+    <string name="enter_4_digit_code_sent_to_phone">Enter the 4 digit code sent to %1$s</string>
+    <string name="welcome">Welcome</string>
+    <string name="enter_otp_to_login">Enter OTP to login</string>
+    <string name="enter_otp_to_sign_up">Enter OTP to sign up</string>
+    <string name="last_step">Last Step!</string>
+    <string name="success">Success</string>
+    <string name="change_number">Change number</string>
+    <string name="enter_your_phone_number_to_continue">Enter your phone number to continue</string>
+    <string name="continue_">Continue</string>
+    <string name="otp">OTP</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="what_is_your_business_s_monthly_revenue_approximate">What is your business’s monthly revenue (approximate)?</string>
+    <string name="this_helps_us_recommend_pricing_and_services_that_fit_your_business_size">This helps us recommend pricing and services that fit your business size.</string>
+    <string name="below_1_lakh">Below 1 Lakh</string>
+    <string name="_1_5_lakh">1 – 5 Lakh</string>
+    <string name="_5_10_lakh">5 – 10 Lakh</string>
+    <string name="_10_25_lakh">10 – 25 Lakh</string>
+    <string name="above_25_lakh">Above 25 Lakh</string>
+    <string name="complete_sign_up">Complete Sign up</string>
 </resources>
 
