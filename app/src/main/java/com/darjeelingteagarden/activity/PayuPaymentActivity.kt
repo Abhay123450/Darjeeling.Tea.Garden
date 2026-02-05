@@ -101,6 +101,11 @@ class PayuPaymentActivity : BaseActivity() {
 
             val txnId = RandomGenerator().generateRandomString(7) + Date().time
 
+            val additionalParams = HashMap<String, Any?>()
+            additionalParams[PayUCheckoutProConstants.CP_UDF1] = orderInfo.orderId
+
+            Log.i("additional params", additionalParams.toString())
+
             val payUPaymentParams = PayUPaymentParams.Builder()
             .setAmount(orderInfo.totalAmount.toString())
             .setIsProduction(false)  //set is to true for Production and false for UAT
@@ -112,8 +117,8 @@ class PayuPaymentActivity : BaseActivity() {
             .setEmail("${AppDataSingleton.getUserInfo.phoneNumber}@darjeelingteagarden.com")
             .setSurl("${BASE_URL}/api/v1/payment/payu/success")
             .setFurl("${BASE_URL}/api/v1/payment/payu/failure")
-            .setUserCredential("${MERCHANT_KEY}:${AppDataSingleton.getUserInfo.userId}")
-            .setAdditionalParams(hashMapOf<String, Any?>("orderId" to orderInfo.orderId, "userId" to AppDataSingleton.getUserInfo.userId)) //Optional, can contain any additional PG params
+            .setUserCredential("${MERCHANT_KEY}:${AppDataSingleton.getUserInfo.phoneNumber}")
+            .setAdditionalParams(additionalParams) //Optional, can contain any additional PG params
             .build()
 
             PayUCheckoutPro.open(
@@ -202,7 +207,6 @@ class PayuPaymentActivity : BaseActivity() {
 //                        hashMap[hashName as String] = generatedHash
 //                        hashGenerationListener.onHashGenerated(hashMap)
 
-//                        val baseUrl = "http://192.168.1.3:3000"
                         val url = "${BASE_URL}/api/v1/payment/payu/hash"
 
                         // Create the JSON object

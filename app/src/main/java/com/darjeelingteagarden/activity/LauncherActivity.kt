@@ -261,6 +261,7 @@ class LauncherActivity : AppCompatActivity() {
                 ).show()
                 if (it.networkResponse.statusCode == 401){
                     isLoggedIn = false
+                    sharedPreferences.edit { clear() }
                     startAnotherActivity()
                 }
 
