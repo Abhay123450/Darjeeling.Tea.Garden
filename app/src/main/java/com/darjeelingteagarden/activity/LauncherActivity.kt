@@ -248,14 +248,14 @@ class LauncherActivity : AppCompatActivity() {
                         val data = it.getJSONObject("data")
 
                         val user = User(
-                            data.getString("userId"),
+                            data.optString("userId"),
                             data.getString("name"),
-                            data.getString("role"),
+                            data.optString("role"),
                             data.getLong("phoneNumber"),
                             data.optString("email"),
                         )
 
-                        println("user is $user")
+                        Log.i("userInfo LauncherActivity", "user is $user")
                         AppDataSingleton.setUserInfo(user)
 
                         userInfoLoaded = true

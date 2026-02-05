@@ -387,5 +387,8 @@ Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincid
     <string name="_10_25_lakh">10 – 25 Lakh</string>
     <string name="above_25_lakh">Above 25 Lakh</string>
     <string name="complete_sign_up">Complete Sign up</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="my_addresses">My Addresses</string>
+    <string name="faq">FAQ</string>
 </resources>
 
