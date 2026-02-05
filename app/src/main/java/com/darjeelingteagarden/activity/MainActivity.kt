@@ -158,6 +158,22 @@ class MainActivity : BaseActivity() {
 
         askNotificationPermission()
 
+        supportFragmentManager.setFragmentResultListener("auth_key", this) { requestKey, bundle ->
+            if (requestKey == "auth_key") {
+                val isLoggedIn = bundle.getBoolean("isLoggedIn")
+                if (isLoggedIn) {
+                    // --- SUCCESS! TRIGGER YOUR REFRESH LOGIC HERE ---
+                    Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT)
+                        .show()
+                    refreshActivityData()
+                }
+            }
+        }
+
+    }
+
+    private fun refreshActivityData(){
+        recreate()
     }
 
     private fun askNotificationPermission() {

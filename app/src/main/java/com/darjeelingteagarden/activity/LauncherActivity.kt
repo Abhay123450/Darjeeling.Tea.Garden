@@ -293,6 +293,7 @@ class LauncherActivity : AppCompatActivity() {
 //                val response = JSONObject(String(it.networkResponse.data))
                 if (it.networkResponse.statusCode == 401){
                     isLoggedIn = false
+                    sharedPreferences.edit { clear() }
                     startAnotherActivity()
                 }
 //                val isLoggedIn = response.getBoolean("isLoggedIn")
