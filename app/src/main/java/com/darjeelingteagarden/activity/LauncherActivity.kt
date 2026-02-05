@@ -1,32 +1,23 @@
 package com.darjeelingteagarden.activity
 
-import android.app.Activity
-import android.app.Application
-import android.content.ContentValues.TAG
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
-import com.darjeelingteagarden.model.Cart
-import com.darjeelingteagarden.model.Product
 import com.darjeelingteagarden.model.User
 import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.repository.NotificationDataSingleton
-import com.darjeelingteagarden.repository.StoreDataSingleton
 import com.darjeelingteagarden.util.ConnectionManager
 import com.darjeelingteagarden.viewModel.AppDataViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -34,13 +25,10 @@ import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.model.AppUpdateType
-import com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.isFlexibleUpdateAllowed
 import com.google.android.play.core.ktx.isImmediateUpdateAllowed
-import org.json.JSONObject
-import java.util.*
-import kotlin.collections.HashMap
+import java.util.Date
 
 class LauncherActivity : AppCompatActivity() {
 
@@ -52,10 +40,7 @@ class LauncherActivity : AppCompatActivity() {
     private var isLoggedIn = false
     private var lastLoginTime: Long = 0
 
-    var itemListLoaded = false
     var userInfoLoaded = false
-    var openedActivity = false
-    var cartListLoaded = false
 
     //open notification
     private var isNotificationOpened = false
@@ -73,10 +58,10 @@ class LauncherActivity : AppCompatActivity() {
                 .setTitle("Permission Required")
                 .setMessage("Notification permission is required in order to use the app.")
                 .setCancelable(false)
-                .setPositiveButton("Allow"){dialog, int ->
+                .setPositiveButton("Allow"){ _, _ ->
                     askNotificationPermission()
                 }
-                .setNegativeButton("EXIT"){dialog, int ->
+                .setNegativeButton("EXIT"){ _, _ ->
                     this.finishAffinity()
                 }
 
@@ -109,17 +94,13 @@ class LauncherActivity : AppCompatActivity() {
                 NotificationDataSingleton.resourceId = resourceId
             }
 
-            Log.d("datapayload activity", activityToOpen.toString())
+            Log.d("dataPayload activity", activityToOpen.toString())
             Log.d("resource id activity", resourceId.toString())
 
         }
 
         askNotificationPermission()
 
-//        checkForUpdates()
-//        Handler(Looper.getMainLooper()).postDelayed({
-//            startAnotherActivity()
-//        }, 2000)
     }
 
     override fun onResume() {
@@ -138,10 +119,10 @@ class LauncherActivity : AppCompatActivity() {
                 .setTitle("No Internet")
                 .setMessage("Internet connection not available")
                 .setCancelable(false)
-                .setPositiveButton("Retry"){dialog, int ->
+                .setPositiveButton("Retry"){ _, _ ->
                     startup()
                 }
-                .setNegativeButton("EXIT"){dialog, int ->
+                .setNegativeButton("EXIT"){ _, _ ->
                     this.finishAffinity()
                 }
 
@@ -200,9 +181,6 @@ class LauncherActivity : AppCompatActivity() {
                 Log.i("auth token is === ", AppDataSingleton.getAuthToken)
 
                 getUserDetails()
-//                StoreDataSingleton.getStoreItems(applicationContext)
-//                getStoreItems()
-//            getCartItems()
             }
 
         }
@@ -262,11 +240,6 @@ class LauncherActivity : AppCompatActivity() {
 
                         startAnotherActivity()
 
-//                        if (userInfoLoaded && itemListLoaded && !openedActivity){
-//                            openedActivity = true
-//
-//                        }
-
                     }
                     else{
                         Toast.makeText(
@@ -274,14 +247,10 @@ class LauncherActivity : AppCompatActivity() {
                         ).show()
                     }
 
-//                    storeSwipeRefreshLayout.isRefreshing = false
-
-
                 }catch (e: Exception){
                     Toast.makeText(
                         this@LauncherActivity,"An error occurred: $e", Toast.LENGTH_LONG
                     ).show()
-//                    storeSwipeRefreshLayout.isRefreshing = false
                 }
 
             },
@@ -290,29 +259,10 @@ class LauncherActivity : AppCompatActivity() {
                 Toast.makeText(
                     this@LauncherActivity,"An error occurred", Toast.LENGTH_LONG
                 ).show()
-//                val response = JSONObject(String(it.networkResponse.data))
                 if (it.networkResponse.statusCode == 401){
                     isLoggedIn = false
                     startAnotherActivity()
                 }
-//                val isLoggedIn = response.getBoolean("isLoggedIn")
-
-//                if (!isLoggedIn){
-//                    val intent = Intent(this@LauncherActivity, LoginActivity::class.java)
-//                    startActivity(intent)
-//                    Toast.makeText(
-//                        this@LauncherActivity,"Please login to continue", Toast.LENGTH_LONG
-//                    ).show()
-////                    requireActivity().finish()
-//                }
-//                Log.i("Volley error response", response.toString())
-//                MaterialAlertDialogBuilder(this@LauncherActivity)
-//                    .setTitle("Message")
-//                    .setMessage(response.getString("message").toString())
-//                    .setNeutralButton("OK") { _, _ -> }
-//                    .show()
-
-//                storeSwipeRefreshLayout.isRefreshing = false
 
             }
         ){
@@ -339,10 +289,10 @@ class LauncherActivity : AppCompatActivity() {
                 .setTitle("Update Required")
                 .setMessage("Please update the app to continue using.")
                 .setCancelable(false)
-                .setPositiveButton("Update"){dialog, int ->
+                .setPositiveButton("Update"){ _, _ ->
                     checkForUpdates()
                 }
-                .setNegativeButton("Exit"){dialog, int ->
+                .setNegativeButton("Exit"){ _, _ ->
                     this.finishAffinity()
                 }.show()
         }
@@ -396,241 +346,6 @@ class LauncherActivity : AppCompatActivity() {
                     )
                 }
             }
-    }
-
-    private fun getCartItems(){
-
-        val queue = Volley.newRequestQueue(this@LauncherActivity)
-
-        val url = getString(R.string.homeUrl) + "api/v1/user/cart"
-
-        val jsonObjectRequest = object: JsonObjectRequest(
-            Method.GET,
-            url,
-            null,
-            Response.Listener {
-
-                try {
-
-                    val success = it.getBoolean("success")
-
-                    if (success){
-
-                        val data = it.getJSONObject("data").getJSONArray("cart")
-
-                        Log.i("cart data array", data.toString())
-
-                        if (data.length() == 0){
-                            Toast.makeText(
-                                this@LauncherActivity,"Cart is empty", Toast.LENGTH_LONG
-                            ).show()
-                        }
-                        else{
-
-//                            for (i in 0 until data.length()){
-//                                val cartInfo = data.getJSONObject(i)
-//                                val cartObject = Cart(
-//                                    cartInfo.getString("productId"),
-//                                    "name of product",
-//                                    999,
-////                                cartInfo.getString("name"),
-////                                cartInfo.getJSONObject("productId").getInt("discountedPrice"),
-//                                    cartInfo.getInt("quantity")
-//                                )
-//
-////                            cartList.add(cartObject)
-////                            mAppDataViewModel.cartItemList.add(cartObject)
-//                                AppDataSingleton.addCartItem(cartObject)
-//
-//                            }
-
-                            cartListLoaded = true
-
-                        }
-
-                        if (cartListLoaded && itemListLoaded){
-                            startAnotherActivity()
-                        }
-
-                    }
-                    else{
-                        Toast.makeText(
-                            this@LauncherActivity,"An error occurred.", Toast.LENGTH_LONG
-                        ).show()
-                    }
-
-//                    storeSwipeRefreshLayout.isRefreshing = false
-
-
-                }catch (e: Exception){
-                    Toast.makeText(
-                        this@LauncherActivity,"An error occurred: $e", Toast.LENGTH_LONG
-                    ).show()
-//                    storeSwipeRefreshLayout.isRefreshing = false
-                }
-
-            },
-            Response.ErrorListener {
-
-                val response = JSONObject(String(it.networkResponse.data))
-                val isLoggedIn = response.getBoolean("isLoggedIn")
-
-                if (!isLoggedIn){
-                    val intent = Intent(this@LauncherActivity, LoginActivity::class.java)
-                    startActivity(intent)
-                    Toast.makeText(
-                        this@LauncherActivity,"Please login to continue", Toast.LENGTH_LONG
-                    ).show()
-//                    requireActivity().finish()
-                }
-                Log.i("Volley error response", response.toString())
-                MaterialAlertDialogBuilder(this@LauncherActivity)
-                    .setTitle("Message")
-                    .setMessage(response.getString("message").toString())
-                    .setNeutralButton("OK") { _, _ -> }
-                    .show()
-
-//                storeSwipeRefreshLayout.isRefreshing = false
-
-            }
-        ){
-            override fun getHeaders(): MutableMap<String, String> {
-                val headers = HashMap<String, String>()
-                headers["Content-Type"] = "application/json"
-                headers["auth-token"] = AppDataSingleton.getAuthToken
-                return headers
-            }
-        }
-
-        queue.add(jsonObjectRequest)
-
-    }
-
-    private fun getStoreItems(){
-
-        val queue = Volley.newRequestQueue(this@LauncherActivity)
-
-        val url = getString(R.string.homeUrl) + "api/v1/products"
-
-        val jsonObjectRequest = object: JsonObjectRequest(
-            Method.GET,
-            url,
-            null,
-            Response.Listener {
-
-                try {
-
-                    val success = it.getBoolean("success")
-
-                    if (success){
-
-                        val data = it.getJSONArray("data")
-                        Log.i("store data array", data.toString())
-
-                        if (data.length() == 0){
-                            Toast.makeText(
-                                this@LauncherActivity,"No product found", Toast.LENGTH_LONG
-                            ).show()
-                        }
-                        else{
-
-                            for (i in 0 until data.length()){
-                                val productInfo = data.getJSONObject(i)
-
-                                val discountedPrice = if (productInfo.getBoolean("discount")){
-                                    productInfo.getInt("discountedPrice")
-                                }else{
-                                    productInfo.getInt("originalPrice")
-                                }
-
-                                val productObject = Product(
-                                    productInfo.getString("_id"),
-                                    productInfo.getString("name"),
-                                    productInfo.getInt("originalPrice"),
-                                    discountedPrice,
-                                    productInfo.optDouble("samplePrice"),
-                                    10,
-                                    productInfo.getString("grade"),
-                                    productInfo.getString("lotNumber"),
-                                    productInfo.getInt("bagSize"),
-                                    productInfo.getString("mainImage"),
-                                    productInfo.getBoolean("discount")
-                                )
-//                            productList.add(productObject)
-                                AppDataSingleton.addStoreItem(productObject)
-
-                            }
-
-                        }
-
-                        itemListLoaded = true
-//                        Log.i("after loading store:", mAppDataViewModel.storeItemList.toString())
-
-                        if (itemListLoaded && userInfoLoaded && !openedActivity){
-                            openedActivity = true
-                            startAnotherActivity()
-                        }
-//                        isProductListReceived = true
-//                        mStoreItemsViewModel.itemList = productList
-//                        if (isProductListReceived && isOnCreateViewCompleted){
-//                            populateRecyclerView()
-//                        }
-                    }
-                    else{
-                        Toast.makeText(
-                            this@LauncherActivity,"An error occurred.", Toast.LENGTH_LONG
-                        ).show()
-                    }
-
-//                    storeSwipeRefreshLayout.isRefreshing = false
-
-
-                }catch (e: Exception){
-                    Toast.makeText(
-                        this@LauncherActivity,"An error occurred: $e", Toast.LENGTH_LONG
-                    ).show()
-//                    storeSwipeRefreshLayout.isRefreshing = false
-                }
-
-            },
-            Response.ErrorListener {
-
-                Toast.makeText(
-                    this@LauncherActivity,"An error occurred: ", Toast.LENGTH_LONG
-                ).show()
-
-//                val response = JSONObject(String(it.networkResponse.data))
-//                val isLoggedIn = response.getBoolean("isLoggedIn")
-//
-//                if (!isLoggedIn){
-//                    val intent = Intent(this@LauncherActivity, LoginActivity::class.java)
-//                    startActivity(intent)
-//                    Toast.makeText(
-//                        this@LauncherActivity,"Please login to continue", Toast.LENGTH_LONG
-//                    ).show()
-////                    requireActivity().finish()
-//                }
-//                Log.i("Volley error response", response.toString())
-//                MaterialAlertDialogBuilder(this@LauncherActivity)
-//                    .setTitle("Message")
-//                    .setMessage(response.getString("message").toString())
-//                    .setNeutralButton("OK") { _, _ -> }
-//                    .show()
-
-//                storeSwipeRefreshLayout.isRefreshing = false
-
-            }
-        ){
-            override fun getHeaders(): MutableMap<String, String> {
-                val headers = HashMap<String, String>()
-                headers["Content-Type"] = "application/json"
-                headers["auth-token"] = AppDataSingleton.getAuthToken
-                return headers
-            }
-        }
-
-        queue.add(jsonObjectRequest)
-
     }
 
 }
