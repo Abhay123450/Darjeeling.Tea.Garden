@@ -23,6 +23,9 @@ object AppDataSingleton {
     fun setAuthToken(token: String){
         authToken = token
     }
+    fun clearAuthToken(){
+        authToken = ""
+    }
     fun isLoggedIn(): Boolean{
         return authToken != ""
     }

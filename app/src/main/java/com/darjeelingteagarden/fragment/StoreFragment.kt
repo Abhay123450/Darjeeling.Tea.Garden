@@ -91,6 +91,8 @@ class StoreFragment : Fragment() {
 
     private lateinit var mContext: Context
 
+    private var isAuthBottomSheetShown = false
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
@@ -121,6 +123,16 @@ class StoreFragment : Fragment() {
         storeSwipeRefreshLayout = binding.swipeRefreshStore
         recyclerViewStore = binding.recyclerViewStore
         layoutManager = LinearLayoutManager(activity)
+
+        recyclerViewStore.addOnScrollListener(object: RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0 && !isAuthBottomSheetShown && !AppDataSingleton.isLoggedIn()) {
+                    isAuthBottomSheetShown = true
+                    AuthBottomSheet.newInstance().show(parentFragmentManager, AuthBottomSheet.TAG)
+                }
+            }
+        })
 
 //        Log.i("StoreFragProductList", productList.toString())
         Log.i("StoreFragCartList", cartList.toString())

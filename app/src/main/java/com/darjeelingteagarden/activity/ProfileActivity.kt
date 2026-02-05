@@ -1,22 +1,17 @@
 package com.darjeelingteagarden.activity
 
-import android.app.ActivityManager
 import android.content.Intent
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import androidx.core.app.ActivityManagerCompat
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.databinding.ActivityProfileBinding
-import com.darjeelingteagarden.fragment.ProfileMainFragment
 import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.repository.CartDataSingleton
 import com.darjeelingteagarden.util.ConnectionManager
@@ -24,14 +19,13 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.gson.JsonObject
 import com.razorpay.Checkout
 import org.json.JSONObject
+import androidx.core.content.edit
 
 class ProfileActivity : BaseActivity() {
 
     private lateinit var binding: ActivityProfileBinding
-    private lateinit var sharedPreferences: SharedPreferences
 
     lateinit var toolbar: Toolbar
 
@@ -61,11 +55,15 @@ class ProfileActivity : BaseActivity() {
             AppDataSingleton.callNow(this)
         }
 
-        binding.cardPersonalInfo.setOnClickListener {
+        binding.btnEditProfile.setOnClickListener {
 
             val intent = Intent(this@ProfileActivity, UserDetailsActivity::class.java)
             startActivity(intent)
 
+        }
+
+        binding.btnMyAddresses.setOnClickListener {
+//            "create a bottom sheet for adding and updating address"
         }
 
         binding.btnMyOrders.setOnClickListener {
@@ -168,7 +166,7 @@ class ProfileActivity : BaseActivity() {
         Log.i("user info ::: ", AppDataSingleton.getUserInfo.toString())
         val user = AppDataSingleton.getUserInfo
 
-        if (AppDataSingleton.getAuthToken == "" || user.userId == ""){
+        if (!AppDataSingleton.isLoggedIn()){
             binding.llUserInfo.visibility = View.GONE
             binding.llUserNotLoggedIn.visibility = View.VISIBLE
 
@@ -198,10 +196,12 @@ class ProfileActivity : BaseActivity() {
         binding.btnMyDownline.visibility = View.VISIBLE
         binding.btnLogout.visibility = View.VISIBLE
 
+        if (user.userId != ""){
+            binding.txtUserId.text = user.userId
+        }
+
         binding.txtUserName.text = user.name
         binding.txtUserRole.text = user.role
-        binding.txtUserEmail.text = user.email
-        binding.txtUserId.text = user.userId
         binding.txtUserPhoneNumber.text = user.phoneNumber.toString()
 
         if (user.role == "Retailer"){
@@ -216,10 +216,6 @@ class ProfileActivity : BaseActivity() {
     private fun setUpToolBar(){
         setSupportActionBar(toolbar)
         supportActionBar?.title = "My Profile"
-    }
-
-    private fun changeToolbarTitle(name: String){
-        supportActionBar?.title = name
     }
 
     private fun logout(all: Boolean){
@@ -259,14 +255,14 @@ class ProfileActivity : BaseActivity() {
                     editor.clear()
                     editor.apply()
 
-                    //clear cart
                     AppDataSingleton.clearCart(this)
+                    AppDataSingleton.clearAuthToken()
 
                     //clear razorpay data
                     Checkout.clearUserData(this)
 
                     //open login screen
-                    val intent = Intent(this, LoginActivity::class.java)
+                    val intent = Intent(this, LauncherActivity::class.java)
                     startActivity(intent)
 
                     //finish all previous activities
@@ -279,6 +275,8 @@ class ProfileActivity : BaseActivity() {
                     editor.clear()
                     editor.apply()
 
+                    AppDataSingleton.clearAuthToken()
+
                     //clear cart
                     CartDataSingleton.clearCart(this)
 
@@ -286,7 +284,7 @@ class ProfileActivity : BaseActivity() {
                     Checkout.clearUserData(this)
 
                     //open login screen
-                    val intent = Intent(this, LoginActivity::class.java)
+                    val intent = Intent(this, LauncherActivity::class.java)
                     startActivity(intent)
 
 //                    val service = getSystemService(ACTIVITY_SERVICE) as ActivityManager
@@ -298,9 +296,12 @@ class ProfileActivity : BaseActivity() {
             },
             Response.ErrorListener {
                 val sharedPreferences = getSharedPreferences(getString(R.string.shared_preference_name), MODE_PRIVATE)
-                val editor = sharedPreferences.edit()
-                editor.clear()
-                editor.apply()
+                sharedPreferences.edit {
+                    clear()
+                    apply()
+                }
+
+                AppDataSingleton.clearAuthToken()
 
                 //clear cart
                 CartDataSingleton.clearCart(this)
@@ -308,8 +309,8 @@ class ProfileActivity : BaseActivity() {
                 //clear razorpay data
                 Checkout.clearUserData(this)
 
-                //open login screen
-                val intent = Intent(this, LoginActivity::class.java)
+                //restart app
+                val intent = Intent(this, LauncherActivity::class.java)
                 startActivity(intent)
 
 //                val service = getSystemService(ACTIVITY_SERVICE) as ActivityManager

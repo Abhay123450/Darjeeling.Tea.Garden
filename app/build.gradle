@@ -119,4 +119,7 @@ dependencies {
     // payu
     implementation 'in.payu:payu-checkout-pro:3.2.2'
 
+    //retrieve sms
+    implementation 'com.google.android.gms:play-services-auth:21.5.0'
+
 }

@@ -49,38 +49,31 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <TextView
                             android:id="@+id/txtUserName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
+                            android:layout_marginBottom="4dp"
                             android:textSize="22sp"
                             android:textColor="@color/black"
                             android:textStyle="bold"
                             android:text=""/>
 
-                        <TextView
-                            android:id="@+id/txtUserRole"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            android:text=""/>
-
                         <LinearLayout
+                            android:id="@+id/llUserId"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginBottom="10dp">
+                            android:layout_marginBottom="10dp"
+                            android:visibility="gone">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="16sp"
-                                android:text="User Id : "/>
+                                android:text=""/>
 
                             <TextView
                                 android:id="@+id/txtUserId"
@@ -92,47 +85,62 @@
 
                         </LinearLayout>
 
+                        <TextView
+                            android:id="@+id/txtUserPhoneNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:textColor="@color/gray_444444"
+                            android:text=""/>
+
+                        <TextView
+                            android:id="@+id/txtUserRole"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:text="@string/role"
+                            android:visibility="gone"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="@dimen/dimen_8dp"
+                            android:background="@color/white_eceff1"/>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginBottom="10dp">
+                            >
 
-                            <TextView
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnEditProfile"
+                                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="16sp"
-                                android:text="Phone : "/>
+                                android:layout_height="46dp"
+                                android:text="@string/edit_profile"
+                                android:textColor="@color/gray_666666"
+                                android:backgroundTint="@color/white"
+                                app:strokeWidth="2dp"
+                                app:strokeColor="@color/white_eceff1"
+                                app:rippleColor="@color/colorPrimary"
+                                android:textAllCaps="false"/>
 
-                            <TextView
-                                android:id="@+id/txtUserPhoneNumber"
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnMyAddresses"
+                                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="16sp"
-                                android:textColor="@color/black"
-                                android:text=""/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginBottom="10dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="16sp"
-                                android:text="Email : "/>
-
-                            <TextView
-                                android:id="@+id/txtUserEmail"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="16sp"
-                                android:textColor="@color/black"
-                                android:text=""/>
+                                android:layout_height="46dp"
+                                android:layout_marginStart="@dimen/dimen_10dp"
+                                android:text="@string/my_addresses"
+                                android:textColor="@color/gray_666666"
+                                android:backgroundTint="@color/white"
+                                app:strokeWidth="2dp"
+                                app:strokeColor="@color/white_eceff1"
+                                app:rippleColor="@color/colorPrimary"
+                                android:textAllCaps="false"/>
 
                         </LinearLayout>
 
@@ -143,7 +151,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         android:gravity="center">
 
                         <Button
@@ -168,13 +176,13 @@
 
                     </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/imgEditDetails"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_alignParentEnd="true"
-                        android:src="@drawable/ic_baseline_edit_note_24"
-                        app:tint="@color/colorPrimary" />
+<!--                    <ImageView-->
+<!--                        android:id="@+id/imgEditDetails"-->
+<!--                        android:layout_width="36dp"-->
+<!--                        android:layout_height="36dp"-->
+<!--                        android:layout_alignParentEnd="true"-->
+<!--                        android:src="@drawable/ic_baseline_edit_note_24"-->
+<!--                        app:tint="@color/colorPrimary" />-->
 
                 </RelativeLayout>
 
@@ -202,7 +210,7 @@
                     app:strokeColor="@color/white_eceff1"
                     android:textColor="@color/black"
                     android:textAlignment="textStart"
-                    android:text="My Orders"/>
+                    android:text="@string/my_orders"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnOrdersForMe"
@@ -340,7 +348,7 @@
                     app:strokeColor="@color/white_eceff1"
                     android:textColor="@color/black"
                     android:textAlignment="textStart"
-                    android:text="FAQ"/>
+                    android:text="@string/faq"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnLogout"

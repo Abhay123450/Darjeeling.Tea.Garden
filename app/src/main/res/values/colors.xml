@@ -15,7 +15,7 @@
 <!--    <color name="tea">#FF34eb4c</color>-->
     <color name="red">#FFFF0000</color>
     <color name="colorPrimary">#FF00CCAA</color>
-    <color name="colorSecondary">#FF34EB4C</color>
+    <color name="colorSecondary">#FF00CCAA</color>
     <color name="progressTransparentBackground">#22000000</color>
     <color name="warningColor">#FFFFC185</color>
     <color name="activity_title">#FFFFFFFF</color>
