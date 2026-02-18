@@ -11,8 +11,8 @@
         android:title="@string/store"
         android:icon="@drawable/ic_baseline_store_24"/>
 
-    <item
-        android:id="@+id/cartFragment"
-        android:title="@string/cart"
-        android:icon="@drawable/ic_baseline_shopping_cart_24"/>
+<!--    <item-->
+<!--        android:id="@+id/cartFragment"-->
+<!--        android:title="@string/cart"-->
+<!--        android:icon="@drawable/ic_baseline_shopping_cart_24"/>-->
 </menu>

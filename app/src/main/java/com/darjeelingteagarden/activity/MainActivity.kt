@@ -113,7 +113,6 @@ class MainActivity : BaseActivity() {
             title = when(destination.id){
                 R.id.homeFragment -> "Home"
                 R.id.storeFragment -> "Store"
-                R.id.cartFragment -> "Cart"
                 else -> "Darjeeling Tea Garden"
             }
             changeToolbarTitle(title.toString())

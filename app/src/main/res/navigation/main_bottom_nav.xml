@@ -13,18 +13,18 @@
         <action
             android:id="@+id/action_homeFragment_to_storeFragment"
             app:destination="@id/storeFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_cartFragment"
-            app:destination="@id/cartFragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_homeFragment_to_cartFragment"-->
+<!--            app:destination="@id/cartFragment" />-->
     </fragment>
     <fragment
         android:id="@+id/storeFragment"
         android:name="com.darjeelingteagarden.fragment.StoreFragment"
         android:label="fragment_store"
         tools:layout="@layout/fragment_store">
-        <action
-            android:id="@+id/action_storeFragment_to_cartFragment"
-            app:destination="@id/cartFragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_storeFragment_to_cartFragment"-->
+<!--            app:destination="@id/cartFragment" />-->
         <action
             android:id="@+id/action_storeFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
