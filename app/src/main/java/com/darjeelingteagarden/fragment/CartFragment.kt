@@ -12,7 +12,9 @@ import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.NetworkResponse
 import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
@@ -23,6 +25,7 @@ import com.darjeelingteagarden.activity.PayuPaymentActivity
 import com.darjeelingteagarden.activity.RazorpayPaymentActivity
 import com.darjeelingteagarden.adapter.CartRecyclerAdapter
 import com.darjeelingteagarden.databinding.FragmentCartBinding
+import com.darjeelingteagarden.model.Address
 import com.darjeelingteagarden.model.Cart
 import com.darjeelingteagarden.model.CartItem
 import com.darjeelingteagarden.repository.AppDataSingleton
@@ -34,6 +37,8 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.UnsupportedEncodingException
+import java.nio.charset.StandardCharsets
 
 class CartFragment : Fragment() {
 
@@ -78,16 +83,28 @@ class CartFragment : Fragment() {
 
         binding.btnContinueToPayment.setOnClickListener {
 
-            if (ConnectionManager().isOnline(activity as Context)){
-                if (AppDataSingleton.isLoggedIn()){
-                    createOrder()
-                }
-                else{
-                    val intent = Intent(activity as Context, LoginActivity::class.java)
-                    startActivity(intent)
-                }
-            }
+            AddressBottomSheet().show(parentFragmentManager, "AddressBottomSheet")
+            return@setOnClickListener
 
+//            if (ConnectionManager().isOnline(activity as Context)){
+//                if (AppDataSingleton.isLoggedIn()){
+//                    createOrder()
+//                }
+//                else{
+//                    val intent = Intent(activity as Context, LoginActivity::class.java)
+//                    startActivity(intent)
+//                }
+//            }
+
+        }
+
+        parentFragmentManager.setFragmentResultListener(
+            "address_result",
+            viewLifecycleOwner
+        ){ _, bundle ->
+            val address = bundle.getParcelable<Address>("address")
+            createOrder(address!!)
+            Toast.makeText(activity as Context, "Selected address: ${address.toString()}", Toast.LENGTH_SHORT).show()
         }
 
 
@@ -157,6 +174,7 @@ class CartFragment : Fragment() {
                 totalAmount += it.samplePrice * it.sampleQuantity
             }
         }
+
         if (totalAmount < 200){
             binding.btnContinueToPayment.isEnabled = false
             binding.cardInfoMinimumOrderValue.visibility = View.VISIBLE
@@ -164,7 +182,6 @@ class CartFragment : Fragment() {
         else{
             binding.btnContinueToPayment.isEnabled = true
             binding.cardInfoMinimumOrderValue.visibility = View.GONE
-
         }
 
         binding.txtTotalAmount.text = "${getString(R.string.rupee_symbol)} ${String.format("%.2f", totalAmount)}"
@@ -205,7 +222,7 @@ class CartFragment : Fragment() {
 
     }
 
-    private fun createOrder(){
+    private fun createOrder(address: Address){
 
         binding.progressCart.visibility = View.VISIBLE
 
@@ -225,12 +242,25 @@ class CartFragment : Fragment() {
             cartItems.put(jsonObject)
         }
 
+        val addressJson = JSONObject()
+        addressJson.put("name", address.name)
+        addressJson.put("phoneNumber", address.phoneNumber)
+        addressJson.put("addressLine1", address.addressLine1)
+        addressJson.put("addressLine2", address.addressLine2)
+        addressJson.put("landmark", address.landmark)
+        addressJson.put("postalCode", address.postalCode)
+        addressJson.put("city", address.city)
+        addressJson.put("state", address.state)
+        addressJson.put("country", address.country)
+
         val url = getString(R.string.homeUrl) + "api/v1/orders"
 
         val jsonBody = JSONObject()
         jsonBody.put("cart", cartItems)
+        jsonBody.put("address", addressJson)
 
         Log.i("cart jsonBody", jsonBody.toString())
+//        Log.i("cart address", jsonBody.toString())
 
         val queue = Volley.newRequestQueue(activity as Context)
 
@@ -285,18 +315,17 @@ class CartFragment : Fragment() {
             },
             Response.ErrorListener {
 
-                if (it.networkResponse.statusCode == 401 || it.networkResponse.statusCode == 403){
-                    val intent = Intent(activity as Context, LoginActivity::class.java)
-                    intent.putExtra("resume", true)
-                    startActivity(intent)
-                    return@ErrorListener
-                }
+                Log.i("Create order error :: ", it.toString())
 
-                val response = JSONObject(String(it.networkResponse.data))
+                val response = extractVolleyErrorResponseBody(it)
                 Log.i("Create order error :: ", response.toString())
 
+
+//                val response = JSONObject(String(it.networkResponse.data))
+//                Log.i("Create order error :: ", response.toString())
+
                 Toast.makeText(
-                    activity as Context, response.getString("message"), Toast.LENGTH_LONG
+                    activity as Context, response.toString(), Toast.LENGTH_LONG
                 ).show()
                 binding.progressCart.visibility = View.GONE
 
@@ -334,6 +363,35 @@ class CartFragment : Fragment() {
 
         }
 
+    }
+
+    private fun extractVolleyErrorResponseBody(volleyError: VolleyError): String?{
+        var body: String?
+        val networkResponse: NetworkResponse? = volleyError.networkResponse
+
+        if (networkResponse != null && networkResponse.data != null) {
+            try {
+                // Attempt to decode the byte array with UTF-8 encoding
+                body = String(networkResponse.data, charset(StandardCharsets.UTF_8.name()))
+
+
+                // You can also get the status code
+                val statusCode = networkResponse.statusCode
+                Log.e(
+                    "Volley Error",
+                    "Status Code: $statusCode, Response Body: $body"
+                )
+            } catch (e: UnsupportedEncodingException) {
+                e.printStackTrace()
+                // Handle the unlikely case where UTF-8 is not supported
+                body = String(networkResponse.data) // Fallback to default
+            }
+            return body
+        } else {
+            // Handle cases where networkResponse or data might be null (e.g., NetworkError, TimeoutError, ParseError)
+            Log.e("Volley Error", "Error without network response: $volleyError")
+            return null
+        }
     }
 
 }
