@@ -58,6 +58,7 @@
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:textAllCaps="false"
         android:text=""/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

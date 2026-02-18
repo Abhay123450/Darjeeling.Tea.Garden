@@ -161,6 +161,7 @@
         <activity
             android:name=".activity.MainActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.DarjeelingTeaGarden" />
     </application>
 
