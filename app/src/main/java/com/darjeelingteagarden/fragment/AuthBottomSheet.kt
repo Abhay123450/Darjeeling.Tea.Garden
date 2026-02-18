@@ -16,7 +16,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.coroutineScope
 import com.darjeelingteagarden.activity.AboutActivity
 import com.darjeelingteagarden.databinding.DialogAuthBinding
@@ -207,11 +206,14 @@ class AuthBottomSheet : BottomSheetDialogFragment() {
                 }
                 is AuthState.Success -> {
                     // Notify the activity and close
-                    setFragmentResult("auth_key", bundleOf("isLoggedIn" to true))
+                    parentFragmentManager.setFragmentResult("auth_key", bundleOf("isLoggedIn" to true))
                     binding.authViewFlipper.displayedChild = 5
                     binding.tvTitle.text = getString(com.darjeelingteagarden.R.string.success)
+                    //close keyboard
+                    val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
                     lifecycle.coroutineScope.launch {
-                        delay(2000)
+                        delay(3000)
                         dismiss()
                     }
                 }

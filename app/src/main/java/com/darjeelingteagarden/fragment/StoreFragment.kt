@@ -129,7 +129,7 @@ class StoreFragment : Fragment() {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0 && !isAuthBottomSheetShown && !AppDataSingleton.isLoggedIn()) {
                     isAuthBottomSheetShown = true
-                    AuthBottomSheet.newInstance().show(parentFragmentManager, AuthBottomSheet.TAG)
+                    AuthBottomSheet.newInstance().show(requireActivity().supportFragmentManager, AuthBottomSheet.TAG)
                 }
             }
         })

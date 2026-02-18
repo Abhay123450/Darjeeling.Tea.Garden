@@ -29,6 +29,7 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.isFlexibleUpdateAllowed
 import com.google.android.play.core.ktx.isImmediateUpdateAllowed
 import java.util.Date
+import androidx.core.content.edit
 
 class LauncherActivity : AppCompatActivity() {
 
@@ -261,7 +262,10 @@ class LauncherActivity : AppCompatActivity() {
                 ).show()
                 if (it.networkResponse.statusCode == 401){
                     isLoggedIn = false
-                    sharedPreferences.edit { clear() }
+                    sharedPreferences.edit {
+                        clear()
+                        apply()
+                    }
                     startAnotherActivity()
                 }
 

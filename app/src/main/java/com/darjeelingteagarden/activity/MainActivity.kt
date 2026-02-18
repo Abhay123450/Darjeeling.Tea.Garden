@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -23,6 +24,7 @@ import com.darjeelingteagarden.fragment.HomeFragment
 import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.repository.NotificationDataSingleton
 import com.darjeelingteagarden.repository.StoreDataSingleton
+import com.darjeelingteagarden.repository.UserDataSingleton
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Firebase
@@ -64,8 +66,6 @@ class MainActivity : BaseActivity() {
 
         StoreDataSingleton.fetchStoreItems(this)
 
-//        openHome()
-
         //Set up bottom navigation
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
@@ -78,16 +78,11 @@ class MainActivity : BaseActivity() {
 
         if (isLoggedIn){
             navGraph.setStartDestination(R.id.homeFragment)
-            if (menu.findItem(R.id.homeFragment) == null){
-                val newItem = menu.add(0, R.id.homeFragment, 0, "Home")
-                newItem.setIcon(R.drawable.ic_baseline_home_24)
-            }
+            menu.findItem(R.id.homeFragment)?.isVisible = true
         }
         else{
             navGraph.setStartDestination(R.id.storeFragment)
-            if (menu.findItem(R.id.homeFragment) !== null){
-                menu.removeItem(R.id.homeFragment)
-            }
+            menu.findItem(R.id.homeFragment)?.isVisible = false
         }
 
         navController.graph = navGraph
@@ -165,15 +160,20 @@ class MainActivity : BaseActivity() {
                     // --- SUCCESS! TRIGGER YOUR REFRESH LOGIC HERE ---
                     Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT)
                         .show()
-                    refreshActivityData()
+                    refreshActivityData(navGraph, menu)
                 }
             }
+            Log.i("auth result", bundle.toString())
         }
 
     }
 
-    private fun refreshActivityData(){
-        recreate()
+    private fun refreshActivityData(navGraph: androidx.navigation.NavGraph, menu: Menu){
+        UserDataSingleton.getUserDetails(this)
+        navGraph.setStartDestination(R.id.homeFragment)
+        menu.findItem(R.id.homeFragment)?.isVisible = true
+        bottomNavigationView.invalidate()
+        bottomNavigationView.requestLayout()
     }
 
     private fun askNotificationPermission() {
