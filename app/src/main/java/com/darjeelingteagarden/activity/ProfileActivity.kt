@@ -22,6 +22,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.razorpay.Checkout
 import org.json.JSONObject
 import androidx.core.content.edit
+import com.darjeelingteagarden.fragment.AddressBottomSheet
 
 class ProfileActivity : BaseActivity() {
 
@@ -63,7 +64,7 @@ class ProfileActivity : BaseActivity() {
         }
 
         binding.btnMyAddresses.setOnClickListener {
-//            "create a bottom sheet for adding and updating address"
+            AddressBottomSheet(false).show(supportFragmentManager, "AddressBottomSheet")
         }
 
         binding.btnMyOrders.setOnClickListener {
