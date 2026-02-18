@@ -400,5 +400,7 @@ Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincid
     <string name="alternate_phone_number">Alternate phone number</string>
     <string name="pincode_">"Pincode: "</string>
     <string name="add_new_address">Add new address</string>
+    <string name="view_cart">View Cart (%1$d %2$s added)</string>
+    <string name="need_help_call_now">Need help? Call now</string>
 </resources>
 

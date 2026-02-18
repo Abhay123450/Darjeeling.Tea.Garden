@@ -7,9 +7,12 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
@@ -20,8 +23,10 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
+import com.darjeelingteagarden.databinding.ActivityMainBinding
 import com.darjeelingteagarden.fragment.HomeFragment
 import com.darjeelingteagarden.repository.AppDataSingleton
+import com.darjeelingteagarden.repository.CartDataSingleton
 import com.darjeelingteagarden.repository.NotificationDataSingleton
 import com.darjeelingteagarden.repository.StoreDataSingleton
 import com.darjeelingteagarden.repository.UserDataSingleton
@@ -36,6 +41,8 @@ class MainActivity : BaseActivity() {
 
     lateinit var bottomNavigationView: BottomNavigationView
     lateinit var toolbar: Toolbar
+    lateinit var binding: ActivityMainBinding
+
     var previousMenuItem: MenuItem? = null
 
     //for notification
@@ -56,7 +63,8 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         //Setup Toolbar
         toolbar = findViewById(R.id.mainToolbar)
@@ -65,6 +73,18 @@ class MainActivity : BaseActivity() {
         sharedPreferences = getSharedPreferences(getString(R.string.shared_preference_name), MODE_PRIVATE)
 
         StoreDataSingleton.fetchStoreItems(this)
+
+        CartDataSingleton.totalCartItems.observe(this) {
+            updateCartButton(it)
+        }
+
+        if (CartDataSingleton.totalCartItems.value == null) {
+            CartDataSingleton.totalCartItems.value = CartDataSingleton.cartList.size
+        }
+
+        binding.btnGoToCart.setOnClickListener {
+            startActivity(Intent(this@MainActivity, CartActivity::class.java))
+        }
 
         //Set up bottom navigation
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
@@ -97,6 +117,10 @@ class MainActivity : BaseActivity() {
                 else -> "Darjeeling Tea Garden"
             }
             changeToolbarTitle(title.toString())
+        }
+
+        binding.fabCallNow.setOnClickListener {
+            AppDataSingleton.callNow(this)
         }
 
         getGradeList()
@@ -166,6 +190,23 @@ class MainActivity : BaseActivity() {
             Log.i("auth result", bundle.toString())
         }
 
+    }
+
+    private fun updateCartButton(count: Int) {
+        // 1. Tell Android to animate any layout changes that happen next
+        val transition = AutoTransition()
+        transition.duration = 300 // 300 milliseconds for a smooth slide
+        TransitionManager.beginDelayedTransition(binding.root, transition)
+
+        // 2. Apply your visibility changes
+        if (count > 0) {
+            binding.btnGoToCart.visibility = View.VISIBLE
+
+            val productText = if (count == 1) "Product" else "Products"
+            binding.btnGoToCart.text = getString(R.string.view_cart, count, productText)
+        } else {
+            binding.btnGoToCart.visibility = View.GONE
+        }
     }
 
     private fun refreshActivityData(navGraph: androidx.navigation.NavGraph, menu: Menu){

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
 import com.darjeelingteagarden.model.Cart
 import com.darjeelingteagarden.model.Product
 
@@ -11,9 +12,12 @@ object CartDataSingleton {
 
     var cartList = mutableListOf<Cart>()
 
-//    fun getCartList(): MutableList<Cart>{
-//        return cartList
-//    }
+    val totalCartItems = MutableLiveData<Int>()
+
+    private fun updateCartCount() {
+        // You can change this to cartList.sumOf { it.quantity } if you want total quantity
+        totalCartItems.postValue(cartList.size)
+    }
 
     fun addProductToCart(product: Product){
         val itemExists = cartList.find {
@@ -46,16 +50,19 @@ object CartDataSingleton {
             }
         }
 
+        updateCartCount()
+
     }
 
     fun increaseProductQuantity(productId: String){
         cartList.forEach {
             if (it.productId == productId){
-                it.quantity = it.quantity + 1
+                it.quantity += 1
                 it.isProduct = true
             }
             return@forEach
         }
+        updateCartCount()
     }
 
     fun decreaseProductQuantity(productId: String){
@@ -79,13 +86,13 @@ object CartDataSingleton {
         if (index != -1){
             cartList.removeAt(index)
         }
+        updateCartCount()
     }
 
     fun productFoundInCart(productId: String): Boolean{
         cartList.forEach {
             if (it.productId == productId && it.isProduct){
                 return true
-                return@forEach
             }
         }
         return false
@@ -130,6 +137,8 @@ object CartDataSingleton {
             }
         }
 
+        updateCartCount()
+
     }
 
     fun increaseSampleQuantity(productId: String){
@@ -140,6 +149,7 @@ object CartDataSingleton {
             }
             return@forEach
         }
+        updateCartCount()
     }
 
     fun decreaseSampleQuantity(productId: String){
@@ -162,13 +172,13 @@ object CartDataSingleton {
         if (index != -1){
             cartList.removeAt(index)
         }
+        updateCartCount()
     }
 
     fun sampleFoundInCart(productId: String): Boolean{
         cartList.forEach {
             if (it.productId == productId && it.isSample){
                 return true
-                return@forEach
             }
         }
         return false
@@ -194,6 +204,7 @@ object CartDataSingleton {
         val editor = sharedPreferences.edit()
         editor.clear()
         editor.apply()
+        updateCartCount()
     }
 
 }

@@ -186,14 +186,6 @@ class StoreFragment : Fragment() {
             loadStoreItems()
         }
 
-        binding.fabCallNow.setOnClickListener {
-            AppDataSingleton.callNow(mContext)
-        }
-
-//        binding.imgBtnClose.setOnClickListener {
-//            binding.rlProductDetails.visibility = View.GONE
-//        }
-
         return binding.root
     }
 
