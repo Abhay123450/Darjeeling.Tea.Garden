@@ -20,4 +20,5 @@
     <color name="warningColor">#FFFFC185</color>
     <color name="gray_666666">#FFABABAB</color>
     <color name="activity_title">#FFDDDDDD</color>
+    <color name="transparent">#00000000</color>
 </resources>

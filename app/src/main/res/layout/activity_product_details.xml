@@ -24,6 +24,15 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnGoToCart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/go_to_cart"
+        android:textAllCaps="false"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -127,7 +136,7 @@
                             android:layout_weight="6"
                             android:gravity="center"
                             android:textColor="@color/black"
-                            android:text="1"/>
+                            android:text=""/>
 
                         <TextView
                             android:id="@+id/txtIncreaseQuantity"
@@ -285,7 +294,7 @@
                     android:layout_marginEnd="5dp"
                     android:paddingVertical="5dp"
                     android:textSize="16sp"
-                    android:text="Grade : " />
+                    android:text="@string/grade" />
 
                 <TextView
                     android:id="@+id/txtGrade"
@@ -305,7 +314,7 @@
                     android:layout_marginHorizontal="10dp"
                     android:paddingVertical="5dp"
                     android:textSize="16sp"
-                    android:text="Lot No. : " />
+                    android:text="@string/lot_no" />
 
                 <TextView
                     android:id="@+id/txtLotNumber"
@@ -326,7 +335,7 @@
                     android:layout_marginEnd="5dp"
                     android:paddingVertical="5dp"
                     android:textSize="16sp"
-                    android:text="Bag Size : " />
+                    android:text="@string/bag_size" />
 
                 <TextView
                     android:id="@+id/txtBagSize"
@@ -348,7 +357,7 @@
                     android:layout_marginHorizontal="5dp"
                     android:paddingVertical="5dp"
                     android:textSize="16sp"
-                    android:text="Kg" />
+                    android:text="@string/kg" />
 
                 <TextView
                     android:id="@+id/txtSamplePriceText"
@@ -359,7 +368,7 @@
                     android:layout_marginEnd="5dp"
                     android:paddingVertical="5dp"
                     android:textSize="16sp"
-                    android:text="Sample Price : " />
+                    android:text="@string/sample_price" />
 
                 <TextView
                     android:id="@+id/txtSamplePriceRupeeSymbol"
@@ -382,7 +391,7 @@
                     android:paddingVertical="5dp"
                     android:textSize="16sp"
                     android:textColor="@color/black"
-                    android:text="100"/>
+                    android:text=""/>
 
                 <TextView
                     android:id="@+id/txtSamplePriceUnit"
@@ -393,7 +402,7 @@
                     android:layout_marginHorizontal="5dp"
                     android:paddingVertical="5dp"
                     android:textSize="16sp"
-                    android:text="/ 10 gram" />
+                    android:text="@string/_10_gram" />
 
                 <TextView
                     android:id="@+id/txtSamplePriceDummy"
@@ -415,6 +424,12 @@
                     android:textColor="@color/gray_666666"
                     android:textSize="16sp"
                     android:text=""/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_120dp"
+                    android:layout_below="@id/txtDetailsProductDescription"
+                    android:background="@color/transparent"/>
 
             </RelativeLayout>
 
@@ -445,7 +460,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="60dp"
+        android:layout_marginEnd="@dimen/dimen_8dp"
         android:backgroundTint="@color/colorPrimary"
         android:contentDescription="@string/call_now"
         android:src="@drawable/ic_baseline_call_24"

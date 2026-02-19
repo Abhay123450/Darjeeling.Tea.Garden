@@ -402,5 +402,12 @@ Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincid
     <string name="add_new_address">Add new address</string>
     <string name="view_cart">View Cart (%1$d %2$s added)</string>
     <string name="need_help_call_now">Need help? Call now</string>
+    <string name="go_to_cart">Go to Cart</string>
+    <string name="lot_no">Lot No. :</string>
+    <string name="kg">Kg</string>
+    <string name="sample_price">Sample Price :</string>
+    <string name="_10_gram">/ 10 gram</string>
+    <string name="x_gram">%1$s gram</string>
+
 </resources>
 

@@ -1,24 +1,20 @@
 package com.darjeelingteagarden.activity
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.room.util.appendPlaceholders
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
-import com.darjeelingteagarden.databinding.ActivityNewsBinding
 import com.darjeelingteagarden.databinding.ActivityProductDetailsBinding
-import com.darjeelingteagarden.model.Cart
 import com.darjeelingteagarden.model.Product
 import com.darjeelingteagarden.model.ProductDetails
 import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.repository.CartDataSingleton
 import com.darjeelingteagarden.repository.NotificationDataSingleton
-import com.darjeelingteagarden.repository.SampleDataSingleton
 import com.darjeelingteagarden.util.ResizeTransformation
 import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
@@ -32,7 +28,6 @@ class ProductDetailsActivity : BaseActivity() {
     private var productId: String? = null
     private var productName: String? = null
     private var price = 0
-    private lateinit var cartItem: Cart
     private lateinit var productDetails: ProductDetails
     private lateinit var product: Product
 
@@ -52,6 +47,8 @@ class ProductDetailsActivity : BaseActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
+        binding
+
         if (NotificationDataSingleton.notificationToOpen){
             productId = NotificationDataSingleton.resourceId
             NotificationDataSingleton.notificationToOpen = false
@@ -65,6 +62,18 @@ class ProductDetailsActivity : BaseActivity() {
 
         if (productId != null){
             getProductDetails(productId.toString())
+        }
+
+        CartDataSingleton.totalCartItems.observe(this) {
+            updateCartButton(it)
+        }
+
+        if (CartDataSingleton.totalCartItems.value == null) {
+            CartDataSingleton.totalCartItems.value = CartDataSingleton.cartList.size
+        }
+
+        binding.btnGoToCart.setOnClickListener {
+            startActivity(Intent(this, CartActivity::class.java))
         }
 
         binding.fabCallNow.setOnClickListener {
@@ -207,6 +216,18 @@ class ProductDetailsActivity : BaseActivity() {
 
     }
 
+    private fun updateCartButton(count: Int) {
+        if (count > 0) {
+            binding.btnGoToCart.visibility = View.VISIBLE
+
+            // Handle Plural text (Product vs Products)
+            val productText = if (count == 1) "Product" else "Products"
+            binding.btnGoToCart.text = getString(R.string.view_cart, count, productText)
+        } else {
+            binding.btnGoToCart.visibility = View.GONE
+        }
+    }
+
     private fun isItemInCart(){
 
         if (CartDataSingleton.productFoundInCart(productDetails.productId)){
@@ -225,7 +246,7 @@ class ProductDetailsActivity : BaseActivity() {
             if (sampleQuantity != null) {
                 binding.btnAddToSampleCart.visibility = View.GONE
                 binding.llChangeSampleQuantity.visibility = View.VISIBLE
-                binding.txtSampleQuantity.text = "${sampleQuantity * 10} gram"
+                binding.txtSampleQuantity.text = getString(R.string.x_gram, (sampleQuantity * 10).toString())
             }
         }
         else{
@@ -510,7 +531,7 @@ class ProductDetailsActivity : BaseActivity() {
                         binding.rlProgressProductDetails.visibility = View.GONE
                     }
 
-                }catch (e: Exception){
+                }catch (_: Exception){
                     Toast.makeText(this, "Product details not found", Toast.LENGTH_LONG).show()
                     binding.rlProgressProductDetails.visibility = View.GONE
                 }
