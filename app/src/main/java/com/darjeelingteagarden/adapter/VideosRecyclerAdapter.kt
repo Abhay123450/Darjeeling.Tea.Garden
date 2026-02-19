@@ -35,12 +35,35 @@ class VideosRecyclerAdapter(
 
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
         val video = videoList[position]
-
         val webView = holder.webViewVideo
-        webView.visibility = View.VISIBLE
-        webView.loadData(video.videoUrl, "text/html", "utf-8")
+
         webView.settings.javaScriptEnabled = true
+        webView.settings.domStorageEnabled = true
+        webView.settings.mediaPlaybackRequiresUserGesture = false // Optional: Allows seamless playback
         webView.webChromeClient = WebChromeClient()
+
+        // Wrap the iframe in standard HTML with a viewport meta tag for mobile scaling
+        val htmlData = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+            <style>
+                body { margin: 0; padding: 0; background-color: #000000; }
+                iframe { width: 100vw; height: 100vh; border: none; }
+            </style>
+        </head>
+        <body>
+            ${video.videoUrl}
+        </body>
+        </html>
+    """.trimIndent()
+
+        // Use loadDataWithBaseURL instead of loadData
+        // Passing a YouTube base URL helps prevent strict-origin policy errors
+        webView.loadDataWithBaseURL(context.getString(R.string.homeUrl), htmlData, "text/html", "utf-8", null)
+
+        webView.visibility = View.VISIBLE
 
         holder.txtVideoTitle.text = video.title
         holder.txtVideoDate.text = video.date
