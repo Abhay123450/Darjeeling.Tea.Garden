@@ -19,10 +19,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?actionBarSize"
+            android:paddingEnd="6dp"
             app:navigationIcon="@drawable/ic_baseline_menu_24"
             app:navigationContentDescription="My Profile"
             app:titleTextColor="@color/activity_title"
-            app:title="Home"/>
+            app:menu="@menu/main_activity_toolbar_menu"
+            app:title="Home"
+            tools:ignore="RtlSymmetry" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -48,27 +51,15 @@
         app:layout_constraintTop_toBottomOf="@+id/mainAppBar"
         app:navGraph="@navigation/main_bottom_nav" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnGoToCart"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginBottom="8dp"
-        app:cornerRadius="@dimen/dimen_8dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textAllCaps="false"
-        android:text=""/>
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabCallNow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnGoToCart"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_goneMarginBottom="16dp"
         android:contentDescription="@string/need_help_call_now"
-        app:srcCompat="@drawable/ic_baseline_call_24" /> </androidx.constraintlayout.widget.ConstraintLayout>
+        app:srcCompat="@drawable/ic_baseline_call_24" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

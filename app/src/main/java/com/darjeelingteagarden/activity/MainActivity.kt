@@ -7,12 +7,11 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.transition.AutoTransition
-import android.transition.TransitionManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
@@ -43,7 +42,7 @@ class MainActivity : BaseActivity() {
     lateinit var toolbar: Toolbar
     lateinit var binding: ActivityMainBinding
 
-    var previousMenuItem: MenuItem? = null
+    private var cartBadgeTextView: TextView? = null
 
     //for notification
     private var activityToOpen: String? = ""
@@ -61,6 +60,36 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_activity_toolbar_menu, menu)
+
+        val cartItem = menu?.findItem(R.id.action_cart)
+        val actionView = cartItem?.actionView
+        cartBadgeTextView = actionView?.findViewById(R.id.cart_badge)
+
+        actionView?.setOnClickListener {
+            onOptionsItemSelected(cartItem)
+        }
+
+        CartDataSingleton.totalCartItems.observe(this){
+            setupBadge(it)
+        }
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_cart -> {
+                startActivity(Intent(this@MainActivity, CartActivity::class.java))
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -74,16 +103,8 @@ class MainActivity : BaseActivity() {
 
         StoreDataSingleton.fetchStoreItems(this)
 
-        CartDataSingleton.totalCartItems.observe(this) {
-            updateCartButton(it)
-        }
-
         if (CartDataSingleton.totalCartItems.value == null) {
             CartDataSingleton.totalCartItems.value = CartDataSingleton.cartList.size
-        }
-
-        binding.btnGoToCart.setOnClickListener {
-            startActivity(Intent(this@MainActivity, CartActivity::class.java))
         }
 
         //Set up bottom navigation
@@ -191,20 +212,12 @@ class MainActivity : BaseActivity() {
 
     }
 
-    private fun updateCartButton(count: Int) {
-        // 1. Tell Android to animate any layout changes that happen next
-        val transition = AutoTransition()
-        transition.duration = 300 // 300 milliseconds for a smooth slide
-        TransitionManager.beginDelayedTransition(binding.root, transition)
-
-        // 2. Apply your visibility changes
-        if (count > 0) {
-            binding.btnGoToCart.visibility = View.VISIBLE
-
-            val productText = if (count == 1) "Product" else "Products"
-            binding.btnGoToCart.text = getString(R.string.view_cart, count, productText)
+    private fun setupBadge(count: Int) {
+        if (count == 0) {
+            cartBadgeTextView?.visibility = View.GONE
         } else {
-            binding.btnGoToCart.visibility = View.GONE
+            cartBadgeTextView?.text = count.toString()
+            cartBadgeTextView?.visibility = View.VISIBLE
         }
     }
 
@@ -250,7 +263,7 @@ class MainActivity : BaseActivity() {
     private fun createNotificationChannel(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             val channelName = "darjeeling_tea_garden"
-            val importance = NotificationManager.IMPORTANCE_HIGH;
+            val importance = NotificationManager.IMPORTANCE_HIGH
             val notificationChannel = NotificationChannel(
                 getString(R.string.notification_channel_id),
                 channelName,
@@ -322,7 +335,6 @@ class MainActivity : BaseActivity() {
             .commit()
 
         changeToolbarTitle("Home")
-
     }
 
     private fun getGradeList(){
