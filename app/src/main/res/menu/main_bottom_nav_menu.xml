@@ -6,9 +6,18 @@
         android:title="@string/home"
         android:icon="@drawable/ic_baseline_home_24"/>
 
+<!--    <item-->
+<!--        android:id="@+id/storeFragment"-->
+<!--        android:title="@string/store"-->
+<!--        android:icon="@drawable/ic_baseline_store_24"/>-->
+
     <item
-        android:id="@+id/storeFragment"
-        android:title="@string/store"
+        android:id="@+id/looseTeaStoreFragment"
+        android:title="@string/loose_tea_store"
+        android:icon="@drawable/ic_baseline_store_24"/>
+    <item
+        android:id="@+id/packagedTeaStoreFragment"
+        android:title="@string/packaged_tea"
         android:icon="@drawable/ic_baseline_store_24"/>
 
 <!--    <item-->

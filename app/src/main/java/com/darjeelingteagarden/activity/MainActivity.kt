@@ -23,6 +23,9 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.databinding.ActivityMainBinding
+import com.darjeelingteagarden.features.cart.CartManager
+import com.darjeelingteagarden.features.cart.fragment.CartActivity
+import com.darjeelingteagarden.fragment.AuthBottomSheet
 import com.darjeelingteagarden.fragment.HomeFragment
 import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.repository.CartDataSingleton
@@ -71,7 +74,7 @@ class MainActivity : BaseActivity() {
             onOptionsItemSelected(cartItem)
         }
 
-        CartDataSingleton.totalCartItems.observe(this){
+        CartManager.cartCount.observe(this){
             setupBadge(it)
         }
 
@@ -122,7 +125,7 @@ class MainActivity : BaseActivity() {
             menu.findItem(R.id.homeFragment)?.isVisible = true
         }
         else{
-            navGraph.setStartDestination(R.id.storeFragment)
+            navGraph.setStartDestination(R.id.looseTeaStoreFragment)
             menu.findItem(R.id.homeFragment)?.isVisible = false
         }
 
@@ -133,7 +136,9 @@ class MainActivity : BaseActivity() {
             Log.i("Destination: ", destination.toString())
             title = when(destination.id){
                 R.id.homeFragment -> "Home"
-                R.id.storeFragment -> "Store"
+//                R.id.storeFragment -> "Store"
+                R.id.looseTeaStoreFragment -> "Loose Tea"
+                R.id.packagedTeaStoreFragment -> "Packaged Tea"
                 else -> "Darjeeling Tea Garden"
             }
             changeToolbarTitle(title.toString())
@@ -146,7 +151,12 @@ class MainActivity : BaseActivity() {
         getGradeList()
 
         toolbar.setNavigationOnClickListener{
-            startActivity(Intent(this@MainActivity, ProfileActivity::class.java))
+            if (AppDataSingleton.isLoggedIn()){
+                startActivity(Intent(this@MainActivity, ProfileActivity::class.java))
+            }
+            else{
+                AuthBottomSheet.newInstance().show(supportFragmentManager, AuthBottomSheet.TAG)
+            }
         }
 
         if (NotificationDataSingleton.notificationToOpen){

@@ -10,26 +10,61 @@
         android:name="com.darjeelingteagarden.fragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_homeFragment_to_storeFragment"
-            app:destination="@id/storeFragment" />
 <!--        <action-->
+<!--            android:id="@+id/action_homeFragment_to_storeFragment"-->
+<!--            app:destination="@id/storeFragment" />-->
+        <action
+            android:id="@+id/action_homeFragment_to_looseTeaStoreFragment"
+            app:destination="@id/looseTeaStoreFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_packagedTeaStoreFragment"
+            app:destination="@id/packagedTeaStoreFragment" />
+        <!--        <action-->
 <!--            android:id="@+id/action_homeFragment_to_cartFragment"-->
 <!--            app:destination="@id/cartFragment" />-->
     </fragment>
-    <fragment
-        android:id="@+id/storeFragment"
-        android:name="com.darjeelingteagarden.fragment.StoreFragment"
-        android:label="fragment_store"
-        tools:layout="@layout/fragment_store">
+<!--    <fragment-->
+<!--        android:id="@+id/storeFragment"-->
+<!--        android:name="com.darjeelingteagarden.fragment.StoreFragment"-->
+<!--        android:label="fragment_store"-->
+<!--        tools:layout="@layout/fragment_store">-->
+<!--&lt;!&ndash;        <action&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/action_storeFragment_to_cartFragment"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:destination="@id/cartFragment" />&ndash;&gt;-->
 <!--        <action-->
-<!--            android:id="@+id/action_storeFragment_to_cartFragment"-->
-<!--            app:destination="@id/cartFragment" />-->
+<!--            android:id="@+id/action_storeFragment_to_homeFragment"-->
+<!--            app:destination="@id/homeFragment" />-->
+<!--    </fragment>-->
+    <fragment
+        android:id="@+id/looseTeaStoreFragment"
+        android:name="com.darjeelingteagarden.features.looseTea.fragment.LooseTeaStoreFragment"
+        android:label="fragment_store"
+        tools:layout="@layout/fragment_loose_tea_store">
+        <!--        <action-->
+        <!--            android:id="@+id/action_storeFragment_to_cartFragment"-->
+        <!--            app:destination="@id/cartFragment" />-->
         <action
             android:id="@+id/action_storeFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_looseTeaStoreFragment_to_packagedTeaStoreFragment"
+            app:destination="@id/packagedTeaStoreFragment" />
     </fragment>
-<!--    <fragment-->
+    <fragment
+        android:id="@+id/packagedTeaStoreFragment"
+        android:name="com.darjeelingteagarden.features.packagedTea.fragment.PackagedTeaStoreFragment"
+        android:label="fragment_packaged_tea_store"
+        tools:layout="@layout/fragment_packaged_tea_store" >
+        <action
+            android:id="@+id/action_packagedTeaStoreFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_packagedTeaStoreFragment_to_looseTeaStoreFragment"
+            app:destination="@id/looseTeaStoreFragment" />
+
+    </fragment>
+
+    <!--    <fragment-->
 <!--        android:id="@+id/cartFragment"-->
 <!--        android:name="com.darjeelingteagarden.fragment.CartFragment"-->
 <!--        android:label="fragment_cart"-->
