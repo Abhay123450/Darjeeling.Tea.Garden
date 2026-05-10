@@ -408,6 +408,11 @@ Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincid
     <string name="sample_price">Sample Price :</string>
     <string name="_10_gram">/ 10 gram</string>
     <string name="x_gram">%1$s gram</string>
+    <string name="loose_tea_store">Loose Tea</string>
+    <string name="title_activity_loose_tea_details">LooseTeaDetailsActivity</string>
+    <string name="title_activity_cart">CartActivity</string>
+    <string name="packaged_tea">Packaged Tea</string>
+    <string name="title_activity_packaged_tea_details">PackagedTeaDetailsActivity</string>
 
 </resources>
 
