@@ -249,6 +249,7 @@ class MyOrdersFragment : Fragment() {
 
                                 val dataObject = MyOrder(
                                     order.getString("_id"),
+                                    order.optString("orderId"),
                                     order.getString("orderDate").toDate()!!.formatTo("dd MMM yyyy HH:mm"),
                                     order.getInt("itemCount"),
                                     order.getDouble("amountPayable"),
@@ -257,6 +258,7 @@ class MyOrdersFragment : Fragment() {
 
 //                                myOrdersList.add(dataObject)
                                 AppDataSingleton.addToMyOrdersList(dataObject)
+                                Log.i("myOrderList", AppDataSingleton.getMyOrdersList.toString())
 
                             }
 

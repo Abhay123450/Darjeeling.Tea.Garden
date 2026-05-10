@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.darjeelingteagarden.R
-import com.darjeelingteagarden.fragment.OrderDetailsFragment
 import com.darjeelingteagarden.model.MyOrder
 import com.darjeelingteagarden.repository.AppDataSingleton
 import com.google.android.material.card.MaterialCardView
@@ -59,7 +57,7 @@ class MyOrdersRecyclerAdapter(
 
         holder.cardParent.setOnClickListener {
 
-            AppDataSingleton.setOrderId(myOrder.orderId)
+            AppDataSingleton.setOrderId(myOrder._id)
 
             navController.navigate(R.id.action_myOrdersFragment_to_orderDetailsFragment)
 

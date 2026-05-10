@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardParent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,14 +13,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <LinearLayout
+            android:id="@+id/llItemInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtItemType"
+                android:layout_width="wrap_content"
+                android:maxWidth="250dp"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="5dp"
+                android:maxLines="2"
+                android:textSize="14sp"
+                android:text=""/>
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/txtItemName"
             android:layout_width="wrap_content"
             android:maxWidth="250dp"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/llItemInfo"
             android:padding="5dp"
             android:maxLines="2"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textColor="@color/black"
             android:text="Item name"/>
 
