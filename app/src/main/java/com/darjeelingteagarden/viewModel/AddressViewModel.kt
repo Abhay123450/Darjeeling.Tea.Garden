@@ -79,7 +79,7 @@ class AddressViewModel: ViewModel() {
 
                         _addresses.clear()
 
-                        val data = it.getJSONArray("addresses")
+                        val data = it.getJSONArray("data")
 
                         if (data.length() > 0){
                             for (i in 0 until data.length()) {

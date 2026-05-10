@@ -15,7 +15,7 @@ class AddressAdapter(
     private val onDelete: (Address) -> Unit
 ) : RecyclerView.Adapter<AddressAdapter.VH>() {
 
-    inner class VH(view: View) : RecyclerView.ViewHolder(view) {
+    class VH(view: View) : RecyclerView.ViewHolder(view) {
         val container: View = view.findViewById(R.id.container)
         val name: TextView = view.findViewById(R.id.txtName)
         val phone: TextView = view.findViewById(R.id.txtPhoneNumber)
@@ -38,7 +38,7 @@ class AddressAdapter(
     override fun onBindViewHolder(holder: VH, position: Int) {
         val address = addressList[position]
 
-        holder.name.text = address.name.trim()
+        holder.name.text = address.name?.trim()
         holder.phone.text = address.phoneNumber.trim()
         holder.alternatePhone.text = address.alternatePhoneNumber.trim()
         holder.addressLine1.text = address.addressLine1.trim()
@@ -46,7 +46,7 @@ class AddressAdapter(
         holder.landmark.text = address.landmark.trim()
         holder.city.text = address.city.trim()
         holder.state.text = address.state.trim()
-        holder.country.text = address.country.trim()
+        holder.country.text = address.country?.trim()
         holder.pincode.text = address.postalCode.trim()
 
         if (address.alternatePhoneNumber.isBlank()){
