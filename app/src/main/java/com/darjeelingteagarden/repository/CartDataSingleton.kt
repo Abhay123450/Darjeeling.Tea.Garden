@@ -2,15 +2,15 @@ package com.darjeelingteagarden.repository
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.MutableLiveData
 import com.darjeelingteagarden.model.Cart
 import com.darjeelingteagarden.model.Product
 
 object CartDataSingleton {
 
-    var cartList = mutableListOf<Cart>()
+    var cartList = mutableStateListOf<Cart>()
 
     val totalCartItems = MutableLiveData<Int>()
 
@@ -20,11 +20,11 @@ object CartDataSingleton {
     }
 
     fun addProductToCart(product: Product){
-        val itemExists = cartList.find {
+        val existingItem = cartList.find {
             it.productId == product.productId
         }
 
-        if (itemExists == null){
+        if (existingItem == null){
             cartList.add(
                 Cart(
                     product.productId,
@@ -40,51 +40,43 @@ object CartDataSingleton {
                     0
                 )
             )
+        } else {
+            // To trigger a UI update on an internal property change,
+            // you often need to replace the element or use a wrapper State
+            val index = cartList.indexOf(existingItem)
+            cartList[index] = existingItem.copy(quantity = 1, isProduct = true)
         }
 
-        cartList.forEach {
-            if (it.productId == product.productId){
-                it.isProduct = true
-                it.quantity = 1
-                return@forEach
-            }
-        }
+//        cartList.forEach {
+//            if (it.productId == product.productId){
+//                it.isProduct = true
+//                it.quantity = 1
+//                return@forEach
+//            }
+//        }
 
         updateCartCount()
 
     }
 
     fun increaseProductQuantity(productId: String){
-        cartList.forEach {
-            if (it.productId == productId){
-                it.quantity += 1
-                it.isProduct = true
-            }
-            return@forEach
+        val index = cartList.indexOfFirst { it.productId == productId }
+        if (index != -1) {
+            val item = cartList[index]
+            cartList[index] = item.copy(quantity = item.quantity + 1)
         }
         updateCartCount()
     }
 
     fun decreaseProductQuantity(productId: String){
-        var index = -1
-        cartList.forEachIndexed { i, cart ->
-            if (cart.productId == productId ){
-                if (cart.quantity > 1){
-                    cart.quantity--
-                }
-                else if (!cart.isSample){
-                    index = i
-                }
-                else{
-                    cart.isProduct = false
-                    cart.quantity = 0
-                }
-                return@forEachIndexed
+        val index = cartList.indexOfFirst { it.productId == productId }
+        if (index != -1) {
+            val item = cartList[index]
+            if (item.quantity > 1) {
+                cartList[index] = item.copy(quantity = item.quantity - 1)
+            } else {
+                cartList.removeAt(index)
             }
-        }
-        Log.d("index", index.toString())
-        if (index != -1){
-            cartList.removeAt(index)
         }
         updateCartCount()
     }
@@ -108,11 +100,11 @@ object CartDataSingleton {
     }
 
     fun addSampleToCart(product: Product){
-        val itemExists = cartList.find {
+        val existingItem = cartList.find {
             it.productId == product.productId
         }
 
-        if (itemExists == null){
+        if (existingItem == null){
             cartList.add(
                 Cart(
                     product.productId,
@@ -128,14 +120,17 @@ object CartDataSingleton {
                     1
                 )
             )
+        } else{
+            val index = cartList.indexOf(existingItem)
+            cartList[index] = existingItem.copy(isSample = true, sampleQuantity = 1)
         }
 
-        cartList.forEach {
-            if (it.productId == product.productId){
-                it.isSample = true
-                it.sampleQuantity = 1
-            }
-        }
+//        cartList.forEach {
+//            if (it.productId == product.productId){
+//                it.isSample = true
+//                it.sampleQuantity = 1
+//            }
+//        }
 
         updateCartCount()
 
@@ -199,7 +194,7 @@ object CartDataSingleton {
     }
 
     fun clearCart(context: Context){
-        cartList = mutableListOf()
+        cartList = mutableStateListOf()
         initializeSharedPreferences(context)
         val editor = sharedPreferences.edit()
         editor.clear()

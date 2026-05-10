@@ -4,48 +4,36 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.NetworkResponse
 import com.android.volley.Response
-import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
-import com.darjeelingteagarden.activity.LoginActivity
+import com.darjeelingteagarden.activity.CartActivity
 import com.darjeelingteagarden.activity.MyOrdersActivity
-import com.darjeelingteagarden.activity.PaymentActivity
 import com.darjeelingteagarden.activity.PayuPaymentActivity
-import com.darjeelingteagarden.activity.RazorpayPaymentActivity
 import com.darjeelingteagarden.adapter.CartRecyclerAdapter
 import com.darjeelingteagarden.databinding.FragmentCartBinding
 import com.darjeelingteagarden.model.Address
 import com.darjeelingteagarden.model.Cart
-import com.darjeelingteagarden.model.CartItem
 import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.repository.CartDataSingleton
-import com.darjeelingteagarden.repository.SampleDataSingleton
-import com.darjeelingteagarden.util.ConnectionManager
-import com.google.gson.Gson
-import com.google.gson.JsonObject
-import com.google.gson.JsonParser
+import com.darjeelingteagarden.repository.VolleySingleton
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.UnsupportedEncodingException
-import java.nio.charset.StandardCharsets
 
 class CartFragment : Fragment() {
 
     private lateinit var binding: FragmentCartBinding
 
     private var cartItemList = mutableListOf<Cart>()
-//    private var sampleCartItemList = mutableListOf<Cart>()
 
     private lateinit var recyclerViewCart: RecyclerView
     lateinit var layoutManager: RecyclerView.LayoutManager
@@ -59,8 +47,6 @@ class CartFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-//        val view = inflater.inflate(R.layout.fragment_cart, container, false)
         binding = FragmentCartBinding.inflate(inflater, container, false)
 
         authToken = AppDataSingleton.getAuthToken
@@ -71,11 +57,7 @@ class CartFragment : Fragment() {
         recyclerViewCart = binding.recyclerViewCart
         layoutManager = LinearLayoutManager(activity)
 
-//        cartItemList = mAppDataViewModel.cartItemList
-
         cartItemList = CartDataSingleton.cartList
-//        sampleCartItemList = SampleDataSingleton.getCartItemList
-//        cartItemList.addAll(sampleCartItemList)
         Log.i("cart item list ::", cartItemList.toString())
 
         populateRecyclerView()
@@ -83,18 +65,11 @@ class CartFragment : Fragment() {
 
         binding.btnContinueToPayment.setOnClickListener {
 
-            AddressBottomSheet().show(parentFragmentManager, "AddressBottomSheet")
-            return@setOnClickListener
+//            AddressBottomSheet().show(parentFragmentManager, "AddressBottomSheet")
+//            return@setOnClickListener
 
-//            if (ConnectionManager().isOnline(activity as Context)){
-//                if (AppDataSingleton.isLoggedIn()){
-//                    createOrder()
-//                }
-//                else{
-//                    val intent = Intent(activity as Context, LoginActivity::class.java)
-//                    startActivity(intent)
-//                }
-//            }
+            val intent = Intent(activity as Context, CartActivity::class.java)
+            startActivity(intent)
 
         }
 
@@ -107,22 +82,7 @@ class CartFragment : Fragment() {
             Toast.makeText(activity as Context, "Selected address: ${address.toString()}", Toast.LENGTH_SHORT).show()
         }
 
-
-
-//        recyclerAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver(){
-//
-//            override fun onChanged() {
-//                super.onChanged()
-//                val cartItemList = AppDataSingleton.getCartItemList
-//                cartItemList.forEach {
-//                    totalAmount += it.discountedPrice * it.quantity
-//                }
-//                Log.i("total Amount", totalAmount.toString())
-//                (getString(R.string.rupee_symbol) + " " + totalAmount.toString()).also { binding.txtTotalAmount.text = it }
-//            }
-//
-//        })
-        if (CartDataSingleton.cartList.size != 0){
+        if (CartDataSingleton.cartList.isNotEmpty()){
             binding.llEmptyCart.visibility = View.GONE
         }
         else{
@@ -138,7 +98,7 @@ class CartFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (CartDataSingleton.cartList.size != 0){
+        if (CartDataSingleton.cartList.isNotEmpty()){
             binding.llEmptyCart.visibility = View.GONE
         }
         else{
@@ -154,7 +114,7 @@ class CartFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         AppDataSingleton.saveCart(activity as Context)
-        if (CartDataSingleton.cartList.size == 0){
+        if (CartDataSingleton.cartList.isEmpty()){
             CartDataSingleton.clearCart(activity as Context)
         }
     }
@@ -162,11 +122,6 @@ class CartFragment : Fragment() {
     private fun calculateTotalAmount(){
         totalAmount = 0.00
         cartItemList.forEach {
-//            totalAmount += if (it.isSample){
-//                it.samplePrice * it.sampleQuantity
-//            } else{
-//                it.discountedPrice * it.quantity
-//            }
             if (it.isProduct){
                 totalAmount += it.discountedPrice * it.quantity
             }
@@ -191,13 +146,12 @@ class CartFragment : Fragment() {
     private fun populateRecyclerView(){
 
         recyclerAdapter = CartRecyclerAdapter(activity as Context, CartDataSingleton.cartList){
-            if (CartDataSingleton.cartList.size != 0){
+            if (CartDataSingleton.cartList.isNotEmpty()){
                 binding.llEmptyCart.visibility = View.GONE
             }
             else{
                 binding.llEmptyCart.visibility = View.VISIBLE
             }
-//            cartItemList.addAll(SampleDataSingleton.getCartItemList)
             calculateTotalAmount()
         }
         recyclerViewCart.adapter = recyclerAdapter
@@ -208,17 +162,6 @@ class CartFragment : Fragment() {
                 (layoutManager as LinearLayoutManager).orientation
             )
         )
-
-//        recyclerAdapter = StoreRecyclerAdapter(activity as Context, productList, cartList)
-//        recyclerViewStore.adapter = recyclerAdapter
-//        recyclerViewStore.layoutManager = layoutManager
-//        recyclerViewStore.addItemDecoration(
-//            DividerItemDecoration(
-//                recyclerViewStore.context,
-//                (layoutManager as LinearLayoutManager).orientation
-//            )
-//        )
-//        storeSwipeRefreshLayout.isRefreshing = false
 
     }
 
@@ -287,7 +230,6 @@ class CartFragment : Fragment() {
 
                         val apiKeyId = it.getString("apiKeyId")
 
-
                         val intent = Intent(activity as Context, PayuPaymentActivity::class.java)
                         intent.putExtra("orderId", orderId)
                         intent.putExtra("itemTotal", itemTotal)
@@ -317,12 +259,8 @@ class CartFragment : Fragment() {
 
                 Log.i("Create order error :: ", it.toString())
 
-                val response = extractVolleyErrorResponseBody(it)
+                val response = VolleySingleton.extractVolleyErrorResponseBody(it)
                 Log.i("Create order error :: ", response.toString())
-
-
-//                val response = JSONObject(String(it.networkResponse.data))
-//                Log.i("Create order error :: ", response.toString())
 
                 Toast.makeText(
                     activity as Context, response.toString(), Toast.LENGTH_LONG
@@ -341,57 +279,6 @@ class CartFragment : Fragment() {
 
         queue.add(jsonObjectRequest)
 
-    }
-
-    fun getCartItems(){
-
-        val url = getString(R.string.homeUrl) + "api/v1/user/cart"
-
-        val queue = Volley.newRequestQueue(activity as Context)
-
-        val jsonObjectRequest = object : JsonObjectRequest(
-            Method.GET,
-            url,
-            null,
-            Response.Listener {
-
-            },
-            Response.ErrorListener {
-
-            }
-        ){
-
-        }
-
-    }
-
-    private fun extractVolleyErrorResponseBody(volleyError: VolleyError): String?{
-        var body: String?
-        val networkResponse: NetworkResponse? = volleyError.networkResponse
-
-        if (networkResponse != null && networkResponse.data != null) {
-            try {
-                // Attempt to decode the byte array with UTF-8 encoding
-                body = String(networkResponse.data, charset(StandardCharsets.UTF_8.name()))
-
-
-                // You can also get the status code
-                val statusCode = networkResponse.statusCode
-                Log.e(
-                    "Volley Error",
-                    "Status Code: $statusCode, Response Body: $body"
-                )
-            } catch (e: UnsupportedEncodingException) {
-                e.printStackTrace()
-                // Handle the unlikely case where UTF-8 is not supported
-                body = String(networkResponse.data) // Fallback to default
-            }
-            return body
-        } else {
-            // Handle cases where networkResponse or data might be null (e.g., NetworkError, TimeoutError, ParseError)
-            Log.e("Volley Error", "Error without network response: $volleyError")
-            return null
-        }
     }
 
 }
