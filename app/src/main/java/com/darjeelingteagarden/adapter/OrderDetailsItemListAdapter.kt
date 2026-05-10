@@ -2,6 +2,7 @@ package com.darjeelingteagarden.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +11,14 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.activity.ProductDetailsActivity
-import com.darjeelingteagarden.fragment.OrderDetailsFragment
+import com.darjeelingteagarden.features.looseTea.activity.LooseTeaDetailsActivity
+import com.darjeelingteagarden.features.packagedTea.activity.PackagedTeaDetailsActivity
 import com.darjeelingteagarden.model.ItemDetails
+import com.google.android.material.card.MaterialCardView
 
 class OrderDetailsItemListAdapter(
     val context: Context,
@@ -23,6 +27,8 @@ class OrderDetailsItemListAdapter(
 ): RecyclerView.Adapter<OrderDetailsItemListAdapter.OrderDetailsViewHolder>() {
 
     class OrderDetailsViewHolder(view: View): RecyclerView.ViewHolder(view){
+        val cardParent: MaterialCardView = view.findViewById(R.id.cardParent)
+        val txtItemType: TextView = view.findViewById(R.id.txtItemType)
         val txtItemName: TextView = view.findViewById(R.id.txtItemName)
         val txtOrderStatusDelivered: TextView = view.findViewById(R.id.txtOrderStatusDelivered)
         val txtItemPrice: TextView = view.findViewById(R.id.txtItemPrice)
@@ -46,21 +52,38 @@ class OrderDetailsItemListAdapter(
 
     override fun onBindViewHolder(holder: OrderDetailsViewHolder, position: Int) {
         val itemDetails: ItemDetails = itemsList[position]
-
-        var sample = ""
+        Log.i("item details my orders", itemDetails.toString())
+        var itemInfo = ""
+        if (itemDetails.productType !== null){
+            if (itemDetails.productType == "looseTea"){
+                itemInfo = "Loose Tea"
+            }
+            else if (itemDetails.productType == "packagedTea"){
+                itemInfo = "Packaged Tea"
+            }
+        }
         var quantity = ""
         var itemPrice = ""
         if (itemDetails.isSample){
-            sample = "[Sample] "
+            itemInfo = if (itemInfo == ""){
+                "Sample"
+            } else {
+                "$itemInfo • Sample"
+            }
             quantity = "${itemDetails.itemQuantity * 10} gram"
-            itemPrice = "${itemDetails.itemPrice} / 10 gram"
+            itemPrice = if (itemDetails.currencyUnit == "paise"){
+                "${itemDetails.itemPrice / 100} / 10 gram"
+            } else {
+                "${itemDetails.itemPrice} / 10 gram"
+            }
         }
         else{
             quantity = itemDetails.itemQuantity.toString()
             itemPrice = itemDetails.itemPrice.toString()
         }
 
-        holder.txtItemName.text = "$sample${itemDetails.itemName}"
+        holder.txtItemType.text = itemInfo
+        holder.txtItemName.text = itemDetails.itemName
         holder.txtItemPrice.text = itemPrice
         holder.txtItemQuantity.text = quantity
         holder.txtItemTotalPrice.text = (itemDetails.itemPrice * itemDetails.itemQuantity).toString()
@@ -90,10 +113,22 @@ class OrderDetailsItemListAdapter(
             holder.txtOrderStatusDelivered.visibility = View.GONE
         }
 
-        holder.txtItemName.setOnClickListener {
-            val intent = Intent(context, ProductDetailsActivity::class.java)
-            intent.putExtra("productId", itemDetails.id)
-            context.startActivity(intent)
+        holder.cardParent.setOnClickListener {
+            if (itemDetails.productType == "looseTea"){
+                val intent = Intent(context, LooseTeaDetailsActivity::class.java)
+                intent.putExtra("looseTeaId", itemDetails.id)
+                context.startActivity(intent)
+            }
+            else if (itemDetails.productType == "packagedTea"){
+                val intent = Intent(context, PackagedTeaDetailsActivity::class.java)
+                intent.putExtra("packagedTeaId", itemDetails.id)
+                context.startActivity(intent)
+            }
+            else{
+                val intent = Intent(context, ProductDetailsActivity::class.java)
+                intent.putExtra("productId", itemDetails.id)
+                context.startActivity(intent)
+            }
         }
 
         holder.btnReceiveItem.setOnClickListener {

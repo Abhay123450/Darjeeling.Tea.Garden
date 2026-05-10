@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardParent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,11 +12,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/txtItemType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:paddingBottom="5dp"
+            android:text=""/>
 
         <TextView
             android:id="@+id/txtItemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/txtItemType"
             android:textSize="16sp"
             android:textColor="@color/black"
             android:paddingBottom="5dp"
@@ -26,8 +35,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtItemName"
-            android:paddingVertical="10dp"
-            android:textSize="16sp"
+            android:paddingVertical="2dp"
+            android:textSize="15sp"
             android:text="Quantity : "/>
 
         <TextView
@@ -36,8 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/txtItemName"
             android:layout_toEndOf="@id/txtQuantityText"
-            android:paddingVertical="10dp"
-            android:textSize="16sp"
+            android:paddingVertical="2dp"
+            android:textSize="15sp"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:text=""/>
@@ -49,7 +58,7 @@
             android:orientation="horizontal"
             android:layout_below="@id/txtItemName"
             android:layout_alignParentEnd="true"
-            android:paddingVertical="10dp">
+            android:paddingVertical="2dp">
 
             <TextView
                 android:id="@+id/txtItemRupeeSymbol"
@@ -77,6 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingTop="2dp"
             android:layout_below="@id/txtQuantityText">
 
             <TextView

@@ -5,12 +5,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.URLUtil
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
@@ -19,11 +19,9 @@ import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.adapter.OrderDetailsItemListAdapter
 import com.darjeelingteagarden.adapter.OrderStatusHistoryRecyclerAdapter
-import com.darjeelingteagarden.adapter.SampleOrderStatusHistoryRecyclerAdapter
 import com.darjeelingteagarden.databinding.FragmentOrderDetailsBinding
 import com.darjeelingteagarden.model.ItemDetails
 import com.darjeelingteagarden.model.OrderStatusHistory
-import com.darjeelingteagarden.model.StatusHistory
 import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.repository.NotificationDataSingleton
 import com.darjeelingteagarden.util.formatTo
@@ -238,7 +236,16 @@ class OrderDetailsFragment : Fragment() {
                             binding.btnCancelOrder.visibility = View.GONE
                         }
 
-                        binding.txtOrderId.text = orderDetails.getString("_id")
+                        val _id = orderDetails.getString("_id")
+                        val orderId = orderDetails.optString("orderId")
+
+                        if (orderId != null || orderId?.isNotBlank() == true) {
+                            binding.txtOrderId.text = orderId
+                        }
+                        else{
+                            binding.txtOrderId.text = _id
+                        }
+
                         binding.txtOrderStatus.text = currentStatus
 
                         binding.txtOrderedOn.text = orderDetails.getString("orderDate").toDate()!!.formatTo("dd MMM yyy HH:mm")
@@ -298,9 +305,11 @@ class OrderDetailsFragment : Fragment() {
                             itemList.add(
                                 ItemDetails(
                                     item.getString("productId"),
+                                    item.optString("productType"),
                                     item.getString("productName"),
 //                                    AppDataSingleton.getProductNameById(item.getString("productId")),
                                     item.getInt("price"),
+                                    item.optString("currencyUnit"),
                                     item.getInt("orderQuantity"),
                                     item.getString("status"),
                                     receiveQuantity,
@@ -441,9 +450,11 @@ class OrderDetailsFragment : Fragment() {
                             itemList.add(
                                 ItemDetails(
                                     item.getString("productId"),
+                                    item.optString("itemType"),
                                     item.getString("productName"),
 //                                    AppDataSingleton.getProductNameById(item.getString("productId")),
                                     item.getInt("price"),
+                                    item.optString("currencyUnit"),
                                     item.getInt("orderQuantity"),
                                     item.getString("status"),
                                     receiveQuantity,

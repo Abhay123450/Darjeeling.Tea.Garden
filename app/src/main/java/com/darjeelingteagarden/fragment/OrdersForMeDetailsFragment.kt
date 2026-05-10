@@ -4,11 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
@@ -16,10 +16,8 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.activity.MyDownlineActivity
-import com.darjeelingteagarden.adapter.OrderDetailsItemListAdapter
 import com.darjeelingteagarden.adapter.OrderStatusHistoryRecyclerAdapter
 import com.darjeelingteagarden.adapter.OrdersForMeDetailsRecyclerAdapter
-import com.darjeelingteagarden.databinding.FragmentOrderDetailsBinding
 import com.darjeelingteagarden.databinding.FragmentOrdersForMeDetailsBinding
 import com.darjeelingteagarden.model.ItemDetails
 import com.darjeelingteagarden.model.OrderStatusHistory
@@ -28,7 +26,6 @@ import com.darjeelingteagarden.util.formatTo
 import com.darjeelingteagarden.util.toDate
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.json.JSONObject
-import java.math.RoundingMode
 
 class OrdersForMeDetailsFragment : Fragment() {
 
@@ -217,8 +214,10 @@ class OrdersForMeDetailsFragment : Fragment() {
                             itemList.add(
                                 ItemDetails(
                                     item.getString("productId"),
+                                    item.getString("productType"),
                                     item.getString("productName"),
                                     item.getInt("price"),
+                                    item.optString("currencyUnit"),
                                     item.getInt("orderQuantity"),
                                     item.getString("status"),
 //                                    item.getInt("recievedQuantity"),
@@ -362,8 +361,10 @@ class OrdersForMeDetailsFragment : Fragment() {
                             itemList.add(
                                 ItemDetails(
                                     item.getString("productId"),
+                                    item.getString("productType"),
                                     item.getString("productName"),
                                     item.getInt("price"),
+                                    item.optString("currencyUnit"),
                                     item.getInt("orderQuantity"),
                                     item.getString("status"),
                                     receiveQuantity,
@@ -598,8 +599,10 @@ class OrdersForMeDetailsFragment : Fragment() {
                             itemList.add(
                                 ItemDetails(
                                     item.getString("productId"),
+                                    item.getString("productType"),
                                     AppDataSingleton.getProductNameById(item.getString("productId")),
                                     item.getInt("price"),
+                                    item.optString("currencyUnit"),
                                     item.getInt("orderQuantity"),
                                     item.getString("status"),
                                     receiveQuantity,
@@ -759,8 +762,10 @@ class OrdersForMeDetailsFragment : Fragment() {
                             itemList.add(
                                 ItemDetails(
                                     item.getString("productId"),
+                                    item.getString("productType"),
                                     AppDataSingleton.getProductNameById(item.getString("productId")),
                                     item.getInt("price"),
+                                    item.optString("currencyUnit"),
                                     item.getInt("orderQuantity"),
                                     item.getString("status"),
                                     receiveQuantity,
