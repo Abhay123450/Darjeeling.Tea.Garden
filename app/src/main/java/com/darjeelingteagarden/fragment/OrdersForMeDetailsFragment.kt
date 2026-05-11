@@ -19,6 +19,7 @@ import com.darjeelingteagarden.activity.MyDownlineActivity
 import com.darjeelingteagarden.adapter.OrderStatusHistoryRecyclerAdapter
 import com.darjeelingteagarden.adapter.OrdersForMeDetailsRecyclerAdapter
 import com.darjeelingteagarden.databinding.FragmentOrdersForMeDetailsBinding
+import com.darjeelingteagarden.model.Address
 import com.darjeelingteagarden.model.ItemDetails
 import com.darjeelingteagarden.model.OrderStatusHistory
 import com.darjeelingteagarden.repository.AppDataSingleton
@@ -293,12 +294,54 @@ class OrdersForMeDetailsFragment : Fragment() {
 
                         val orderDetails = it.getJSONObject("data")
 
-                        val orderBy = orderDetails.getJSONObject("from")
-                        fromUserId = orderBy.getString("userId")
-                        binding.txtFromName.text = orderBy.getString("name")
-                        binding.txtFromRole.text = orderBy.getString("role")
-                        binding.txtFromAddress.text =
-                            orderBy.optString("addressLineOne") + "\n" + orderBy.optString("addressLineTwo")
+                        val addressJson = orderDetails.optJSONObject("address")
+                        if (addressJson != null) {
+                            val address = Address(
+                                null,
+                                addressJson.optString("personName"),
+                                addressJson.optString("phoneNumber"),
+                                addressJson.optString("alternatePhoneNumber"),
+                                addressJson.optString("addressLine1"),
+                                addressJson.optString("addressLine2"),
+                                addressJson.optString("landmark"),
+                                addressJson.optString("postalCode"),
+                                addressJson.optString("state"),
+                                addressJson.optString("city"),
+                                addressJson.optString("country"),
+                                isDefault = false,
+                                isSelected = false
+                            )
+
+                            binding.txtFromName.text = address.name
+                            if (address.alternatePhoneNumber.trim().length == 10){
+                                binding.txtFromAddressPhoneNumber.text = address.phoneNumber + ", " + address.alternatePhoneNumber
+                            }
+                            else {
+                                binding.txtFromAddressPhoneNumber.text = address.phoneNumber
+                            }
+
+                            if (address.landmark.trim() == "") {
+                                binding.txtFromAddressLandmark.visibility = View.GONE
+                            }
+                            else{
+                                binding.txtFromAddressLandmark.text = "Near " + address.landmark
+                                binding.txtFromAddressLandmark.visibility = View.VISIBLE
+                            }
+
+                            binding.txtFromAddressLine1.text = address.addressLine1 + ", " + address.addressLine2
+                            binding.txtFromAddressLine2.text = address.city + ", " + address.state + ", " + address.postalCode
+                        }
+                        else{
+                            val orderBy = orderDetails.optJSONObject("from")
+                            if (orderBy != null) {
+                                fromUserId = orderBy.optString("userId")
+                                binding.txtFromName.text = orderBy.getString("name")
+                                binding.txtFromAddressLine1.text =
+                                    orderBy.optString("addressLineOne")
+                                binding.txtFromAddressLine2.text =
+                                    orderBy.optString("addressLineTwo")
+                            }
+                        }
 
                         Log.i("Order details :: ", orderDetails.toString())
 
@@ -416,6 +459,7 @@ class OrdersForMeDetailsFragment : Fragment() {
 
                 }catch (e: Exception){
                     Toast.makeText(mContext, "An error occurred; $e", Toast.LENGTH_LONG ).show()
+                    Log.e("failed to get order details", e.toString())
                 }
             },
             Response.ErrorListener {

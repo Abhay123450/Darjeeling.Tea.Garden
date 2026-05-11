@@ -413,6 +413,7 @@ Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincid
     <string name="title_activity_cart">CartActivity</string>
     <string name="packaged_tea">Packaged Tea</string>
     <string name="title_activity_packaged_tea_details">PackagedTeaDetailsActivity</string>
+    <string name="delivery_address">Delivery Address</string>
 
 </resources>
 

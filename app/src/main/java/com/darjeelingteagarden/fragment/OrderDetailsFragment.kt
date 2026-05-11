@@ -20,6 +20,7 @@ import com.darjeelingteagarden.R
 import com.darjeelingteagarden.adapter.OrderDetailsItemListAdapter
 import com.darjeelingteagarden.adapter.OrderStatusHistoryRecyclerAdapter
 import com.darjeelingteagarden.databinding.FragmentOrderDetailsBinding
+import com.darjeelingteagarden.model.Address
 import com.darjeelingteagarden.model.ItemDetails
 import com.darjeelingteagarden.model.OrderStatusHistory
 import com.darjeelingteagarden.repository.AppDataSingleton
@@ -228,6 +229,45 @@ class OrderDetailsFragment : Fragment() {
 
                         val orderDetails = it.getJSONObject("data")
 
+                        val addressJson = orderDetails.optJSONObject("address")
+                        if (addressJson != null) {
+                            val address = Address(
+                                null,
+                                addressJson.optString("personName"),
+                                addressJson.optString("phoneNumber"),
+                                addressJson.optString("alternatePhoneNumber"),
+                                addressJson.optString("addressLine1"),
+                                addressJson.optString("addressLine2"),
+                                addressJson.optString("landmark"),
+                                addressJson.optString("postalCode"),
+                                addressJson.optString("state"),
+                                addressJson.optString("city"),
+                                addressJson.optString("country"),
+                                isDefault = false,
+                                isSelected = false
+                            )
+
+                            binding.txtFromName.text = address.name
+                            if (address.alternatePhoneNumber.trim().length == 10) {
+                                binding.txtFromAddressPhoneNumber.text =
+                                    address.phoneNumber + ", " + address.alternatePhoneNumber
+                            } else {
+                                binding.txtFromAddressPhoneNumber.text = address.phoneNumber
+                            }
+
+                            if (address.landmark.trim() == "") {
+                                binding.txtFromAddressLandmark.visibility = View.GONE
+                            } else {
+                                binding.txtFromAddressLandmark.text = "Near " + address.landmark
+                                binding.txtFromAddressLandmark.visibility = View.VISIBLE
+                            }
+
+                            binding.txtFromAddressLine1.text =
+                                address.addressLine1 + ", " + address.addressLine2
+                            binding.txtFromAddressLine2.text =
+                                address.city + ", " + address.state + ", " + address.postalCode
+                        }
+
                         Log.i("Order details :: ", orderDetails.toString())
 
                         val currentStatus = orderDetails.getString("currentStatus")
@@ -239,7 +279,12 @@ class OrderDetailsFragment : Fragment() {
                         val _id = orderDetails.getString("_id")
                         val orderId = orderDetails.optString("orderId")
 
-                        if (orderId != null || orderId?.isNotBlank() == true) {
+                        Log.i("orderId is>>", orderId.toString())
+                        Log.i("mongo _id >>", _id.toString())
+
+//                        binding.txtOrderId.text = orderDetails.getString("_id")
+
+                        if (orderId != null && orderId.isNotBlank()) {
                             binding.txtOrderId.text = orderId
                         }
                         else{
