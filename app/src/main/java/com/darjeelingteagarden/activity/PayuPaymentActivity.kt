@@ -10,7 +10,8 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.databinding.ActivityPayuPaymentBinding
-import com.darjeelingteagarden.model.OrderInfo
+import com.darjeelingteagarden.features.order.api.CreateOrderResponse
+import com.darjeelingteagarden.features.order.model.Order
 import com.darjeelingteagarden.repository.AppDataSingleton
 import com.darjeelingteagarden.repository.CartDataSingleton
 import com.darjeelingteagarden.util.RandomGenerator
@@ -29,7 +30,7 @@ class PayuPaymentActivity : BaseActivity() {
 
     private lateinit var binding: ActivityPayuPaymentBinding
 
-    private lateinit var orderInfo: OrderInfo
+    private lateinit var orderDetails: CreateOrderResponse
 
     private val BASE_URL: String by lazy {
         getString(R.string.homeUrl)
@@ -48,20 +49,24 @@ class PayuPaymentActivity : BaseActivity() {
         setContentView(view)
 
         if (intent != null){
-            orderInfo = OrderInfo(
-                    intent.getBooleanExtra("sampleOrder", false),
-                    intent.getStringExtra("orderId").toString(),
-                    intent.getStringExtra("apiKeyId").toString(),
-                    intent.getDoubleExtra("itemTotal", 0.0),
-                    intent.getDoubleExtra("discount", 0.0),
-                    intent.getDoubleExtra("totalTax", 0.0),
-                    intent.getDoubleExtra("totalAmount", 0.0)
-                    )
+//            orderInfo = OrderInfo(
+//                    intent.getBooleanExtra("sampleOrder", false),
+//                    intent.getStringExtra("orderId").toString(),
+//                    intent.getStringExtra("apiKeyId").toString(),
+//                    intent.getDoubleExtra("itemTotal", 0.0),
+//                    intent.getDoubleExtra("discount", 0.0),
+//                    intent.getDoubleExtra("totalTax", 0.0),
+//                    intent.getDoubleExtra("totalAmount", 0.0)
+//                    )
+            val order = intent.getParcelableExtra<CreateOrderResponse>("orderDetails")
+            if (order != null){
+                orderDetails = order
+            }
         }
 
-        viewPaymentDetails(orderInfo)
+        viewPaymentDetails(orderDetails.data)
 
-        Log.i("order info payupage", orderInfo.toString())
+        Log.i("order info payupage", orderDetails.toString())
 
         binding.toolbarPayuPaymentActivity.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
@@ -102,12 +107,12 @@ class PayuPaymentActivity : BaseActivity() {
             val txnId = RandomGenerator().generateRandomString(7) + Date().time
 
             val additionalParams = HashMap<String, Any?>()
-            additionalParams[PayUCheckoutProConstants.CP_UDF1] = orderInfo.orderId
+            additionalParams[PayUCheckoutProConstants.CP_UDF1] = orderDetails.data.orderId
 
             Log.i("additional params", additionalParams.toString())
 
             val payUPaymentParams = PayUPaymentParams.Builder()
-            .setAmount(orderInfo.totalAmount.toString())
+            .setAmount((orderDetails.data.amountPayable / 100).toString())
             .setIsProduction(false)  //set is to true for Production and false for UAT
             .setKey(MERCHANT_KEY)
             .setProductInfo("Tea")
@@ -252,19 +257,23 @@ class PayuPaymentActivity : BaseActivity() {
 
     }
 
-    private fun viewPaymentDetails(orderInfo: OrderInfo){
+    private fun viewPaymentDetails(orderDetails: Order){
         binding.txtItemTotal.text =
-            getString(R.string.price_format, orderInfo.itemTotal)
+            formatPaiseToRupees(orderDetails.itemsPrice)
 
         binding.txtDiscount.text =
-            getString(R.string.price_format, orderInfo.discount)
+            formatPaiseToRupees(orderDetails.discount)
 
         binding.txtGST.text =
-            getString(R.string.price_format, orderInfo.totalTax)
+            formatPaiseToRupees(orderDetails.totalTax)
 
         binding.txtTotal.text =
-            getString(R.string.price_format, orderInfo.totalAmount)
+            formatPaiseToRupees(orderDetails.amountPayable)
 
+    }
+
+    private fun formatPaiseToRupees(paise: Int): String{
+        return "₹ ${paise / 100}.${paise % 100}"
     }
 
     private fun retryPayment(){
