@@ -522,22 +522,46 @@ class PackagedTeaStoreFragment : Fragment() {
             }
         ) {
             Row(modifier = Modifier.fillMaxWidth()) {
-                // Image Box
-                Box(
-                    modifier = Modifier.weight(0.35f).padding(8.dp),
-                    contentAlignment = Alignment.TopStart
+                // Image and Badge Column
+                Column(
+                    modifier = Modifier
+                        .weight(0.35f)
+                        .padding(8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally // Centers the badge below the image
                 ) {
                     AsyncImage(
                         model = packagedTea.featuredImage,
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(8.dp)).height(120.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(8.dp))
+                            .height(120.dp)
                     )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    // Article Type Badge
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(MaterialTheme.colorScheme.secondaryContainer)
+                            .padding(horizontal = 8.dp, vertical = 4.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = packagedTea.articleType.name, // Use .toString() if it's not an Enum
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                    }
                 }
 
                 // Details Column
                 Column(
-                    modifier = Modifier.weight(0.65f).padding(8.dp),
+                    modifier = Modifier
+                        .weight(0.65f)
+                        .padding(8.dp),
                     verticalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
                     Text(
