@@ -100,7 +100,8 @@ object StoreDataSingleton {
             Response.ErrorListener {
 
                 loadingStoreItem = false
-                val response = JSONObject(String(it.networkResponse.data))
+                val response = VolleySingleton.extractVolleyErrorResponseBody(it)
+                Log.e("error loading products", response.toString())
 //                val isLoggedIn = response.getBoolean("isLoggedIn")
 
 //                if (!isLoggedIn){
@@ -111,10 +112,10 @@ object StoreDataSingleton {
 //                    ).show()
 //                    requireActivity().finish()
 //                }
-                Log.i("Volley error response", response.toString())
+//                Log.i("Volley error response", response.toString())
                 MaterialAlertDialogBuilder(context)
                     .setTitle("Message")
-                    .setMessage(response.getString("message").toString())
+                    .setMessage(response.toString())
                     .setNeutralButton("OK") { dialog, _ ->
                         dialog.dismiss()
                     }
