@@ -328,7 +328,7 @@ fun LooseTeaCartActions(looseTea: LooseTea) {
         val sharedHeight = 40.dp
 
         // Sample Actions
-        Box(modifier = Modifier.weight(0.6f).height(sharedHeight)) {
+        Box(modifier = Modifier.weight(0.55f).height(sharedHeight)) {
             if (sampleCartItem != null) {
                 StepperControl(
                     countText = "${sampleCartItem.quantity * 10} gram",
@@ -356,7 +356,7 @@ fun LooseTeaCartActions(looseTea: LooseTea) {
         }
 
         // Product Actions
-        Box(modifier = Modifier.weight(0.4f).height(sharedHeight)) {
+        Box(modifier = Modifier.weight(0.45f).height(sharedHeight)) {
             if (productCartItem != null) {
                 StepperControl(
                     countText = "${productCartItem.quantity}",

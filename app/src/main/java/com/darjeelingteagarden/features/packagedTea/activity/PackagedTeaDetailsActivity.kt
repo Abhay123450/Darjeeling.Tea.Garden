@@ -281,11 +281,11 @@ fun CartActionsSection(packagedTea: PackagedTea, cartMap: Map<String, Any>) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(4.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Sample Action
-        Box(modifier = Modifier.weight(0.6f).height(sharedHeight)) {
+        Box(modifier = Modifier.weight(0.55f).height(sharedHeight)) {
             if (sampleCartItem != null) {
                 QuantityStepper(
                     quantityText = "${sampleCartItem.quantity} ${sampleCartItem.productDetails.articleType}",
@@ -314,7 +314,7 @@ fun CartActionsSection(packagedTea: PackagedTea, cartMap: Map<String, Any>) {
         }
 
         // Product Action
-        Box(modifier = Modifier.weight(0.4f).height(sharedHeight)) {
+        Box(modifier = Modifier.weight(0.45f).height(sharedHeight)) {
             if (productCartItem != null) {
                 QuantityStepper(
                     quantityText = productCartItem.quantity.toString(),
