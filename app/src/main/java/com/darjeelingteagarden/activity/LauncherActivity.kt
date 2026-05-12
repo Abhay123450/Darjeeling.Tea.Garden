@@ -30,6 +30,7 @@ import com.google.android.play.core.ktx.isFlexibleUpdateAllowed
 import com.google.android.play.core.ktx.isImmediateUpdateAllowed
 import java.util.Date
 import androidx.core.content.edit
+import com.darjeelingteagarden.features.analytics.AppAnalytics
 
 class LauncherActivity : AppCompatActivity() {
 
@@ -106,6 +107,10 @@ class LauncherActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        AppAnalytics.logScreenView(
+            "Splash_Screen",
+            "LauncherActivity"
+        )
         checkUpdateStatus()
     }
 
@@ -227,7 +232,7 @@ class LauncherActivity : AppCompatActivity() {
                         val data = it.getJSONObject("data")
 
                         val user = User(
-                            data.optString("userId"),
+                            data.getString("_id"),
                             data.getString("name"),
                             data.optString("role"),
                             data.getLong("phoneNumber"),
@@ -236,6 +241,7 @@ class LauncherActivity : AppCompatActivity() {
 
                         Log.i("userInfo LauncherActivity", "user is $user")
                         AppDataSingleton.setUserInfo(user)
+                        AppAnalytics.setUserId(user.userId)
 
                         userInfoLoaded = true
 

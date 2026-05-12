@@ -17,6 +17,7 @@ import com.darjeelingteagarden.activity.MyOrdersActivity
 import com.darjeelingteagarden.activity.OrdersForMeActivity
 import com.darjeelingteagarden.activity.SampleOrderActivity
 import com.darjeelingteagarden.databinding.FragmentHomeBinding
+import com.darjeelingteagarden.features.analytics.AppAnalytics
 import com.darjeelingteagarden.repository.AppDataSingleton
 
 class HomeFragment : Fragment(){
@@ -87,6 +88,14 @@ class HomeFragment : Fragment(){
         }
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        AppAnalytics.logScreenView(
+            "Home Page",
+            "HomeFragment"
+        )
     }
 
     private fun openDialPad(context: Context, phoneNum: String) {
