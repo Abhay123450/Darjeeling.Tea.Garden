@@ -82,6 +82,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import coil3.compose.AsyncImage
 import com.darjeelingteagarden.common.MyRetrofitClient
+import com.darjeelingteagarden.features.analytics.AppAnalytics
 import com.darjeelingteagarden.features.cart.CartManager
 import com.darjeelingteagarden.features.cart.model.LooseTeaCartItem
 import com.darjeelingteagarden.features.cart.model.LooseTeaSampleCartItem
@@ -145,6 +146,14 @@ class LooseTeaStoreFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        AppAnalytics.logScreenView(
+            "Loose_Tea_Store_Page",
+            "LooseTeaStoreFragment"
+        )
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
