@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.outlined.HelpOutline
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -28,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.darjeelingteagarden.common.MyRetrofitClient
 import com.darjeelingteagarden.components.AsyncImageCarousel
 import com.darjeelingteagarden.components.RatingBadge
@@ -293,11 +295,49 @@ fun LooseTeaSpecs(looseTea: LooseTea) {
 
 @Composable
 fun LooseTeaRatings(rating: QualityRating) {
-    Text(
-        text = "Tea Rating",
-        style = MaterialTheme.typography.titleMedium,
-        modifier = Modifier.padding(top = 8.dp)
-    )
+    var showInfoPopup by remember { mutableStateOf(false) }
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
+    ) {
+        Text(
+            text = "Tea Rating",
+            style = MaterialTheme.typography.titleMedium,
+            fontSize = 20.sp
+        )
+
+        IconButton(
+            onClick = { showInfoPopup = true },
+            modifier = Modifier
+                .padding(start = 4.dp)
+                .size(23.dp)
+
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Outlined.HelpOutline,
+                contentDescription = "About Tea Ratings",
+                tint = Color.Gray
+            )
+        }
+    }
+
+    if (showInfoPopup) {
+        AlertDialog(
+            onDismissRequest = { showInfoPopup = false },
+            title = {
+                Text(text = "About Tea Ratings")
+            },
+            text = {
+                Text(text = "Here you can provide detailed explanations about what Infusion, Color, Strongness, Thickness, Aroma, and Briskness mean for grading this loose tea.")
+            },
+            confirmButton = {
+                TextButton(onClick = { showInfoPopup = false }) {
+                    Text("Got it")
+                }
+            }
+        )
+    }
 
     Row(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
         RatingBadge(rating.infusion.toString(), "Infusion")
