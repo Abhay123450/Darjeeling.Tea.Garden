@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -66,9 +67,12 @@ import com.darjeelingteagarden.features.cart.model.LooseTeaSampleCartItem
 import com.darjeelingteagarden.features.cart.model.PackagedTeaCartItem
 import com.darjeelingteagarden.features.cart.model.PackagedTeaSampleCartItem
 import com.darjeelingteagarden.features.cart.model.toDto
+import com.darjeelingteagarden.features.looseTea.activity.LooseTeaDetailsActivity
 import com.darjeelingteagarden.features.order.api.CreateOrderRequest
+import com.darjeelingteagarden.features.packagedTea.activity.PackagedTeaDetailsActivity
 import com.darjeelingteagarden.fragment.AddressBottomSheet
 import com.darjeelingteagarden.model.Address
+import com.darjeelingteagarden.util.formatPaiseToRupees
 import kotlinx.coroutines.launch
 
 class CartActivity : FragmentActivity() {
@@ -181,7 +185,7 @@ class CartActivity : FragmentActivity() {
             is LooseTeaSampleCartItem -> Triple(
                 item.productDetails.name,
                 item.productDetails.featuredImage,
-                item.productDetails.samplePrice.toInt()
+                item.productDetails.samplePrice
             )
 
             is PackagedTeaCartItem -> Triple(
@@ -213,6 +217,42 @@ class CartActivity : FragmentActivity() {
                         modifier = Modifier
                             .size(70.dp)
                             .clip(RoundedCornerShape(8.dp))
+                            .clickable{
+                                when (item) {
+                                    is LooseTeaCartItem -> {
+                                        val intent = Intent(
+                                            this@CartActivity,
+                                            LooseTeaDetailsActivity::class.java
+                                        )
+                                        intent.putExtra("looseTeaId", item.productDetails.id)
+                                        startActivity(intent)
+                                    }
+                                    is PackagedTeaCartItem -> {
+                                        val intent = Intent(
+                                            this@CartActivity,
+                                            PackagedTeaDetailsActivity::class.java
+                                        )
+                                        intent.putExtra("packagedTeaId", item.productDetails.id)
+                                        startActivity(intent)
+                                    }
+                                    is LooseTeaSampleCartItem -> {
+                                        val intent = Intent(
+                                            this@CartActivity,
+                                            LooseTeaDetailsActivity::class.java
+                                        )
+                                        intent.putExtra("looseTeaId", item.productDetails.id)
+                                        startActivity(intent)
+                                    }
+                                    is PackagedTeaSampleCartItem -> {
+                                        val intent = Intent(
+                                            this@CartActivity,
+                                            PackagedTeaDetailsActivity::class.java
+                                        )
+                                        intent.putExtra("packagedTeaId", item.productDetails.id)
+                                        startActivity(intent)
+                                    }
+                                }
+                            }
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -238,7 +278,7 @@ class CartActivity : FragmentActivity() {
                     Spacer(Modifier.height(4.dp))
 
                     Text(
-                        text = "₹${unitPrice}",
+                        text = formatPaiseToRupees(unitPrice),
                         fontWeight = FontWeight.Medium,
                         color = Color.Gray
                     )
@@ -254,7 +294,7 @@ class CartActivity : FragmentActivity() {
                         QuantityStepper(item)
 
                         Text(
-                            text = "₹${item.totalPrice()}",
+                            text = formatPaiseToRupees(item.totalPrice()),
                             fontWeight = FontWeight.Bold,
                             style = MaterialTheme.typography.bodyLarge
                         )
@@ -318,7 +358,7 @@ class CartActivity : FragmentActivity() {
                 Column(modifier = Modifier.weight(1f)) {
                     Text("Total", fontSize = 12.sp, color = Color.Gray)
                     Text(
-                        text = "₹${(totalPrice)}",
+                        text = formatPaiseToRupees(totalPrice),
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp
                     )
@@ -367,10 +407,10 @@ class CartActivity : FragmentActivity() {
                 quantity * productDetails.pricePerBag.sellingPrice
 
             is LooseTeaSampleCartItem ->
-                quantity * productDetails.samplePrice.toInt()
+                quantity * productDetails.samplePrice
 
             is PackagedTeaCartItem ->
-                quantity * productDetails.mrp
+                quantity * productDetails.mrp * productDetails.bagSize
 
             is PackagedTeaSampleCartItem ->
                 quantity * productDetails.samplePrice
@@ -413,7 +453,4 @@ class CartActivity : FragmentActivity() {
 
     }
 
-    private fun onBackClick(){
-        finish()
-    }
 }
