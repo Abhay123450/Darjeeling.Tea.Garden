@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.model.OrderForMe
 import com.darjeelingteagarden.repository.AppDataSingleton
+import com.darjeelingteagarden.util.formatPaiseToRupees
+import com.darjeelingteagarden.util.isAfter1May2026
 import com.google.android.material.card.MaterialCardView
 
 class OrdersForMeRecyclerAdapter(
@@ -48,7 +49,13 @@ class OrdersForMeRecyclerAdapter(
         holder.txtFromRole.text = orderForMe.fromRole
         holder.txtFromAddress.text = orderForMe.fromAddress
         holder.txtTotalItems.text = orderForMe.totalItems.toString()
-        holder.txtTotalAmount.text = String.format("%.2f", orderForMe.totalPrice)
+
+        if (isAfter1May2026(orderForMe.orderDate)){
+            holder.txtTotalAmount.text = formatPaiseToRupees(orderForMe.totalPrice.toInt())
+        }
+        else{
+            holder.txtTotalAmount.text = String.format("%.2f", orderForMe.totalPrice)
+        }
 
         holder.txtOrderStatusActive.visibility = View.GONE
         holder.txtOrderStatusCancelled.visibility = View.GONE

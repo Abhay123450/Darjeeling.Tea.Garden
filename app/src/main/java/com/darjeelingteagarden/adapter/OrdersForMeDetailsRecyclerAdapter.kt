@@ -17,6 +17,7 @@ import com.darjeelingteagarden.activity.ProductDetailsActivity
 import com.darjeelingteagarden.features.looseTea.activity.LooseTeaDetailsActivity
 import com.darjeelingteagarden.features.packagedTea.activity.PackagedTeaDetailsActivity
 import com.darjeelingteagarden.model.ItemDetails
+import com.darjeelingteagarden.util.formatPaiseToRupees
 import com.google.android.material.card.MaterialCardView
 
 class OrdersForMeDetailsRecyclerAdapter(
@@ -81,7 +82,25 @@ class OrdersForMeDetailsRecyclerAdapter(
         }
         else{
             quantity = itemDetails.itemQuantity.toString()
-            itemPrice = itemDetails.itemPrice.toString()
+            itemPrice = when (itemDetails.productType) {
+                "looseTea" -> {
+                    if (itemDetails.currencyUnit == "paise"){
+                        "${formatPaiseToRupees(itemDetails.itemPrice)} / bag"
+                    } else {
+                        "₹${itemDetails.itemPrice} / bag"
+                    }
+                }
+                "packagedTea" -> {
+                    if (itemDetails.currencyUnit == "paise"){
+                        "${formatPaiseToRupees(itemDetails.itemPrice)} / bag"
+                    } else {
+                        "₹${itemDetails.itemPrice}} / bag"
+                    }
+                }
+                else -> {
+                    "An error occurred"
+                }
+            }
         }
 
         holder.txtItemType.text = itemInfo
@@ -90,7 +109,11 @@ class OrdersForMeDetailsRecyclerAdapter(
         holder.etQuantity.setText(itemDetails.itemQuantity.toString())
         holder.txtItemPrice.text = itemPrice
 
-        holder.txtItemTotalPrice.text = (itemDetails.itemQuantity * itemDetails.itemPrice).toString()
+        holder.txtItemTotalPrice.text = if (itemDetails.currencyUnit == "paise"){
+            formatPaiseToRupees(itemDetails.itemPrice * itemDetails.itemQuantity)
+        } else {
+            String.format("%.2f", (itemDetails.itemPrice * itemDetails.itemQuantity).toDouble())
+        }
         holder.etQuantity.visibility = View.GONE
         holder.llDeliver.visibility = View.GONE
         holder.llQuantityDelivered.visibility = View.GONE

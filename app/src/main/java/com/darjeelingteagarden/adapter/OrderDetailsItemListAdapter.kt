@@ -11,13 +11,13 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.activity.ProductDetailsActivity
 import com.darjeelingteagarden.features.looseTea.activity.LooseTeaDetailsActivity
 import com.darjeelingteagarden.features.packagedTea.activity.PackagedTeaDetailsActivity
 import com.darjeelingteagarden.model.ItemDetails
+import com.darjeelingteagarden.util.formatPaiseToRupees
 import com.google.android.material.card.MaterialCardView
 
 class OrderDetailsItemListAdapter(
@@ -72,21 +72,43 @@ class OrderDetailsItemListAdapter(
             }
             quantity = "${itemDetails.itemQuantity * 10} gram"
             itemPrice = if (itemDetails.currencyUnit == "paise"){
-                "${itemDetails.itemPrice / 100} / 10 gram"
+                "${formatPaiseToRupees(itemDetails.itemPrice)} / 10 gram"
             } else {
-                "${itemDetails.itemPrice} / 10 gram"
+                "₹${itemDetails.itemPrice} / 10 gram"
             }
         }
         else{
-            quantity = itemDetails.itemQuantity.toString()
-            itemPrice = itemDetails.itemPrice.toString()
+            quantity = "${itemDetails.itemQuantity} bag"
+            itemPrice = when (itemDetails.productType) {
+                "looseTea" -> {
+                    if (itemDetails.currencyUnit == "paise"){
+                        "${formatPaiseToRupees(itemDetails.itemPrice)} / bag"
+                    } else {
+                        "₹${itemDetails.itemPrice} / bag"
+                    }
+                }
+                "packagedTea" -> {
+                    if (itemDetails.currencyUnit == "paise"){
+                        "${formatPaiseToRupees(itemDetails.itemPrice)} / bag"
+                    } else {
+                        "₹${itemDetails.itemPrice} / bag"
+                    }
+                }
+                else -> {
+                    itemDetails.itemPrice.toString()
+                }
+            }
         }
 
         holder.txtItemType.text = itemInfo
         holder.txtItemName.text = itemDetails.itemName
         holder.txtItemPrice.text = itemPrice
         holder.txtItemQuantity.text = quantity
-        holder.txtItemTotalPrice.text = (itemDetails.itemPrice * itemDetails.itemQuantity).toString()
+        holder.txtItemTotalPrice.text = if (itemDetails.currencyUnit == "paise"){
+            formatPaiseToRupees(itemDetails.itemPrice * itemDetails.itemQuantity)
+        } else {
+            String.format("%.2f", (itemDetails.itemPrice * itemDetails.itemQuantity).toDouble())
+        }
         holder.llQuantityDelivered.visibility = View.GONE
 
         if (itemDetails.receiveQuantity != 0){

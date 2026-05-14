@@ -23,6 +23,7 @@ import com.darjeelingteagarden.model.Address
 import com.darjeelingteagarden.model.ItemDetails
 import com.darjeelingteagarden.model.OrderStatusHistory
 import com.darjeelingteagarden.repository.AppDataSingleton
+import com.darjeelingteagarden.util.formatPaiseToRupees
 import com.darjeelingteagarden.util.formatTo
 import com.darjeelingteagarden.util.toDate
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -364,12 +365,21 @@ class OrdersForMeDetailsFragment : Fragment() {
                             binding.btnMarkAsPaid.visibility = View.VISIBLE
                         }
 
-                        binding.txtOrderedOn.text = orderDetails.getString("orderDate").toDate()!!.formatTo("dd MMM yyy HH:mm")
+                        binding.txtOrderedOn.text = orderDetails.getString("orderDate").toDate()!!.formatTo("dd MMM yyyy HH:mm")
 
-                        binding.txtItemsPrice.text = String.format("%.2f", orderDetails.getDouble("itemsPrice"))
-                        binding.txtDiscount.text = String.format("%.2f", orderDetails.getDouble("discount"))
-                        binding.txtTax.text = String.format("%.2f", orderDetails.getDouble("totalTax"))
-                        binding.txtTotal.text = String.format("%.2f", orderDetails.getDouble("amountPayable"))
+                        val currencyUnit = orderDetails.getJSONArray("items").getJSONObject(0).optString("currencyUnit")
+                        if (currencyUnit == "paise"){
+                            binding.txtItemsPrice.text = formatPaiseToRupees(orderDetails.getInt("itemsPrice"))
+                            binding.txtDiscount.text = formatPaiseToRupees(orderDetails.getInt("discount"))
+                            binding.txtTax.text = formatPaiseToRupees(orderDetails.getInt("totalTax"))
+                            binding.txtTotal.text = formatPaiseToRupees(orderDetails.getInt("amountPayable"))
+                        }
+                        else{
+                            binding.txtItemsPrice.text = String.format("%.2f", orderDetails.getDouble("itemsPrice"))
+                            binding.txtDiscount.text = String.format("%.2f", orderDetails.getDouble("discount"))
+                            binding.txtTax.text = String.format("%.2f", orderDetails.getDouble("totalTax"))
+                            binding.txtTotal.text = String.format("%.2f", orderDetails.getDouble("amountPayable"))
+                        }
 
                         val items = orderDetails.getJSONArray("items")
 
@@ -393,7 +403,7 @@ class OrdersForMeDetailsFragment : Fragment() {
                                 receiveQuantity = item.optJSONObject("sellerAcknowledgment")?.optInt("quantityDelivered")
                             } else if (item.getString("status") == "Delivered"){
                                 receiveTime = item.getJSONObject("sellerAcknowledgment")
-                                    .getString("acknowledgedAt").toDate()!!.formatTo("dd MMM yyy HH:mm")
+                                    .getString("acknowledgedAt").toDate()!!.formatTo("dd MMM yyyy HH:mm")
 //                                receiveTime.toDate()!!.formatTo("dd MMM yyy HH:mm")
                             }
 

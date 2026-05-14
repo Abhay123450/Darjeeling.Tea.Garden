@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.darjeelingteagarden.R
 import com.darjeelingteagarden.model.MyOrder
 import com.darjeelingteagarden.repository.AppDataSingleton
+import com.darjeelingteagarden.util.formatPaiseToRupees
+import com.darjeelingteagarden.util.isAfter1May2026
 import com.google.android.material.card.MaterialCardView
 
 class MyOrdersRecyclerAdapter(
@@ -39,8 +41,14 @@ class MyOrdersRecyclerAdapter(
         val myOrder: MyOrder = myOrdersList[position]
 
         holder.txtTotalItems.text = myOrder.totalItems.toString()
-        holder.txtTotalPrice.text = String.format("%.2f", myOrder.totalPrice)
         holder.txtOrderedOn.text = myOrder.orderDate
+
+        if (isAfter1May2026(orderDate = myOrder.orderDate)){
+            holder.txtTotalPrice.text = formatPaiseToRupees(myOrder.totalPrice.toInt())
+        }
+        else{
+            holder.txtTotalPrice.text = String.format("%.2f", myOrder.totalPrice)
+        }
 
         holder.txtOrderStatusActive.visibility = View.GONE
         holder.txtOrderStatusCancelled.visibility = View.GONE

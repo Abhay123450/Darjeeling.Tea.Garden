@@ -3,17 +3,60 @@ package com.darjeelingteagarden.util
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun String.toDate(dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timeZone: TimeZone = TimeZone.getTimeZone("UTC")): Date? {
-    val parser = SimpleDateFormat(dateFormat, Locale.getDefault())
+fun String.toDate(
+    dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+    timeZone: TimeZone = TimeZone.getTimeZone("UTC")
+): Date? {
+    val parser = SimpleDateFormat(dateFormat, Locale.ENGLISH)
     parser.timeZone = timeZone
     return parser.parse(this)
 }
 
-fun Date.formatTo(dateFormat: String, timeZone: TimeZone = TimeZone.getDefault()): String {
-    val formatter = SimpleDateFormat(dateFormat, Locale.getDefault())
+fun Date.formatTo(
+    dateFormat: String,
+    timeZone: TimeZone = TimeZone.getDefault()
+): String {
+    val formatter = SimpleDateFormat(dateFormat, Locale.ENGLISH)
     formatter.timeZone = timeZone
     return formatter.format(this)
 }
+
+fun convertToYYYYMMDD(dateStr: String): Int {
+
+    val inputFormat = SimpleDateFormat(
+        "dd MMM yyyy HH:mm",
+        Locale.ENGLISH
+    )
+
+    val outputFormat = SimpleDateFormat(
+        "yyyyMMdd",
+        Locale.ENGLISH
+    )
+
+    val date = inputFormat.parse(dateStr)
+        ?: throw IllegalArgumentException("Invalid date")
+
+    return outputFormat.format(date).toInt()
+}
+
+fun isAfter1May2026(orderDate: String): Boolean {
+
+    val orderValue = convertToYYYYMMDD(orderDate)
+
+    return orderValue > 20260501
+}
+
+//fun String.toDate(dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timeZone: TimeZone = TimeZone.getTimeZone("UTC")): Date? {
+//    val parser = SimpleDateFormat(dateFormat, Locale.getDefault())
+//    parser.timeZone = timeZone
+//    return parser.parse(this)
+//}
+//
+//fun Date.formatTo(dateFormat: String, timeZone: TimeZone = TimeZone.getDefault()): String {
+//    val formatter = SimpleDateFormat(dateFormat, Locale.getDefault())
+//    formatter.timeZone = timeZone
+//    return formatter.format(this)
+//}
 //class FormatDate {
 //
 ////    fun changeDateFormat(utcDate: String): String {
